@@ -1,0 +1,8 @@
+{
+  "name": "Kid-app",
+  "app_id": "3479f813",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}

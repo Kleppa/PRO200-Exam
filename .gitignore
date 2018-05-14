@@ -65,6 +65,6 @@ fabric.properties
 
 # Sonarlint plugin
 .idea/sonarlint
-
+Kid-app/Kid-app/node:modules
 .DS_Store
 # End of https://www.gitignore.io/api/webstorm
