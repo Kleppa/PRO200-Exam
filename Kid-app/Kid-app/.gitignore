@@ -62,7 +62,7 @@ fabric.properties
 # modules.xml
 # .idea/misc.xml
 # *.ipr
-
+env.ts
 # Sonarlint plugin
 .idea/sonarlint
 Kid-app/Kid-app/node:modules
