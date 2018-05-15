@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import firebase from 'firebase/app';
-import { HomePage } from '../pages/home/home';
-
+import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   templateUrl: 'app.html'
@@ -12,15 +11,15 @@ import { HomePage } from '../pages/home/home';
 export class MyApp {
   rootPage:string;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, af: AngularFireAuth) {
     platform.ready().then(() => {
       statusBar.styleDefault();
       splashScreen.hide();
     
-      firebase.auth().onAuthStateChanged(user => {
+      af.authState.subscribe(user => {
         //lazy loading the sites
         //TODO Set up pages
-        this.rootPage = user ? "HomePage" : "HomePage";
+        this.rootPage = !user ? "TabNav" : "LoginPage";
       });
     });
   }
