@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-tab-nav',
+  selector: 'tab-nav',
   templateUrl: 'tab-nav.html',
 })
 export class TabNav {
