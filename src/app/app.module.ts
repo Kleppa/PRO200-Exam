@@ -11,6 +11,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { MyApp } from './app.component';
 
 import env from '../env';
+import { DatabaseProvider } from '../providers/database/database';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import env from '../env';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    DatabaseProvider
   ]
 })
 export class AppModule {}
