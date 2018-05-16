@@ -13,9 +13,7 @@ export class TabNav {
   tab4 = 'HomePage';
   tab5 = 'MyFamilyPage';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+  constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
-  ionViewDidLoad() {}
 
 }
