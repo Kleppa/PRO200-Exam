@@ -41,10 +41,16 @@
     <ion-label color="primary" stacked>Fornavn</ion-label>
     <ion-input type="text" placeholder="Barnets navn">{{child.name}}</ion-input>
   </ion-item>
-  
-  <ion-item>
+
+  <ion-item no-lines>
       <ion-label color="primary" stacked>Etternavn</ion-label>
       <ion-input type="text" placeholder="Barnets navn">{{child.name}}</ion-input>
     </ion-item>
-
+<ion-item >
+  <h3>Begrensninger</h3>
+</ion-item>
+<ion-item no-lines>
+    <ion-label>Kun mulighet til å ønske godteri til helg</ion-label>
+    <ion-checkbox ></ion-checkbox>
+  </ion-item>
 </ion-content>
