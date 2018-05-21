@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { User } from '@firebase/auth-types';
 import { QuerySnapshot } from '@firebase/firestore-types';
 import * as _ from 'lodash'

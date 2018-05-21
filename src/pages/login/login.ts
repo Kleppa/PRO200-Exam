@@ -10,7 +10,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class LoginPage {
   email: string;
   password: string;
-  showPassword: boolean = false;;
+  showPassword: boolean = false;
 
   constructor(
     public navCtrl: NavController,
