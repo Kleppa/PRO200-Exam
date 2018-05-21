@@ -32,9 +32,14 @@ public children:string[];
 
   }
   presentAdultModal(user:User){
-    this.modalCtrl.create(AdultSettingModalComponent,{
+    let adultSettingModal = this.modalCtrl.create(AdultSettingModalComponent,{
       user:name,
       img:user.image,
+    })
+    adultSettingModal.onDidDismiss(del=>{
+      if(del){
+       
+      }
     })
   }
 
