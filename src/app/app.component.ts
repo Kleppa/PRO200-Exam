@@ -19,9 +19,8 @@ export class MyApp {
       af.authState.subscribe(user => {
         //lazy loading the sites
         //TODO Set up pages
-        this.rootPage = !user ? "TabNav" : "LoginPage";
+        this.rootPage = user ? "TabNav" : "LoginPage";
       });
     });
   }
 }
-

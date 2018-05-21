@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { User } from '../../models/user';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -9,10 +8,9 @@ import { User } from '../../models/user';
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  registering: boolean;
-  user: User;
   email: string;
   password: string;
+  showPassword: boolean = false;;
 
   constructor(
     public navCtrl: NavController,
@@ -24,20 +22,12 @@ export class LoginPage {
       .catch(reason => console.error(reason));
   }
 
-  signUp() {
-    this.afAuth.auth.createUserWithEmailAndPassword(this.email, this.password)
-      .catch(reason => console.error(reason));
-  }
-
   register() {
-    this.registering = true;
+    this.navCtrl.push('RegisterPage');
   }
 
-
-
-
-
-
-
+  togglePassword() {
+    this.showPassword = (this.showPassword) ? false : true;
+  }
 
 }
