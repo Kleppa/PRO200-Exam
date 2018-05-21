@@ -43,6 +43,7 @@ $colors: (
   hvit: rgb(255,255,255), // Hvit
 );
 
+
 // Shared Variables
 // --------------------------------------------------
 // To customize the look and feel of this app, you can override
@@ -50,26 +51,51 @@ $colors: (
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
 
-$tabs-background: color($primary-profile, mørk-aubergine);
 
+//
+$tabs-background: color($primary-profile, mørk-aubergine);;
 
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
+
+// active tab
 $tabs-ios-tab-icon-color-active: color($colors, hvit);;
-$tabs-md-tab-color-inactive: red;
+$tabs-ios-tab-text-color-active: color($colors, hvit);;
+
+// intactive tab
+$tabs-ios-tab-text-color: color($colors, varmgrå);;
+$tabs-ios-tab-icon-color: color($colors, varmgrå);;
 
 
-$tabs-ios-tab-icon-color: color($colors, lys-varmgrå);; 
-$tabs-ios-tab-icon-color-inactive: color($colors, lys-varmgrå);;
-$tabs-ios-tab-color-active: color($colors, lys-varmgrå);;
-$tabs-ios-tab-color-inactive: color($colors, lys-varmgrå);;
+// size tab 
+$tabs-ios-tab-icon-size: 2.7rem;
+$tabs-ios-tab-font-size: 10px;
+
+// header
+$toolbar-ios-title-font-size: 1.7rem;;
+$toolbar-ios-title-text-color: color($colors, sort-aubergine);;
+
 
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
 
+// active tabs
+$tabs-md-tab-text-color-active: color($colors, hvit);;
+$tabs-md-tab-icon-color-active: color($colors, hvit);;
 
+// inactive tabs
+$tabs-md-tab-text-color: color($colors, varmgrå);;
+$tabs-md-tab-icon-color: color($colors, varmgrå);;
+
+// size tab 
+$tabs-md-tab-icon-size: 2.7rem;
+$tabs-md-tab-font-size: 10px;
+
+// header
+$toolbar-md-title-font-size: 1.7rem;;
+$toolbar-md-title-text-color: color($colors, sort-aubergine);;
 
 // App Theme
 // --------------------------------------------------
