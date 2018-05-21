@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { User } from '../../models/user';
 import { ModalController } from 'ionic-angular/components/modal/modal-controller';
 import { AdultSettingModalComponent } from '../../components/adult-setting-modal/adult-setting-modal';
+import { Child } from '../../models/child';
 
 /**
  * Generated class for the SettingsPage page.
@@ -19,22 +20,26 @@ import { AdultSettingModalComponent } from '../../components/adult-setting-modal
 export class SettingsPage {
 
 public users:User[];
-public children:string[];
+public children:Child[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl:ModalController) {
   
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SettingsPage');
-  }
+ 
   goToChildSettingPage(child){
 
   }
+  
   presentAdultModal(user:User){
-    this.modalCtrl.create(AdultSettingModalComponent,{
+    let adultSettingModal = this.modalCtrl.create(AdultSettingModalComponent,{
       user:name,
       img:user.image,
+    })
+     adultSettingModal.onDidDismiss(del=>{
+      if(del){
+       
+      }
     })
   }
 
