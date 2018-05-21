@@ -30,6 +30,7 @@ export class DatabaseProvider {
     }
 
     if(startAt && filterKeyWords){
+
       let resultPromise = marketplaceRef.limit(numberOfItemsToGet).startAt(startAt).get();
 
       resultPromise.then(result =>{
@@ -47,6 +48,7 @@ export class DatabaseProvider {
             return doesNotIncludeFilteredKeyWords;
         })
       })
+      return resultPromise;
     }
 
     return marketplaceRef.limit(numberOfItemsToGet).get();
