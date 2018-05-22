@@ -1,0 +1,59 @@
+<ion-content padding>
+  <a (click)="back()" style="font-size: 25px">
+    <ion-icon large name="close"></ion-icon>
+  </a>
+
+  <div class="logo-header">
+    <h2>Din nye matbutikk, rett i lomma.</h2>
+  </div>
+
+  <ion-item>
+    <ion-label floating>Fornavn</ion-label>
+    <ion-input type="text" [(ngModel)]="user.first_name"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Etternavn</ion-label>
+    <ion-input type="text" [(ngModel)]="user.last_name"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Adresse</ion-label>
+    <ion-input type="text" [(ngModel)]="user.address"></ion-input>
+  </ion-item>
+
+  <ion-row no-padding>
+    <ion-col col-4 no-padding>
+      <ion-item>
+        <ion-label floating>Postnummer</ion-label>
+        <ion-input type="text" [(ngModel)]="user.postalNo"></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col col-8 no-padding>
+      <ion-item>
+        <ion-label floating>Poststed</ion-label>
+        <ion-input disabled type="text">{{postal}}</ion-input>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+
+  <ion-item>
+    <ion-label floating>E-post</ion-label>
+    <ion-input type="text" [(ngModel)]="user.email"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Passord</ion-label>
+    <ion-input type="password" id="password-input" [(ngModel)]="password"></ion-input>
+    <button *ngIf="!showPassword" ion-button large clear (click)="togglePassword()" bottom item-end>
+      <ion-icon name="eye-off"></ion-icon>
+    </button>
+    <button *ngIf="showPassword" ion-button large clear (click)="togglePassword()" bottom item-end>
+      <ion-icon name="eye"></ion-icon>
+    </button>
+  </ion-item>
+
+  <button full ion-button class="confirm-button" (click)="signUp()">Ok</button>
+
+</ion-content>
