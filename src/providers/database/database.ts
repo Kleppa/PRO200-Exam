@@ -25,7 +25,7 @@ export class DatabaseProvider {
   getItemsFromDatabase(numberOfItemsToGet:number,startAt?:number,filterKeyWords?:string[]){
     const marketplaceRef = this.afs.collection(`Marketplace`).ref;
     let filteredResult:QueryDocumentSnapshot[];
-    
+
     if(startAt && !filterKeyWords){
       return marketplaceRef.limit(numberOfItemsToGet).startAt(startAt).get();
     }
@@ -52,6 +52,7 @@ export class DatabaseProvider {
       })
       return filteredResult;
     }
+    
     if(!startAt && filterKeyWords){
       
       const resultPromise = marketplaceRef.limit(numberOfItemsToGet).get();
@@ -78,4 +79,12 @@ export class DatabaseProvider {
     return marketplaceRef.limit(numberOfItemsToGet).get();
 
   }
+  addUserToFamily(email: string) {
+     const user = this.getUser(email);
+    throw new Error("Method not implemented.");
+  }
+  getUser(email:string):User{
+    return null
+  }
+
 }

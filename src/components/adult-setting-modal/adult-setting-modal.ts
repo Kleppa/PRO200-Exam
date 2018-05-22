@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular/navigation/nav-controller';
 
 /**
  * Generated class for the AdultSettingModalComponent component.
@@ -18,5 +19,6 @@ export class AdultSettingModalComponent {
     console.log('Hello AdultSettingModalComponent Component');
     this.text = 'Hello World';
   }
+  
 
 }

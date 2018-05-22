@@ -12,27 +12,32 @@ import { MyApp } from './app.component';
 
 import env from '../env';
 import { DatabaseProvider } from '../providers/database/database';
+import { AddAdultModalComponent } from '../components/add-adult-modal/add-adult-modal';
 
 @NgModule({
   declarations: [
-    MyApp
+    MyApp,
+    AddAdultModalComponent
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(env),
     AngularFirestoreModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp
+    MyApp,
+    AddAdultModalComponent
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    DatabaseProvider
+    DatabaseProvider,
+    
   ]
 })
 export class AppModule {}

@@ -24,7 +24,7 @@
       {{child.name}}
     </button>
   </ion-list>
- <button ion-button block> Legg til barnebruker</button>
+ <button ion-button block (click)="createChildUser()"> Legg til barnebruker</button>
  <ion-item no-lines> Eller...</ion-item>
- <button ion-button block> Legg til Kolonialbruker</button>
+ <button ion-button block (click)="addAdultUser()"> Legg til Kolonialbruker</button>
 </ion-content>

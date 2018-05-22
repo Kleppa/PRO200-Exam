@@ -1,0 +1,14 @@
+<!-- Generated template for the AddAdultModalComponent component -->
+<ion-content class="main-view">
+  <div class="overlay" (click)="dismiss()"></div>
+  <div class="modal_content">
+    <ion-item>
+      <ion-label floating>Kolonialbruker</ion-label>
+      <ion-input type="text" [(ngModel)]="email" placeholder="\t\t\temail"></ion-input>
+    </ion-item>
+    
+      <button class="modalBtn" id="addAdultBtn" (click)="dismiss()" ion-button color="primary">Legg til</button>
+      <button class="modalBtn" (click)="dismiss()" ion-button color="secondary">Avbryt</button>
+  
+  </div>
+</ion-content>
