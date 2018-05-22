@@ -30,14 +30,20 @@ export class ChildSettingPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChildSettingPage');
   }
+
   addToClipboard() {
     this.clipboard.copy(this.child.token).then(()=>{
+      
       this.toastCtrl.create({
+
         message:`Kopiert!`,
         duration:1500,
         position: `top`
 
       });
     });
+  }
+  deleteChild(child?:Child){
+    //Delete child from family
   }
 }
