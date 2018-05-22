@@ -3,7 +3,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Rx';
 import { User } from '@firebase/auth-types';
 import { QuerySnapshot } from '@firebase/firestore-types';
-import * as _ from 'lodash'
+import * as _ from 'lodash';
 
 @Injectable()
 export class DatabaseProvider {
