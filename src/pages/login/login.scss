@@ -1,24 +1,71 @@
 page-login {
+
+    // body
+    .login-body {
+        background-color: color($primary-profile, mørk-aubergine);;
+    }
+
+    // x
+    .click-back {
+        width: 100%;
+        margin-top: 1rem; 
+        color: #fff;
+    }
+
+    // header
     .logo-header {
-        padding: 10px 30px 0 30px;
+        margin: -30px 0 50px 0;
+        padding: 0 30px 0 30px;
         h2 {
             text-align: center;
-            font-family: "GT Walsheim Medium", sans-serif;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 500;
+            font-size: 2rem; 
+            color: #fff;
         }
     }
 
-    .register-button {
-        margin: 40px 0 20px 0;
-        box-shadow: -1px 2px 1px #888888;
+    .logo-img-header {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 70%;
     }
 
+    // inputs with light background
+    .input-white {
+        background-color: #fff;
+    }
+
+    // label with light color
+    .label-white {
+        color: color($colors, lys-varmgrå);;
+    }
+
+    // buttons
     .login-button {
-        margin: 10px 0 20px 0;
-        box-shadow: -1px 2px 1px #888888;
+        margin: 20px 0 20px 0;
+        // box-shadow: -1px 2px 1px #888888;
+        background-color:  color($primary-profile, eggeplomme);;
+
+    }
+    
+    .register-button {
+        margin: 40px 0 20px 0;
+        // box-shadow: -1px 2px 1px #888888;
+        background-color: color($primary-profile, grønn);;
+    }
+
+    .register-button:active {
+        background-color: transparent;
+        border: 1px solid color($primary-profile, grønn);;
     }
 
     .forgot-password {
         display:block;
         text-align:center;width:100%;
+        color: #fff;
     }
+
+    
 }

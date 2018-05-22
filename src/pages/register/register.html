@@ -1,59 +1,61 @@
-<ion-content padding>
-  <a (click)="back()" style="font-size: 25px">
+<ion-content padding class="register-body">
+  
+  <a class="click-back" (click)="back()" style="font-size: 25px">
     <ion-icon large name="close"></ion-icon>
   </a>
 
   <div class="logo-header">
-    <h2>Din nye matbutikk, rett i lomma.</h2>
+    <h2>Lag brukerkonto</h2>
+    <p>For å handle på Kolonial.no <br>
+    trenger du en brukerkonto.</p>
   </div>
 
-  <ion-item>
-    <ion-label floating>Fornavn</ion-label>
-    <ion-input type="text" [(ngModel)]="user.first_name"></ion-input>
-  </ion-item>
+  <!--<ion-item>-->
+    <ion-label class="label label-white">Fornavn</ion-label>
+    <ion-input class="input input-white" type="text" [(ngModel)]="user.first_name"></ion-input>
+  <!--</ion-item>-->
 
-  <ion-item>
-    <ion-label floating>Etternavn</ion-label>
-    <ion-input type="text" [(ngModel)]="user.last_name"></ion-input>
-  </ion-item>
+  <!--<ion-item>-->
+      <ion-label class="label label-white">Etternavn</ion-label>
+    <ion-input class="input input-white" type="text" [(ngModel)]="user.last_name"></ion-input>
+  <!--</ion-item>-->
 
-  <ion-item>
-    <ion-label floating>Adresse</ion-label>
-    <ion-input type="text" [(ngModel)]="user.address"></ion-input>
-  </ion-item>
+  <!--<ion-item>-->
+      <ion-label class="label label-white">Adresse</ion-label>
+    <ion-input class="input input-white" type="text" [(ngModel)]="user.address"></ion-input>
+  <!--</ion-item>-->
 
   <ion-row no-padding>
-    <ion-col col-4 no-padding>
-      <ion-item>
-        <ion-label floating>Postnummer</ion-label>
-        <ion-input type="text" [(ngModel)]="user.postalNo"></ion-input>
-      </ion-item>
+    <ion-col col-4>
+      <!--<ion-item>-->
+        <ion-label class="label label-white">Postnummer</ion-label>
+        <ion-input class="input input-white" type="text" [(ngModel)]="user.postalNo"></ion-input>
+      <!--</ion-item>-->
     </ion-col>
-    <ion-col col-8 no-padding>
-      <ion-item>
-        <ion-label floating>Poststed</ion-label>
-        <ion-input disabled type="text">{{postal}}</ion-input>
-      </ion-item>
-    </ion-col>
+    <ion-col col-8>
+      <!--<ion-item>-->
+          <ion-label class="label label-white">Poststed</ion-label>
+        <ion-input class="input input-white" disabled type="text">{{postal}}</ion-input>
+      <!--</ion-item>-->
+        </ion-col>
   </ion-row>
 
+  <!--<ion-item>-->
+    <ion-label class="label label-white">E-post</ion-label>
+    <ion-input class="input input-white" type="text" [(ngModel)]="user.email"></ion-input>
+  <!--</ion-item>-->
 
-  <ion-item>
-    <ion-label floating>E-post</ion-label>
-    <ion-input type="text" [(ngModel)]="user.email"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label floating>Passord</ion-label>
-    <ion-input type="password" id="password-input" [(ngModel)]="password"></ion-input>
-    <button *ngIf="!showPassword" ion-button large clear (click)="togglePassword()" bottom item-end>
+ <!--<ion-item>-->
+    <ion-label class="label label-white">Passord</ion-label>
+    <ion-input class="input input-white" type="password" id="password-input" [(ngModel)]="password"></ion-input>
+    <button class="eye-button" *ngIf="!showPassword" ion-button large clear (click)="togglePassword()" bottom item-end>
       <ion-icon name="eye-off"></ion-icon>
     </button>
-    <button *ngIf="showPassword" ion-button large clear (click)="togglePassword()" bottom item-end>
+    <button class="eye-button" *ngIf="showPassword" ion-button large clear (click)="togglePassword()" bottom item-end>
       <ion-icon name="eye"></ion-icon>
     </button>
-  </ion-item>
+ <!-- </ion-item>-->
 
-  <button full ion-button class="confirm-button" (click)="signUp()">Ok</button>
+  <button register-btn full ion-button class="confirm-button btn" (click)="signUp()">Registrer</button>
 
 </ion-content>
