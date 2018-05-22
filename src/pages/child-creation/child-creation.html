@@ -1,0 +1,35 @@
+<!--
+  Generated template for the ChildCreationPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Legg til barn</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-item no-lines>
+
+    <ion-label floating> Navn</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  <ion-item no-lines>
+    <ion-label floating> Etternavn</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  <ion-item no-lines>
+
+    <ion-label floating> Alder</ion-label>
+    <ion-input type="number"></ion-input>
+  </ion-item>
+
+  <button ion-button block> Legg til bilde</button>
+
+ <button ion-button (click)="addChildToFamily()">Legg til barnebruker</button>
+ <button (click)="cancel()" ion-button>Avbryt</button>
+</ion-content>

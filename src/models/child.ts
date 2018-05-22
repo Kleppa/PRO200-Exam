@@ -1,6 +1,7 @@
 export interface Child{
     name:string,
-    lastname:string,
+    lastname?:string,
     age:number,
-    token?:string
+    token?:string,
+    img?:string
 }

@@ -45,7 +45,8 @@ public children:Child[];
     })
   }
 
-  createChildUser(){
+  goToCreateChildCreationPage(){
+    this.navCtrl.push(`ChildCreationPage`);
 
   }
   addAdultUser(){
