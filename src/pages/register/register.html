@@ -49,13 +49,14 @@
     <ion-label class="label label-white">Passord</ion-label>
     <ion-input class="input input-white" type="password" id="password-input" [(ngModel)]="password"></ion-input>
     <button class="eye-button" *ngIf="!showPassword" ion-button large clear (click)="togglePassword()" bottom item-end>
-      <ion-icon name="eye-off"></ion-icon>
-    </button>
-    <button class="eye-button" *ngIf="showPassword" ion-button large clear (click)="togglePassword()" bottom item-end>
-      <ion-icon name="eye"></ion-icon>
-    </button>
+        <ion-icon name="eye-off"></ion-icon>
+      </button>
+      <button class="eye-button" *ngIf="showPassword" ion-button large clear (click)="togglePassword()" bottom item-end>
+        <ion-icon name="eye"></ion-icon>
+      </button>
+     
  <!-- </ion-item>-->
 
-  <button register-btn full ion-button class="confirm-button btn" (click)="signUp()">Registrer</button>
+  <button full ion-button class="register-btn confirm-button btn" (click)="register()">Ok</button>
 
 </ion-content>
