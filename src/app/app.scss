@@ -58,3 +58,51 @@ modal-wrapper {
     height: 100%;
   }
 }
+
+// all buttons 
+.btn {
+  border-radius: 5px; 
+}
+
+// all inputs 
+.input {
+  border: 1px solid color($colors, varmgrå);;
+  border-radius: 5px;
+  padding: 1px;
+  width: 100%;  
+  display: block;
+}
+
+// all labels
+.label {
+  width: 100%;
+  display: block;
+}
+
+ // inputs with light background
+ .input-white {
+  background-color: #fff;
+}
+
+// label with light color
+.label-white {
+  color: color($colors, lys-varmgrå);;
+}
+
+.eye-button {
+  color: color($colors, lys-varmgrå);;
+}
+
+  // x
+  .click-back {
+    width: 100%;
+    margin-top: 1rem; 
+    color: #fff;
+}
+
+// font 
+* {
+  font-family: 'Nunito', sans-serif;
+}
+
+
