@@ -3,5 +3,6 @@ export interface Child{
     lastname?:string,
     age:number,
     token?:string,
-    img?:string
+    img?:string,
+    tag:string
 }

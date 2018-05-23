@@ -22,9 +22,7 @@ export class ChildSettingPage {
 
     this.child = navParams.get('child');
 
-    if (!this.child.token) {
-      this.child.token = shortid.generate();
-    }
+    
   }
 
   ionViewDidLoad() {

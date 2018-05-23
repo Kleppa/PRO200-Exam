@@ -4,6 +4,7 @@ import { DatabaseProvider } from '../../providers/database/database';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 import { Child } from '../../models/child';
 
+
 /**
  * Generated class for the ChildCreationPage page.
  *
@@ -17,7 +18,7 @@ import { Child } from '../../models/child';
   templateUrl: 'child-creation.html',
 })
 export class ChildCreationPage {
-  child:Child;
+  child = {} as Child;
 
   constructor(private toastCtrl: ToastController, public navCtrl: NavController, public navParams: NavParams, private dbProvider: DatabaseProvider) {
   }
@@ -29,13 +30,31 @@ export class ChildCreationPage {
     this.navCtrl.pop();
   }
   addChildToFamily() {
-    
+
     if (!(this.child.name || this.child.age)) {
       this.presentFailureToast()
     } else {
-      
+      this.child.tag="child";
+      this.giveChildToken(this.child).then(() =>
+        this.dbProvider.addChildtoFamily(this.child, this.dbProvider.getUser())).then(() => {
+          this.toastCtrl.create({
+            message: "Barnet ditt er blitt lagt til!",
+            duration: 2000,
+            position: 'top'
+          }).present();
+        });
+        this.navCtrl.pop();
     }
+    
 
+  }
+  giveChildToken(child) {
+    return new Promise(res => {
+      if (!this.child.token) {
+        child.token = '_' + Math.random().toString(36).substr(2, 6).toUpperCase();
+      }
+      res();
+    })
   }
   presentFailureToast() {
     let toast = this.toastCtrl.create({
