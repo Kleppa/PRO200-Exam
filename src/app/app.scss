@@ -64,12 +64,25 @@ modal-wrapper {
   border-radius: 5px; 
 }
 
+.btn-green {
+  background-color: color($primary-profile, grønn);;
+}
+
+.btn-orange {
+  background-color:  color($primary-profile, eggeplomme);;
+}
+
+.btn-red {
+  background-color:  color($colors, bringebær);;
+
+}
+
 // all inputs 
 .input {
   border: 1px solid color($colors, varmgrå);;
   border-radius: 5px;
   padding: 1px;
-  width: 100%;  
+  width: 100%; 
   display: block;
 }
 
@@ -104,5 +117,6 @@ modal-wrapper {
 * {
   font-family: 'Nunito', sans-serif;
 }
+
 
 

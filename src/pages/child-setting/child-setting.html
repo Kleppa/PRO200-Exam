@@ -19,7 +19,7 @@
   </ion-item>
   <ion-item no-lines>
     <h4>{{child.token}}</h4>
-    <button (click)="addToClipboard()">Kopier</button>
+    <button class="btn btn-orange" (click)="addToClipboard()">Kopier</button>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla efficitur dolor mauris, sed accumsan diam elementum vitae.
       Phasellus commodo luctus nisl nec pharetra. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed quis
       elit sodales, euismod lacus ut, gravida ex. </p>
@@ -33,13 +33,13 @@
     <img src="" alt="bildet av barn" />
   </ion-item>
 
-  <ion-item>
-    <ion-label color="primary" stacked>Fornavn</ion-label>
+ <!-- <ion-item no-lines>-->
+  <ion-label class="label" color="primary" stacked>Fornavn</ion-label>
     <ion-input type="text" placeholder="Barnets navn">{{child.name}}</ion-input>
-  </ion-item>
+  <!--</ion-item>-->
 
   <ion-item no-lines>
-    <ion-label color="primary" stacked>Etternavn</ion-label>
+    <ion-label class="label" color="primary" stacked>Etternavn</ion-label>
     <ion-input type="text" placeholder="Barnets navn">{{child.lastname}}</ion-input>
   </ion-item>
   <ion-item>
@@ -73,5 +73,5 @@
       <u>slette bruker</u>
     </span>
   </ion-item>
-  <button ion-button color="secondary">Lagre</button>
+  <button class="btn btn-green" ion-button color="secondary">Lagre</button>
 </ion-content>

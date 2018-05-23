@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>SettingsPage</ion-title>
+    <ion-title>Familieinstillinger</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -24,7 +24,7 @@
       {{child.name}}
     </button>
   </ion-list>
- <button ion-button block (click)="goToCreateChildCreationPage()"> Legg til barnebruker</button>
- <ion-item no-lines> Eller...</ion-item>
- <button ion-button block (click)="addAdultUser()"> Legg til Kolonialbruker</button>
+ <button class="btn new-kid-btn btn-green" ion-button block (click)="goToCreateChildCreationPage()"> Opprett ny barnebruker</button>
+ <ion-item no-lines><p class="or-text">Eller...</p></ion-item>
+ <button class="btn add-existing-user-btn btn-orange" ion-button block (click)="addAdultUser()"> Legg til eksisterende Kolonial.no-bruker</button>
 </ion-content>

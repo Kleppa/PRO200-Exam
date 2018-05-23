@@ -7,29 +7,40 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Legg til barn</ion-title>
+    <ion-title>Opprett ny barnebruker</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
-  <ion-item no-lines>
+ <!-- <ion-item no-lines>-->
+    <ion-label class="label"> Navn</ion-label>
+    <ion-input class="input" type="text"></ion-input>
+  <!--</ion-item>-->
 
-    <ion-label floating> Navn</ion-label>
-    <ion-input type="text"></ion-input>
-  </ion-item>
-  <ion-item no-lines>
-    <ion-label floating> Etternavn</ion-label>
-    <ion-input type="text"></ion-input>
-  </ion-item>
-  <ion-item no-lines>
+ <!-- <ion-item no-lines>-->
+    <ion-label class="label"> Etternavn</ion-label>
+    <ion-input class="input" type="text"></ion-input>
+  <!--</ion-item>-->
+  
+  <!--<ion-item no-lines>-->
+    <ion-label class="label"> Alder</ion-label>
+    <ion-input class="input" type="number"></ion-input>
+  <!--</ion-item>-->
 
-    <ion-label floating> Alder</ion-label>
-    <ion-input type="number"></ion-input>
-  </ion-item>
+  <ion-label class="label"> Bilde</ion-label>
+  <button ion-button block class="btn add-picture-btn"> + </button>
 
-  <button ion-button block> Legg til bilde</button>
+  <ion-item no-lines class="btn-row-child-creation">
+  <ion-row no-padding>
+    <ion-col col-8>
+ <button class="btn btn-green" ion-button (click)="addChildToFamily()">Opprett barnebruker</button>
+</ion-col>
 
- <button ion-button (click)="addChildToFamily()">Legg til barnebruker</button>
- <button (click)="cancel()" ion-button>Avbryt</button>
+<ion-col col-4>
+ <button class="btn btn-red" (click)="cancel()" ion-button>Avbryt</button>
+</ion-col>
+</ion-row>
+</ion-item>
+
 </ion-content>

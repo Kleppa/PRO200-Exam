@@ -1,3 +1,15 @@
 page-child-creation {
+    .btn-row-child-creation {
+        margin-top: 2rem;
+    }
 
+    .add-picture-btn {
+        background-color: transparent;
+        border: 1px solid color($colors, varmgrå);;
+        color: #000;
+        height: 100px;
+        width: 100px;        
+        border-radius: 50%;
+
+    }
 }
