@@ -83,7 +83,7 @@ export class DatabaseProvider {
   }
 
   getUser(email:string):User{
-    return this.afs.auth.currentUser;
+    return this.afAuth.auth.currentUser;
   }
 
   addChildtoFamily(child:Child,user:User){
