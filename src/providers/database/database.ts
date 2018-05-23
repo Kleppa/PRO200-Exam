@@ -83,12 +83,15 @@ export class DatabaseProvider {
   }
 
   getUser(email:string):User{
-    return this.afs.app.auth().currentUser;
+    return this.afs.auth.currentUser;
   }
 
   addChildtoFamily(child:Child,user:User){
+    let famId:string;
 
-    this.afs.collection('families').doc(this.getFamilyId(user))
+    this.getFamilyId(user).subscribe(result => famId=result)
+
+    this.afs.collection('families').doc(famId).collection(`members`).add(child);
 
   }
  
