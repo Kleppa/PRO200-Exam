@@ -13,6 +13,7 @@ import { MyApp } from './app.component';
 import env from '../env';
 import { DatabaseProvider } from '../providers/database/database';
 import { AddAdultModalComponent } from '../components/add-adult-modal/add-adult-modal';
+import { Clipboard } from '@ionic-native/clipboard';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { AddAdultModalComponent } from '../components/add-adult-modal/add-adult-
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DatabaseProvider,
+    Clipboard
     
   ]
 })

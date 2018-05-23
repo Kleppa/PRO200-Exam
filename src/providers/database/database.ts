@@ -13,7 +13,9 @@ import { User } from '../../models/user';
 @Injectable()
 export class DatabaseProvider {
   membersDocId;
-  constructor(public afs: AngularFirestore, private afAuth: AngularFireAuth) { }
+  constructor(public afs: AngularFirestore, private afAuth: AngularFireAuth) { 
+    
+  }
 
   addDocToColl(data: any, collection: string) {
     this.afs.collection(collection).add(data);
@@ -103,12 +105,16 @@ export class DatabaseProvider {
   
   }
   getChildrenOfFamily(famID: string): Child[] {
-    let children:Child[];
+
+    let children:Child[]=[];
      this.afs.collection(`families`)
     .doc(famID)
     .collection(`members`)
     .ref.where("tag","==","child").get().then(result =>{
-
+      result.forEach((child)=>{
+        console.log(child.data());
+        children.push(child.data() as Child)
+      })
     
     })
     return children;
@@ -137,12 +143,8 @@ export class DatabaseProvider {
   getUserFromDatabase(user) {
 
     return this.afs.collection('users')
-      .doc(this.afAuth.auth.currentUser.uid).snapshotChanges()
-    // .subscribe(result=>{
-    //   result.map(value =>{
-    //     return value.payload.data() as User
-    //   });
-    // })
+      .doc(this.afAuth.auth.currentUser.uid).snapshotChanges();
+
 
   }
 }

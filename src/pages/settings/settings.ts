@@ -21,57 +21,58 @@ import { DatabaseProvider } from '../../providers/database/database';
 })
 export class SettingsPage {
 
-public users:User[];
-public children:Child[];
+  public users: User[];
+  public children: Child[];
 
-  constructor(private dbProvider:DatabaseProvider,public navCtrl: NavController, public navParams: NavParams, private modalCtrl:ModalController) {
-  
+
+  constructor(private dbProvider: DatabaseProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
+    this.getChildrens();
   }
 
- 
-  goToChildSettingPage(child){
-    this.navCtrl.push(`ChildSettingPage`,{child:child})
-  }
-  
-  presentAdultModal(user:User){
 
-    let adultSettingModal = this.modalCtrl.create(AdultSettingModalComponent,{
-      user:name,
-      img:user.image,
+  goToChildSettingPage(child) {
+    this.navCtrl.push(`ChildSettingPage`, { child: child })
+  }
+
+  presentAdultModal(user: User) {
+
+    let adultSettingModal = this.modalCtrl.create(AdultSettingModalComponent, {
+      user: name,
+      img: user.image,
     })
-     adultSettingModal.onDidDismiss(del=>{
-      if(del){
-       
+    adultSettingModal.onDidDismiss(del => {
+      if (del) {
+
       }
     })
   }
 
-  goToCreateChildCreationPage(){
+  goToCreateChildCreationPage() {
     this.navCtrl.push(`ChildCreationPage`);
 
   }
-  addAdultUser(){
-  
-    const adultModal = this.modalCtrl.create(AddAdultModalComponent,{});
+  addAdultUser() {
+
+    const adultModal = this.modalCtrl.create(AddAdultModalComponent, {});
     adultModal.present();
 
-    adultModal.onDidDismiss(email =>{
+    adultModal.onDidDismiss(email => {
       console.log(email)
-      if(email){
-      this.dbProvider.addUserToFamily(email);
+      if (email) {
+        this.dbProvider.addUserToFamily(email);
       }
     })
   }
-  getChildrens(){
-     const famIdPromise = new Promise(res => {
-     this.dbProvider.getUserFromDatabase(this.dbProvider.getUser).subscribe(user=>{
-        let dbUser =user.payload.data() as User
-          res(dbUser.familyId);
-     })
-  })
-  famIdPromise.then((ID:string) =>{
-     this.children = this.dbProvider.getChildrenOfFamily(ID);
-  })
-}
+  getChildrens() {
+    const famIdPromise = new Promise(res => {
+      this.dbProvider.getUserFromDatabase(this.dbProvider.getUser).subscribe(user => {
+        let dbUser = user.payload.data() as User
+        res(dbUser.familyId);
+      })
+    })
+    famIdPromise.then((ID: string) => {
+      this.children = this.dbProvider.getChildrenOfFamily(ID);
+    })
+  }
 
 }
