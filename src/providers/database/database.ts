@@ -147,5 +147,26 @@ export class DatabaseProvider {
 
 
   }
+  getAdultsOfFamily(famID: string): User[] {
+    console.log("Hello")
+    let adults:User[]=[];
+     this.afs.collection(`families`)
+    .doc(famID)
+    .collection(`members`)
+    .ref.get().then(result =>{
+      result.forEach((adult)=>{
+
+        console.log(adult.data());
+        console.log(adult.data());
+        if(adult.data().email){
+          adults.push(adult.data() as User)
+        }
+      })
+    
+    })
+    console.log("Done")
+    console.log(adults)
+    return adults;
+  }
 }
 
