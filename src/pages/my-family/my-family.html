@@ -1,12 +1,25 @@
 <ion-header>
 
   <ion-navbar>
-      <ion-buttons><button ion-button icon-only (click)="goToSetting()"><ion-icon name="settings"></ion-icon></button></ion-buttons>
+    <ion-buttons>
+      <button ion-button icon-only (click)="goToSetting()">
+        <ion-icon name="settings"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>Min Familie</ion-title>
   </ion-navbar>
-  
+
 </ion-header>
 
 <ion-content padding>
+
+  <div>
+    <ion-scroll scrollX="true">
+      <ion-item *ngFor="let member of family">
+        <img [src]="member.image" />
+        <p>{{member.name}}</p>
+      </ion-item>
+    </ion-scroll>
+  </div>
 
 </ion-content>
