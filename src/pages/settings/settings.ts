@@ -30,11 +30,11 @@ public children:Child[];
 
  
   goToChildSettingPage(child){
-
+    this.navCtrl.push(`ChildSettingPage`,{child:child})
   }
   
   presentAdultModal(user:User){
-    
+
     let adultSettingModal = this.modalCtrl.create(AdultSettingModalComponent,{
       user:name,
       img:user.image,
@@ -62,5 +62,16 @@ public children:Child[];
       }
     })
   }
+  getChildrens(){
+     const famIdPromise = new Promise(res => {
+     this.dbProvider.getUserFromDatabase(this.dbProvider.getUser).subscribe(user=>{
+        let dbUser =user.payload.data() as User
+          res(dbUser.familyId);
+     })
+  })
+  famIdPromise.then((ID:string) =>{
+     this.children = this.dbProvider.getChildrenOfFamily(ID);
+  })
+}
 
 }

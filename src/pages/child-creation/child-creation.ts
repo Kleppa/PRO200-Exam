@@ -38,8 +38,8 @@ export class ChildCreationPage {
       this.giveChildToken(this.child).then(() =>
         this.dbProvider.addChildtoFamily(this.child, this.dbProvider.getUser())).then(() => {
           this.toastCtrl.create({
-            message: "Barnet ditt er blitt lagt til!",
-            duration: 2000,
+            message: "Gå på barnet i innstillinger for barnets innlogginsnøkkel!",
+            duration: 4000,
             position: 'top'
           }).present();
         });

@@ -5,6 +5,7 @@ import { QuerySnapshot, QueryDocumentSnapshot } from '@firebase/firestore-types'
 import * as _ from 'lodash';
 import { Child } from '../../models/child';
 import { AngularFireAuth } from 'angularfire2/auth';
+ 
 
 import firebase from 'firebase/app';
 import { User } from '../../models/user';
@@ -93,19 +94,24 @@ export class DatabaseProvider {
 
     let userObser = this.getUserFromDatabase(user);
      userObser.subscribe( (result) => {
-       console.log(result)
        let data: User = result.payload.data() as User;
-       console.log(data)
+       
       famId = data.familyId;
-      console.log(famId);
-      console.log(child)
       this.afs.collection('families').doc(famId).collection(`members`).add(child);
     })
 
-   
+  
+  }
+  getChildrenOfFamily(famID: string): Child[] {
+    let children:Child[];
+     this.afs.collection(`families`)
+    .doc(famID)
+    .collection(`members`)
+    .ref.where("tag","==","child").get().then(result =>{
 
-
-
+    
+    })
+    return children;
   }
 
 
