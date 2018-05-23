@@ -89,7 +89,7 @@ export class DatabaseProvider {
   addChildtoFamily(child:Child,user:User){
     let famId:string;
 
-    this.getFamilyId(user).subscribe(result => famId=result)
+    this.getFamilyId(user).subscribe((result:User) => famId=result.familyId)
 
     this.afs.collection('families').doc(famId).collection(`members`).add(child);
 
@@ -121,7 +121,7 @@ export class DatabaseProvider {
 
     .map(actions=> {
 
-      return actions.payload.data().familyId;
+      return actions.payload.data() as User;
 
       })
     }

@@ -5,5 +5,6 @@ export interface User {
     postalNo: string,
     email: string,
     image?: string,
-    birthdate?: string
+    birthdate?: string,
+    familyId?:string
 }
