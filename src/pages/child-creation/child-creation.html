@@ -16,16 +16,16 @@
   <ion-item no-lines>
 
     <ion-label floating> Navn</ion-label>
-    <ion-input type="text"></ion-input>
+    <ion-input [(ngModel)]="child.name" type="text"></ion-input>
   </ion-item>
   <ion-item no-lines>
     <ion-label floating> Etternavn</ion-label>
-    <ion-input type="text"></ion-input>
+    <ion-input [(ngModel)]="child.lastname" type="text"></ion-input>
   </ion-item>
   <ion-item no-lines>
 
     <ion-label floating> Alder</ion-label>
-    <ion-input type="number"></ion-input>
+    <ion-input [(ngModel)]="child.age" type="number"></ion-input>
   </ion-item>
 
   <button ion-button block> Legg til bilde</button>

@@ -12,7 +12,7 @@ import { User } from '../../models/user';
 @Injectable()
 export class DatabaseProvider {
   membersDocId;
-  constructor(public afs: AngularFirestore,private afAuth: AngularFireAuth) { }
+  constructor(public afs: AngularFirestore, private afAuth: AngularFireAuth) { }
 
   addDocToColl(data: any, collection: string) {
     this.afs.collection(collection).add(data);
@@ -26,56 +26,56 @@ export class DatabaseProvider {
         return { id, ...data }
       }))
   }
-  getItemsFromDatabase(numberOfItemsToGet:number,startAt?:number,filterKeyWords?:string[]){
+  getItemsFromDatabase(numberOfItemsToGet: number, startAt?: number, filterKeyWords?: string[]) {
     const marketplaceRef = this.afs.collection(`Marketplace`).ref;
-    let filteredResult:QueryDocumentSnapshot[];
+    let filteredResult: QueryDocumentSnapshot[];
 
-    if(startAt && !filterKeyWords){
+    if (startAt && !filterKeyWords) {
       return marketplaceRef.limit(numberOfItemsToGet).startAt(startAt).get();
     }
 
-    if(startAt && filterKeyWords){
-      let filteredResult:QueryDocumentSnapshot[];
+    if (startAt && filterKeyWords) {
+      let filteredResult: QueryDocumentSnapshot[];
       const resultPromise = marketplaceRef.limit(numberOfItemsToGet).startAt(startAt).get();
 
-      resultPromise.then(result =>{
+      resultPromise.then(result => {
 
-        result.docs.filter(item=>{
+        result.docs.filter(item => {
 
-            const doesNotIncludeFilteredKeyWords = _.some(_.keys(item),key =>{
+          const doesNotIncludeFilteredKeyWords = _.some(_.keys(item), key => {
 
-              _.forEach(filterKeyWords,(fKey)=>{
+            _.forEach(filterKeyWords, (fKey) => {
 
-                return !_.includes(_.upperCase(item[key]),_.upperCase(fKey))
-              });
-            })
-            
-            return doesNotIncludeFilteredKeyWords;
+              return !_.includes(_.upperCase(item[key]), _.upperCase(fKey))
+            });
+          })
+
+          return doesNotIncludeFilteredKeyWords;
         })
-        filteredResult=result.docs;
+        filteredResult = result.docs;
       })
       return filteredResult;
     }
-    
-    if(!startAt && filterKeyWords){
-      
+
+    if (!startAt && filterKeyWords) {
+
       const resultPromise = marketplaceRef.limit(numberOfItemsToGet).get();
 
-      resultPromise.then(result =>{
+      resultPromise.then(result => {
 
-        result.docs.filter(item=>{
+        result.docs.filter(item => {
 
-            const doesNotIncludeFilteredKeyWords = _.some(_.keys(item),key =>{
+          const doesNotIncludeFilteredKeyWords = _.some(_.keys(item), key => {
 
-              _.forEach(filterKeyWords,(fKey)=>{
+            _.forEach(filterKeyWords, (fKey) => {
 
-                return !_.includes(_.upperCase(item[key]),_.upperCase(fKey))
-              });
-            })
-            
-            return doesNotIncludeFilteredKeyWords;
+              return !_.includes(_.upperCase(item[key]), _.upperCase(fKey))
+            });
+          })
+
+          return doesNotIncludeFilteredKeyWords;
         })
-        filteredResult=result.docs;
+        filteredResult = result.docs;
       })
       return filteredResult;
     }
@@ -84,19 +84,30 @@ export class DatabaseProvider {
 
   }
 
-  getUser(email:string):firebase.User{
+  getUser(): firebase.User {
     return this.afAuth.auth.currentUser;
   }
 
-  addChildtoFamily(child:Child,user: firebase.User){
-    let famId:string;
+   addChildtoFamily(child: Child, user: firebase.User) {
+    let famId: string;
 
-    this.getUserFromDatabase(user).subscribe((result:User) => famId=result.familyId)
+    let userObser = this.getUserFromDatabase(user);
+     userObser.subscribe( (result) => {
+       console.log(result)
+       let data: User = result.payload.data() as User;
+       console.log(data)
+      famId = data.familyId;
+      console.log(famId);
+      console.log(child)
+      this.afs.collection('families').doc(famId).collection(`members`).add(child);
+    })
 
-    this.afs.collection('families').doc(famId).collection(`members`).add(child);
+   
+
+
 
   }
- 
+
 
   addUserProfile(user): Promise<void> {
     user.familyId = this.membersDocId;
@@ -115,17 +126,18 @@ export class DatabaseProvider {
       .collection('members')
       .doc(this.afAuth.auth.currentUser.uid)
       .set(user);
-   
+
   }
-  getUserFromDatabase(user){
+  getUserFromDatabase(user) {
+
     return this.afs.collection('users')
-    .doc(this.afAuth.auth.currentUser.uid).snapshotChanges()
+      .doc(this.afAuth.auth.currentUser.uid).snapshotChanges()
+    // .subscribe(result=>{
+    //   result.map(value =>{
+    //     return value.payload.data() as User
+    //   });
+    // })
 
-    .map(actions=> {
-
-      return actions.payload.data() as User;
-
-      })
-    }
   }
+}
 
