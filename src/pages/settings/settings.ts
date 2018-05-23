@@ -34,6 +34,7 @@ public children:Child[];
   }
   
   presentAdultModal(user:User){
+    
     let adultSettingModal = this.modalCtrl.create(AdultSettingModalComponent,{
       user:name,
       img:user.image,

@@ -3,6 +3,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { User } from '../../models/user';
+import { DatabaseProvider } from '../../providers/database/database';
 
 @IonicPage()
 @Component({
@@ -18,32 +19,21 @@ export class RegisterPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private afAuth: AngularFireAuth,
-    private af: AngularFirestore
+    private af: AngularFirestore,
+    private dbProvider:DatabaseProvider
   ) { }
 
   async register() {
     await this.signUp();
-    await this.addUserProfile();
-    await this.addUserToFamily();
+    await this.dbProvider.addUserToFamily(this.user);
+    await this.dbProvider.addUserProfile(this.user);
+    
   }
-
   signUp(): Promise<any> {
     return this.afAuth.auth
       .createUserWithEmailAndPassword(this.user.email, this.password);
   }
 
-  addUserProfile(): Promise<void> {
-    return this.af.collection('users')
-      .doc(this.afAuth.auth.currentUser.uid)
-      .set(this.user);
-  }
-
-  addUserToFamily(): Promise<void> {
-    return this.af.collection('families')
-      .doc(this.af.createId())
-      .collection('members')
-      .doc(this.afAuth.auth.currentUser.uid)
-      .set(this.user);
-  }
+ 
 
 }

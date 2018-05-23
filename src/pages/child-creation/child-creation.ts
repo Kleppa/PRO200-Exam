@@ -17,10 +17,7 @@ import { Child } from '../../models/child';
   templateUrl: 'child-creation.html',
 })
 export class ChildCreationPage {
-  name: string;
-  lastname: string;
-  age: number;
-  img: string;
+  child:Child;
 
   constructor(private toastCtrl: ToastController, public navCtrl: NavController, public navParams: NavParams, private dbProvider: DatabaseProvider) {
   }
@@ -32,16 +29,11 @@ export class ChildCreationPage {
     this.navCtrl.pop();
   }
   addChildToFamily() {
-    if (!(this.name || this.age)) {
+    
+    if (!(this.child.name || this.child.age)) {
       this.presentFailureToast()
     } else {
-      const child: Child = {
-        "name": this.name,
-        "age": this.age,
-        "lastname" : this.lastname,
-        "img":this.img
-      };
-
+      
     }
 
   }

@@ -4,11 +4,13 @@ import { Observable } from 'rxjs/Rx';
 import { User } from '@firebase/auth-types';
 import { QuerySnapshot, QueryDocumentSnapshot } from '@firebase/firestore-types';
 import * as _ from 'lodash';
+import { Child } from '../../models/child';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Injectable()
 export class DatabaseProvider {
-
-  constructor(public afs: AngularFirestore) { }
+  membersDocId;
+  constructor(public afs: AngularFirestore,private afAuth: AngularFireAuth) { }
 
   addDocToColl(data: any, collection: string) {
     this.afs.collection(collection).add(data);
@@ -79,12 +81,46 @@ export class DatabaseProvider {
     return marketplaceRef.limit(numberOfItemsToGet).get();
 
   }
-  addUserToFamily(email: string) {
-     const user = this.getUser(email);
-    throw new Error("Method not implemented.");
-  }
+
   getUser(email:string):User{
-    return null
+    return this.afs.app.auth().currentUser;
   }
 
-}
+  addChildtoFamily(child:Child,user:User){
+
+    this.afs.collection('families').doc(this.getFamilyId(user))
+
+  }
+ 
+
+  addUserProfile(user): Promise<void> {
+    user.familyId = this.membersDocId;
+
+    return this.afs.collection('users')
+      .doc(this.afAuth.auth.currentUser.uid)
+      .set(user);
+  }
+
+  addUserToFamily(user): Promise<void> {
+
+    this.membersDocId = this.afs.createId();
+
+    return this.afs.collection('families')
+      .doc(this.membersDocId)
+      .collection('members')
+      .doc(this.afAuth.auth.currentUser.uid)
+      .set(user);
+   
+  }
+  getFamilyId(user){
+    return this.afs.collection('users')
+    .doc(this.afAuth.auth.currentUser.uid).snapshotChanges()
+
+    .map(actions=> {
+
+      return actions.payload.data().familyId;
+
+      })
+    }
+  }
+
