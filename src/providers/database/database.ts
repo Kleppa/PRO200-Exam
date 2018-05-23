@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Rx';
-import { User } from '@firebase/auth-types';
 import { QuerySnapshot, QueryDocumentSnapshot } from '@firebase/firestore-types';
 import * as _ from 'lodash';
 import { Child } from '../../models/child';
 import { AngularFireAuth } from 'angularfire2/auth';
+
+import firebase from 'firebase/app';
+import { User } from '../../models/user';
 
 @Injectable()
 export class DatabaseProvider {
@@ -82,11 +84,11 @@ export class DatabaseProvider {
 
   }
 
-  getUser(email:string):User{
+  getUser(email:string):firebase.User{
     return this.afAuth.auth.currentUser;
   }
 
-  addChildtoFamily(child:Child,user:User){
+  addChildtoFamily(child:Child,user: firebase.User){
     let famId:string;
 
     this.getUserFromDatabase(user).subscribe((result:User) => famId=result.familyId)
