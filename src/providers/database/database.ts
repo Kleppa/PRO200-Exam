@@ -89,7 +89,7 @@ export class DatabaseProvider {
   addChildtoFamily(child:Child,user:User){
     let famId:string;
 
-    this.getFamilyId(user).subscribe((result:User) => famId=result.familyId)
+    this.getUserFromDatabase(user).subscribe((result:User) => famId=result.familyId)
 
     this.afs.collection('families').doc(famId).collection(`members`).add(child);
 
@@ -115,7 +115,7 @@ export class DatabaseProvider {
       .set(user);
    
   }
-  getFamilyId(user){
+  getUserFromDatabase(user){
     return this.afs.collection('users')
     .doc(this.afAuth.auth.currentUser.uid).snapshotChanges()
 
