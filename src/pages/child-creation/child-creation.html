@@ -14,7 +14,7 @@
 
 <ion-content padding>
  <!-- <ion-item no-lines>-->
-    <ion-label class="label"> Navn</ion-label>
+    <ion-label class="label"> Navn *</ion-label>
     <ion-input class="input" type="text"></ion-input>
   <!--</ion-item>-->
 
@@ -24,8 +24,8 @@
   <!--</ion-item>-->
   
   <!--<ion-item no-lines>-->
-    <ion-label class="label"> Alder</ion-label>
-    <ion-input class="input" type="number"></ion-input>
+    <ion-label class="label"> Alder *</ion-label>
+    <ion-input class="input"  type="number"></ion-input>
   <!--</ion-item>-->
 
   <ion-label class="label"> Bilde</ion-label>
@@ -43,21 +43,4 @@
 </ion-row>
 </ion-item>
 
-    <ion-label floating> Navn</ion-label>
-    <ion-input [(ngModel)]="child.name" type="text"></ion-input>
-  </ion-item>
-  <ion-item no-lines>
-    <ion-label floating> Etternavn</ion-label>
-    <ion-input [(ngModel)]="child.lastname" type="text"></ion-input>
-  </ion-item>
-  <ion-item no-lines>
-
-    <ion-label floating> Alder</ion-label>
-    <ion-input [(ngModel)]="child.age" type="number"></ion-input>
-  </ion-item>
-
-  <button ion-button block> Legg til bilde</button>
-
- <button ion-button (click)="addChildToFamily()">Legg til barnebruker</button>
- <button (click)="cancel()" ion-button>Avbryt</button>
 </ion-content>
