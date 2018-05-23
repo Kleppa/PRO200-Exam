@@ -84,7 +84,7 @@ export class SettingsPage {
       })
     })
     famIdPromise.then((ID: string) => {
-      this.children = this.dbProvider.getAdultsOfFamily(ID);
+      this.users = this.dbProvider.getAdultsOfFamily(ID);
     })
   }
 
