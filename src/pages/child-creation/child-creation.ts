@@ -34,6 +34,7 @@ export class ChildCreationPage {
     if (!(this.child.name || this.child.age)) {
       this.presentFailureToast()
     } else {
+      this.child.tag="child";
       this.giveChildToken(this.child).then(() =>
         this.dbProvider.addChildtoFamily(this.child, this.dbProvider.getUser())).then(() => {
           this.toastCtrl.create({
