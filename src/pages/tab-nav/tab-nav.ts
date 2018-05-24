@@ -10,7 +10,7 @@ export class TabNav {
   tab1 = 'HomePage';
   tab2 = 'HomePage';
   tab3 = 'HomePage';
-  tab4 = 'HomePage';
+  tab4 = 'ProfilePage';
   tab5 = 'MyFamilyPage';
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
