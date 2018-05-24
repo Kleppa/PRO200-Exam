@@ -21,12 +21,14 @@ import { DatabaseProvider } from '../../providers/database/database';
 })
 export class SettingsPage {
 
+
   public users: User[];
   public children: Child[];
 
 
   constructor(private dbProvider: DatabaseProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
     this.getChildrens();
+    this.getAdults();
   }
 
 
@@ -72,6 +74,17 @@ export class SettingsPage {
     })
     famIdPromise.then((ID: string) => {
       this.children = this.dbProvider.getChildrenOfFamily(ID);
+    })
+  }
+  getAdults() {
+    const famIdPromise = new Promise(res => {
+      this.dbProvider.getUserFromDatabase(this.dbProvider.getUser).subscribe(user => {
+        let dbUser = user.payload.data() as User
+        res(dbUser.familyId);
+      })
+    })
+    famIdPromise.then((ID: string) => {
+      this.users = this.dbProvider.getAdultsOfFamily(ID);
     })
   }
 

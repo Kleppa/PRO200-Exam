@@ -16,12 +16,12 @@
 <ion-content padding>
   <ion-list>
     <button ion-item *ngFor="let user of users" (click)="presentAdultModal(user)">
-      {{user.name}}
+      {{user.name}}  - Kolonialbruker
     </button>
   </ion-list>
   <ion-list>
     <button ion-item *ngFor=" let child of children" (click)="goToChildSettingPage(child)">
-      {{child.name}}
+      {{child.name}}  - Barn
     </button>
   </ion-list>
  <button class="btn new-kid-btn btn-green" ion-button block (click)="goToCreateChildCreationPage()"> Opprett ny barnebruker</button>
