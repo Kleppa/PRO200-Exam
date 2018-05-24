@@ -14,6 +14,8 @@ import env from '../env';
 import { DatabaseProvider } from '../providers/database/database';
 import { AddAdultModalComponent } from '../components/add-adult-modal/add-adult-modal';
 import { Clipboard } from '@ionic-native/clipboard';
+import { Camera } from '@ionic-native/camera';
+import { AngularFireStorageModule, AngularFireStorage } from 'angularfire2/storage';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,10 @@ import { Clipboard } from '@ionic-native/clipboard';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DatabaseProvider,
-    Clipboard
+    Clipboard,
+    Camera,
+    AngularFireStorage
+    
     
   ]
 })

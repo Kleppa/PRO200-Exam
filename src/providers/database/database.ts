@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Rx';
 import { QuerySnapshot, QueryDocumentSnapshot } from '@firebase/firestore-types';
+import {  AngularFireStorage } from 'angularfire2/storage';
 import * as _ from 'lodash';
 import { Child } from '../../models/child';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -10,10 +11,11 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import firebase from 'firebase/app';
 import { User } from '../../models/user';
 
+
 @Injectable()
 export class DatabaseProvider {
   membersDocId;
-  constructor(public afs: AngularFirestore, private afAuth: AngularFireAuth) { 
+  constructor(public afs: AngularFirestore, private afAuth: AngularFireAuth, private afStorage: AngularFireStorage) { 
     
   }
 
@@ -149,6 +151,7 @@ export class DatabaseProvider {
   }
   getAdultsOfFamily(famID: string): User[] {
     console.log("Hello")
+    
     let adults:User[]=[];
      this.afs.collection(`families`)
     .doc(famID)
@@ -164,9 +167,22 @@ export class DatabaseProvider {
       })
     
     })
-    console.log("Done")
-    console.log(adults)
+   
     return adults;
+  }
+  uploadImg(imgBase64:string,imgRef:string): Promise<any> {
+   return new Promise((res,rej)=>{
+  
+    const task = this.afStorage.ref(imgRef).putString(imgBase64,`base64`,{contentType: `image/jpeg`})
+    .then(()=>{
+      console.log("RESOLVING","Resolving")
+      res(true);
+    }).catch(error=>{
+      console.error("Upload error", error)
+      rej(false);
+    })
+    })
+    
   }
 }
 

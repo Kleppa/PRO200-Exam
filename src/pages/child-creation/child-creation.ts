@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DatabaseProvider } from '../../providers/database/database';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 import { Child } from '../../models/child';
+import { Camera } from '@ionic-native/camera'
 
 
 /**
@@ -19,8 +20,13 @@ import { Child } from '../../models/child';
 })
 export class ChildCreationPage {
   child = {} as Child;
+  private base64Img: string;
 
-  constructor(private toastCtrl: ToastController, public navCtrl: NavController, public navParams: NavParams, private dbProvider: DatabaseProvider) {
+  constructor(private toastCtrl: ToastController
+    , public navCtrl: NavController
+    , public navParams: NavParams
+    , private dbProvider: DatabaseProvider
+    , private camera: Camera) {
   }
 
   ionViewDidLoad() {
@@ -32,26 +38,59 @@ export class ChildCreationPage {
   addChildToFamily() {
 
     if (!(this.child.name || this.child.age)) {
+
       this.presentFailureToast()
+
     } else {
-      this.child.tag="child";
+
+      this.child.tag = "child";
+
       this.giveChildToken(this.child).then(() =>
+
         this.dbProvider.addChildtoFamily(this.child, this.dbProvider.getUser())).then(() => {
-          this.toastCtrl.create({
-            message: "Gå på barnet i innstillinger for barnets innlogginsnøkkel!",
-            duration: 4000,
-            position: 'top'
-          }).present();
+
+          if (this.base64Img) {
+
+            const randomTime = new Date().getTime();
+            const imgRef = `${this.dbProvider.getUser().uid}_${randomTime}`
+            this.child.img = imgRef;
+
+            this.dbProvider.uploadImg(this.base64Img, imgRef).then(() => {
+              this.presentSuccessToast();
+            });
+
+          } else {
+            this.presentSuccessToast();
+
+          }
+          this.navCtrl.pop();
         });
-        this.navCtrl.pop();
-    }
-    
+      }
+  }
+  openGallery() {
+
+    const options = {
+      quality: 50,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
+      mediaType: this.camera.MediaType.ALLMEDIA,
+      saveToPhotoAlbum: true
+    };
+
+    this.camera.getPicture(options).then(imageData => {
+      console.log(imageData)
+
+      return imageData;
+    }).then(imageBase64 => {
+      this.base64Img = imageBase64;
+    })
+
 
   }
   giveChildToken(child) {
     return new Promise(res => {
       if (!this.child.token) {
-        child.token = '_' + Math.random().toString(36).substr(2, 6).toUpperCase();
+        child.token = Math.random().toString(36).substr(2, 6).toUpperCase();
       }
       res();
     })
@@ -63,5 +102,12 @@ export class ChildCreationPage {
       position: 'top'
     });
     toast.present();
+  }
+  presentSuccessToast() {
+    this.toastCtrl.create({
+      message: "Gå på barnet i innstillinger for barnets innlogginsnøkkel!",
+      duration: 4000,
+      position: 'top'
+    }).present();
   }
 }
