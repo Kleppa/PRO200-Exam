@@ -20,20 +20,21 @@ export class RegisterPage {
     public navParams: NavParams,
     private afAuth: AngularFireAuth,
     private af: AngularFirestore,
-    private dbProvider:DatabaseProvider
+    private dbProvider: DatabaseProvider
   ) { }
 
+  // TODO: feilhåndtering ved allerede eksisterende
   async register() {
     await this.signUp();
     await this.dbProvider.addUserToFamily(this.user);
     await this.dbProvider.addUserProfile(this.user);
-    
   }
+
   signUp(): Promise<any> {
     return this.afAuth.auth
       .createUserWithEmailAndPassword(this.user.email, this.password);
   }
 
- 
+
 
 }
