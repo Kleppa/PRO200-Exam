@@ -36,6 +36,7 @@ ion-title {
   width: 100%;
   height: 100%;
   text-align: center;
+  font-weight: 100;
 }
 modal-wrapper {
   position: absolute;
@@ -62,6 +63,8 @@ modal-wrapper {
 // all buttons 
 .btn {
   border-radius: 5px; 
+  color: #fff;
+  font-size: 1.5rem;
 }
 
 .btn-green {
@@ -74,7 +77,10 @@ modal-wrapper {
 
 .btn-red {
   background-color:  color($colors, bringebær);;
+}
 
+.btn-margin-top {
+  margin-top: 3rem;
 }
 
 // all inputs 
@@ -90,6 +96,8 @@ modal-wrapper {
 .label {
   width: 100%;
   display: block;
+  font-size: 1.4rem;
+
 }
 
  // inputs with light background
@@ -118,5 +126,11 @@ modal-wrapper {
   font-family: 'Nunito', sans-serif;
 }
 
+// title with border 
+.title-with-border {
+  font-size: 1.7rem;
+  border-bottom: 1px solid color($colors, varmgrå);;
+  padding-bottom: 0.2rem;
+}
 
 
