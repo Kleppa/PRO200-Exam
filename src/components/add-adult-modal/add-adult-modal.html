@@ -3,13 +3,19 @@
   <div class="overlay" (click)="dismiss()"></div>
   <div class="modal_content">
     <!--<ion-item>-->
-      <ion-label class="label" >Kolonialbruker</ion-label>
-      <ion-input type="text" [(ngModel)]="email" placeholder="\t\t\temail"></ion-input>
+      <ion-label class="label" >Registrert E-post til Kolonial.no-bruker</ion-label>
+      <ion-input type="text" [(ngModel)]="email" placeholder="Registert e-post til Kolonial.no-bruker"></ion-input>
     <!--</ion-item>-->
     
+    <ion-row no-padding class="add-adult-btn-row">
+        <ion-col col-6>
+      <button class="btn btn-green" id="addAdultBtn" (click)="dismiss()" ion-button color="primary">Legg til bruker</button>
+    </ion-col>
 
-      <button class="modalBtn btn btn-green" id="addAdultBtn" (click)="dismiss()" ion-button color="primary">Legg til</button>
-      <button class="modalBtn btn btn-red" (click)="dismiss()" ion-button color="secondary">Avbryt</button>
-  
+    <ion-col col-6>
+      <button class="btn btn-red btn-cancel" (click)="dismiss()" ion-button color="secondary">Avbryt</button>
+    </ion-col>
+  </ion-row>
+
 </div>
 </ion-content>

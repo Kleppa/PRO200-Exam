@@ -13,101 +13,97 @@
 </ion-header>
 
 <ion-content padding>
-    <h1 class="title-with-border">Verifiseringskoden</h1>
+  <h1 class="title-with-border">Verifiseringskoden</h1>
   <!--<ion-item no-lines>-->
-      <ion-row no-padding> 
-          <ion-col col>
-         <h4 class="token-text">{{child.token}}</h4>
-          </ion-col>   
-          
-          <ion-col col>
-          <button class="btn btn-orange btn-copy-token" (click)="addToClipboard()">Kopier</button>
-        </ion-col>   
+  <ion-row no-padding>
+    <ion-col col>
+      <h4 class="token-text">{{child.token}}</h4>
+    </ion-col>
+
+    <ion-col col>
+      <button class="btn btn-orange btn-copy-token" (click)="addToClipboard()">Kopier</button>
+    </ion-col>
   </ion-row>
 
-    <p class="title-small">Slik registrerer du et familiemedlem:</p>
-    <p>Åpne Barneappen og trykk på ikonet for å legge til en ny bruker. 
-        I tekstfeltet kopierer du inn den gitte verifiseringskoden for å knytte brukerne sammen.</p>
+  <p class="title-small">Slik legger du inn barnebrukeren i Barneappen</p>
+  <p>
+    1. Kopier verifiseringskoden <br>
+    2. Åpne Barneappen <br>
+    3. Trykk på ikonet for å legge til en ny bruker. <br>
+    4. Kopierer inn verifiseringskoden i tekstfeltet <br> <br>
+    </p>
 
- <!-- </ion-item>-->
- <h1 class="title-with-border"> Kontaktinformasjon</h1>
+  <!-- </ion-item>-->
+  <h1 class="title-with-border"> Kontaktinformasjon</h1>
 
 
- <!-- <ion-item no-lines>-->
+  <!-- <ion-item no-lines>-->
   <ion-label class="label">Fornavn</ion-label>
-    <ion-input  class="input" type="text" placeholder="Barnets fornavn">{{child.name}}</ion-input>
+  <ion-input class="input" type="text" placeholder="Barnets fornavn">{{child.name}}</ion-input>
   <!--</ion-item>-->
 
-<<<<<<< HEAD
   <!--<ion-item no-lines>-->
-    <ion-label class="label">Etternavn</ion-label>
-    <ion-input class="input" type="text" placeholder="Barnets etternavn">{{child.lastname}}</ion-input>
- <!-- </ion-item>-->
+  <ion-label class="label">Etternavn</ion-label>
+  <ion-input class="input" type="text" placeholder="Barnets etternavn">{{child.lastname}}</ion-input>
+  <!-- </ion-item>-->
 
- <ion-label class="label">Bilde</ion-label>
- <img class="round-img" src="" alt="Profilbilde av barn" />
+  <!--<ion-item no-lines>-->
+  <ion-label class="label" color="primary" stacked>Alder</ion-label>
+  <ion-input class="input" type="text" placeholder="Barnets alder">{{child.age}}</ion-input>
+  <!-- </ion-item>-->
+
+  <ion-label class="label">Bilde</ion-label>
+  <img class="round-img" src="" alt="Profilbilde av barn" />
 
   <h1 class="title-with-border">Begrensninger</h1>
-=======
-  <ion-item no-lines>
-    <ion-label class="label" color="primary" stacked>Etternavn</ion-label>
-    <ion-input type="text" placeholder="Barnets navn">{{child.lastname}}</ion-input>
-  </ion-item>
-  <ion-item no-lines>
-      <ion-label class="label" color="primary" stacked>Alder</ion-label>
-      <ion-input type="text" placeholder="Barnets alder">{{child.age}}</ion-input>
-    </ion-item>
-  <ion-item>
-    <h3>Begrensninger</h3>
-  </ion-item>
->>>>>>> 8ffec4299e42073ed30f9998dd3d7497fe2fa9a2
   <ion-item no-lines>
 
-    <ion-label class="label" >Kun mulighet til å ønske godteri til helg</ion-label>
+    <ion-label class="label">Kun mulighet til å ønske godteri til helg</ion-label>
     <ion-checkbox></ion-checkbox>
   </ion-item>
   <!-- Create auto generated rows and cols based on limitations -->
-    <ion-label class="label">Spesifikke begrensninger</ion-label>
+  <ion-label class="label">Spesifikke begrensninger</ion-label>
   <ion-grid>
 
   </ion-grid>
 
 
-      <ion-content class="constraints-box">
-      <ion-chip #chip1>
-          <ion-label>Item 1</ion-label>
-          <button ion-button clear color="light" (click)="delete(chip1)">
-            <ion-icon name="close-circle"></ion-icon>
-          </button>
-        </ion-chip>
-      
-        <ion-chip #chip2>
-            <ion-label>Item 2</ion-label>
-            <button ion-button clear color="light" (click)="delete(chip1)">
-              <ion-icon name="close-circle"></ion-icon>
-            </button>
-          </ion-chip>
+  <ion-content class="constraints-box">
+    <ion-chip #chip1>
+      <ion-label>Item 1</ion-label>
+      <button ion-button clear color="light" (click)="delete(chip1)">
+        <ion-icon name="close-circle"></ion-icon>
+      </button>
+    </ion-chip>
 
-                
-        <ion-chip #chip3>
-            <ion-label>Item fjiwfjs</ion-label>
-            <button ion-button clear color="light" (click)="delete(chip1)">
-              <ion-icon name="close-circle"></ion-icon>
-            </button>
-          </ion-chip>
+    <ion-chip #chip2>
+      <ion-label>Item 2</ion-label>
+      <button ion-button clear color="light" (click)="delete(chip1)">
+        <ion-icon name="close-circle"></ion-icon>
+      </button>
+    </ion-chip>
 
-        </ion-content>
 
-    
-            <ion-input class="input" placeholder="Legg til flere begrensninger">
-              <ion-icon name="search"></ion-icon>
-            </ion-input>
+    <ion-chip #chip3>
+      <ion-label>Item fjiwfjs</ion-label>
+      <button ion-button clear color="light" (click)="delete(chip1)">
+        <ion-icon name="close-circle"></ion-icon>
+      </button>
+    </ion-chip>
 
-            <h1 class="title-with-border">Slette bruker</h1>
+  </ion-content>
 
-            <p class="title-small"> Ønsker du å
+
+  <ion-input class="input" placeholder="Legg til flere begrensninger">
+    <ion-icon name="search"></ion-icon>
+  </ion-input>
+
+  <h1 class="title-with-border">Slette bruker</h1>
+
+  <p class="title-small"> Ønsker du å
     <span (click)="deleteChild(child)">
       <u class="red-text">slette bruker?</u>
-    </span></p>
+    </span>
+  </p>
   <button class="btn btn-green btn-margin-top" ion-button color="secondary">Lagre</button>
 </ion-content>

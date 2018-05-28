@@ -13,18 +13,19 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="settings-body">
+
+  <div class="users-container">
   <ion-list>
-    <button ion-item *ngFor="let user of users" (click)="presentAdultModal(user)">
-      {{user.name}}  - Kolonialbruker
+    <button class="user-settings" ion-item no-lines *ngFor="let user of users" (click)="presentAdultModal(user)">
+      {{user.name}}
+    </button>
+    <button class="user-settings" ion-item no-lines *ngFor=" let child of children" (click)="goToChildSettingPage(child)">
+      {{child.name}} 
     </button>
   </ion-list>
-  <ion-list>
-    <button ion-item *ngFor=" let child of children" (click)="goToChildSettingPage(child)">
-      {{child.name}}  - Barn
-    </button>
-  </ion-list>
+</div>
  <button class="btn new-kid-btn btn-green" ion-button block (click)="goToCreateChildCreationPage()"> Opprett ny barnebruker</button>
- <ion-item no-lines><p class="or-text">Eller...</p></ion-item>
+ <p class="or-text">Eller...</p>
  <button class="btn add-existing-user-btn btn-orange" ion-button block (click)="addAdultUser()"> Legg til eksisterende Kolonial.no-bruker</button>
 </ion-content>

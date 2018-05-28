@@ -76,7 +76,9 @@ modal-wrapper {
 }
 
 .btn-red {
-  background-color:  color($colors, bringebær);;
+  background-color:transparent;
+  border: 1px solid color($colors, bringebær);;
+  color: color($colors, bringebær);;
 }
 
 .btn-margin-top {
@@ -124,6 +126,8 @@ modal-wrapper {
 // font 
 * {
   font-family: 'Nunito', sans-serif;
+  text-transform: none;
+
 }
 
 // title with border 
