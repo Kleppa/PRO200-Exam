@@ -13,35 +13,35 @@
 </ion-header>
 
 <ion-content padding>
- <!-- <ion-item no-lines>-->
-    <ion-label  class="label"> Navn</ion-label>
-    <ion-input [(ngModel)]="child.name" class="input" type="text"></ion-input>
+  <!-- <ion-item no-lines>-->
+  <ion-label class="label"> Navn</ion-label>
+  <ion-input [(ngModel)]="child.name" class="input" type="text"></ion-input>
   <!--</ion-item>-->
 
- <!-- <ion-item no-lines>-->
-    <ion-label  class="label"> Etternavn</ion-label>
-    <ion-input [(ngModel)]="child.lastname" class="input" type="text"></ion-input>
+  <!-- <ion-item no-lines>-->
+  <ion-label class="label"> Etternavn</ion-label>
+  <ion-input [(ngModel)]="child.lastname" class="input" type="text"></ion-input>
   <!--</ion-item>-->
-  
+
   <!--<ion-item no-lines>-->
-    <ion-label  class="label"> Alder</ion-label>
-    <ion-input [(ngModel)]="child.age" class="input" type="number"></ion-input>
+  <ion-label class="label"> Alder</ion-label>
+  <ion-input [(ngModel)]="child.age" class="input" type="number"></ion-input>
   <!--</ion-item>-->
 
   <ion-label class="label"> Bilde</ion-label>
   <button ion-button block class="btn add-picture-btn" (click)="openGallery()"> + </button>
 
   <ion-item no-lines class="btn-row-child-creation">
-  <ion-row no-padding>
-    <ion-col col-8>
- <button class="btn btn-green" ion-button (click)="addChildToFamily()">Opprett barnebruker</button>
-</ion-col>
+    <ion-row no-padding>
+      <ion-col col-8>
+        <button class="btn btn-green" ion-button (click)="addChildToFamily()">Opprett barnebruker</button>
+      </ion-col>
 
-<ion-col col-4>
+      <ion-col col-4>
+        <button [ngStyle]="getStyle()" class="btn btn-red" (click)="cancel()" ion-button>Avbryt</button>
+      </ion-col>
 
- <button [ngStyle]="getStyle()" class="btn btn-red" (click)="cancel()" ion-button>Avbryt</button>
- 
-</ion-col>
-</ion-row>
-</ion-item>
+    </ion-row>
+  </ion-item>
+
 </ion-content>

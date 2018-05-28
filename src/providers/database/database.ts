@@ -2,21 +2,29 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Rx';
 import { QuerySnapshot, QueryDocumentSnapshot } from '@firebase/firestore-types';
-import {  AngularFireStorage } from 'angularfire2/storage';
+import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
 import * as _ from 'lodash';
 import { Child } from '../../models/child';
 import { AngularFireAuth } from 'angularfire2/auth';
- 
 
 import firebase from 'firebase/app';
 import { User } from '../../models/user';
 
-
 @Injectable()
 export class DatabaseProvider {
   membersDocId;
-  constructor(public afs: AngularFirestore, private afAuth: AngularFireAuth, private afStorage: AngularFireStorage) { 
-    
+  familyMembers: Observable<firebase.firestore.DocumentData[]>;
+
+  constructor(public afs: AngularFirestore,
+    private afAuth: AngularFireAuth,
+    private afStorage: AngularFireStorage) {
+    this.familyMembers = this.afs.collection('users')
+      .doc<User>(this.afAuth.auth.currentUser.uid)
+      .valueChanges()
+      .map(user => user.familyId)
+      .switchMap(familyId => familyId
+        ? this.afs.collection('families').doc(familyId).collection('members').valueChanges()
+        : Observable.empty());
   }
 
   addDocToColl(data: any, collection: string) {
@@ -31,6 +39,7 @@ export class DatabaseProvider {
         return { id, ...data }
       }))
   }
+
   getItemsFromDatabase(numberOfItemsToGet: number, startAt?: number, filterKeyWords?: string[]) {
     const marketplaceRef = this.afs.collection(`Marketplace`).ref;
     let filteredResult: QueryDocumentSnapshot[];
@@ -84,44 +93,13 @@ export class DatabaseProvider {
       })
       return filteredResult;
     }
-
     return marketplaceRef.limit(numberOfItemsToGet).get();
-
   }
 
-  getUser(): firebase.User {
-    return this.afAuth.auth.currentUser;
+  addChildtoFamily(child: Child, familyId: string): Promise<void> {
+    return this.afs.collection('families').doc(familyId).collection(`members`).add(child)
+      .then(childRef => this.afs.collection('children').doc(childRef.id).set(child));
   }
-
-   addChildtoFamily(child: Child, user: firebase.User) {
-    let famId: string;
-
-    let userObser = this.getUserFromDatabase(user);
-     userObser.subscribe( (result) => {
-       let data: User = result.payload.data() as User;
-       
-      famId = data.familyId;
-      this.afs.collection('families').doc(famId).collection(`members`).add(child);
-    })
-
-  
-  }
-  getChildrenOfFamily(famID: string): Child[] {
-
-    let children:Child[]=[];
-     this.afs.collection(`families`)
-    .doc(famID)
-    .collection(`members`)
-    .ref.where("tag","==","child").get().then(result =>{
-      result.forEach((child)=>{
-        console.log(child.data());
-        children.push(child.data() as Child)
-      })
-    
-    })
-    return children;
-  }
-
 
   addUserProfile(user): Promise<void> {
     user.familyId = this.membersDocId;
@@ -132,7 +110,6 @@ export class DatabaseProvider {
   }
 
   addUserToFamily(user): Promise<void> {
-
     this.membersDocId = this.afs.createId();
 
     return this.afs.collection('families')
@@ -140,55 +117,21 @@ export class DatabaseProvider {
       .collection('members')
       .doc(this.afAuth.auth.currentUser.uid)
       .set(user);
-
   }
-  getUserFromDatabase(user) {
 
+  getCurrentUser(): Promise<User> {
     return this.afs.collection('users')
-      .doc(this.afAuth.auth.currentUser.uid).snapshotChanges();
-
-
+      .doc(this.afAuth.auth.currentUser.uid)
+      .ref.get()
+      .then(result => { return (result.exists) ? result.data() as User : null });
   }
-  getAdultsOfFamily(famID: string): User[] {
-    console.log("Hello")
-    
-    let adults:User[]=[];
-     this.afs.collection(`families`)
-    .doc(famID)
-    .collection(`members`)
-    .ref.get().then(result =>{
-      result.forEach((adult)=>{
 
-        console.log(adult.data());
-        console.log(adult.data());
-        if(adult.data().email){
-          adults.push(adult.data() as User)
-        }
-      })
-    
-    })
-   
-    return adults;
+  getFamilyMembers() {
+    return this.familyMembers;
   }
-  uploadImg(imgBase64:string,imgRef:string): Promise<string> {
-   return new Promise((res,rej)=>{
-  
-    const task = this.afStorage.ref(imgRef).putString(imgBase64,`base64`,{contentType: `image/jpeg`})
-    .then((url)=>{
 
-      console.log("pure url",url);
-
-      console.log(...(_.toArray(url)));
-      res(url.ref.getDownloadURL());
-      
-
-    }).catch(error=>{
-      console.error("Upload error", error)
-      rej(null);
-      
-    })
-    })
-    
+  uploadImg(imgBase64: string, imgRef: string): AngularFireUploadTask {
+    return this.afStorage.ref(imgRef).putString(imgBase64, `base64`, { contentType: `image/jpeg` });
   }
+
 }
-
