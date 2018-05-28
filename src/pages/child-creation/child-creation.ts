@@ -35,13 +35,13 @@ export class ChildCreationPage {
       this.attachToken();
 
       if (this.base64Img) {
-        this.child.img = this.base64Img;
         const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}`
-        this.dbProvider.uploadImg(this.child.img, imgRef);
+        this.dbProvider.uploadImg(this.child.img, imgRef)
+          .then(task => task.ref.getDownloadURL().then(url => this.child.img = url));
       }
 
-      this.getFamilyId()
-        .then(familyId => this.dbProvider.addChildtoFamily(this.child, familyId))
+      this.dbProvider.getCurrentUser()
+        .then(user => this.dbProvider.addChildtoFamily(this.child, user.familyId))
         .then(() => {
           console.info('Added child to family', this.child)
           this.presentSuccessToast();
@@ -71,12 +71,6 @@ export class ChildCreationPage {
     }
   }
 
-  async getFamilyId(): Promise<string> {
-    return (localStorage.getItem('familyId'))
-      ? localStorage.getItem('familyId')
-      : await this.dbProvider.getCurrentUser().then(user => { return user.familyId });
-  }
-
   presentFailureToast() {
     let toast = this.toastCtrl.create({
       message: 'Barnet trenger et navn og en alder',
@@ -93,10 +87,10 @@ export class ChildCreationPage {
       position: 'top'
     }).present();
   }
-  
-  getStyle(){
+
+  getStyle() {
     return {
-      'background-image': this.base64Img ? "data:image/jpeg;base64,"+this.base64Img:""
+      'background-image': this.base64Img ? "data:image/jpeg;base64," + this.base64Img : ""
     }
   }
 
