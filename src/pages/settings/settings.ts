@@ -24,11 +24,12 @@ export class SettingsPage {
 
   public users: User[];
   public children: Child[];
-
+  public base64pathPrefix:string=`data:image/jpeg;base64,`;
 
   constructor(private dbProvider: DatabaseProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
     this.getChildrens();
     this.getAdults();
+    //
   }
 
 
@@ -40,7 +41,7 @@ export class SettingsPage {
 
     let adultSettingModal = this.modalCtrl.create(AdultSettingModalComponent, {
       user: name,
-      img: user.image,
+      img: +user.image,
     })
     adultSettingModal.onDidDismiss(del => {
       if (del) {

@@ -33,9 +33,9 @@
     <img src="" alt="bildet av barn" />
   </ion-item>
 
- <!-- <ion-item no-lines>-->
+  <!-- <ion-item no-lines>-->
   <ion-label class="label" color="primary" stacked>Fornavn</ion-label>
-    <ion-input type="text" placeholder="Barnets navn">{{child.name}}</ion-input>
+  <ion-input type="text" placeholder="Barnets navn">{{child.name}}</ion-input>
   <!--</ion-item>-->
 
   <ion-item no-lines>
@@ -43,9 +43,9 @@
     <ion-input type="text" placeholder="Barnets navn">{{child.lastname}}</ion-input>
   </ion-item>
   <ion-item no-lines>
-      <ion-label class="label" color="primary" stacked>Alder</ion-label>
-      <ion-input type="text" placeholder="Barnets alder">{{child.age}}</ion-input>
-    </ion-item>
+    <ion-label class="label" color="primary" stacked>Alder</ion-label>
+    <ion-input type="text" placeholder="Barnets alder">{{child.age}}</ion-input>
+  </ion-item>
   <ion-item>
     <h3>Begrensninger</h3>
   </ion-item>
@@ -68,23 +68,23 @@
   </ion-item>
   <ion-icon>
 
-      <ion-content class="constraints-box">
+    <ion-content class="constraints-box">
       <ion-chip #chip1>
-          <ion-label>Item 1</ion-label>
-          <button ion-button clear color="light" (click)="delete(chip1)">
-            <ion-icon name="close-circle"></ion-icon>
-          </button>
-        </ion-chip>
-      
-        <ion-chip #chip2>
-            <ion-label>Item 2</ion-label>
-            <button ion-button clear color="light" (click)="delete(chip1)">
-              <ion-icon name="close-circle"></ion-icon>
-            </button>
-          </ion-chip>
-        </ion-content>
-    
-        <h3>
+        <ion-label>Item 1</ion-label>
+        <button ion-button clear color="light" (click)="delete(chip1)">
+          <ion-icon name="close-circle"></ion-icon>
+        </button>
+      </ion-chip>
+
+      <ion-chip #chip2>
+        <ion-label>Item 2</ion-label>
+        <button ion-button clear color="light" (click)="delete(chip2)">
+          <ion-icon name="close-circle"></ion-icon>
+        </button>
+      </ion-chip>
+    </ion-content>
+
+    <h3>
       Slette bruker
     </h3>
   </ion-icon>

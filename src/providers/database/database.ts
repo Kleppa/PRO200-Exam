@@ -170,16 +170,22 @@ export class DatabaseProvider {
    
     return adults;
   }
-  uploadImg(imgBase64:string,imgRef:string): Promise<any> {
+  uploadImg(imgBase64:string,imgRef:string): Promise<string> {
    return new Promise((res,rej)=>{
   
     const task = this.afStorage.ref(imgRef).putString(imgBase64,`base64`,{contentType: `image/jpeg`})
-    .then(()=>{
-      console.log("RESOLVING","Resolving")
-      res(true);
+    .then((url)=>{
+
+      console.log("pure url",url);
+
+      console.log(...(_.toArray(url)));
+      res(url.ref.getDownloadURL());
+      
+
     }).catch(error=>{
       console.error("Upload error", error)
-      rej(false);
+      rej(null);
+      
     })
     })
     

@@ -20,7 +20,9 @@ import { Camera } from '@ionic-native/camera'
 })
 export class ChildCreationPage {
   child = {} as Child;
-  private base64Img: string;
+
+  public base64Img: string;
+  private tmpImageFromGaller;
 
   constructor(private toastCtrl: ToastController
     , public navCtrl: NavController
@@ -44,28 +46,30 @@ export class ChildCreationPage {
     } else {
 
       this.child.tag = "child";
+      if (this.base64Img) {
 
-      this.giveChildToken(this.child).then(() =>
+        const randomTime = new Date().getTime();
+        const imgRef = `${this.dbProvider.getUser().uid}_${randomTime}.jpeg`
 
-        this.dbProvider.addChildtoFamily(this.child, this.dbProvider.getUser())).then(() => {
 
-          if (this.base64Img) {
+        this.dbProvider.uploadImg(this.base64Img, imgRef).then((url) => {
+          this.child.img = url
+          console.log("IMAGE URL", url)
 
-            const randomTime = new Date().getTime();
-            const imgRef = `${this.dbProvider.getUser().uid}_${randomTime}`
-            this.child.img = imgRef;
+          this.presentSuccessToast();
+        }).then(() => {
 
-            this.dbProvider.uploadImg(this.base64Img, imgRef).then(() => {
-              this.presentSuccessToast();
-            });
+          this.giveChildToken(this.child).then(() =>
 
-          } else {
-            this.presentSuccessToast();
+            this.dbProvider.addChildtoFamily(this.child, this.dbProvider.getUser()));
+        })
+      } else {
+        this.presentSuccessToast();
 
-          }
-          this.navCtrl.pop();
-        });
       }
+      this.navCtrl.pop();
+
+    }
   }
   openGallery() {
 
@@ -74,15 +78,19 @@ export class ChildCreationPage {
       destinationType: this.camera.DestinationType.DATA_URL,
       sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
       mediaType: this.camera.MediaType.ALLMEDIA,
-      saveToPhotoAlbum: true
+      saveToPhotoAlbum: false
     };
 
     this.camera.getPicture(options).then(imageData => {
-      console.log(imageData)
+
+      //data:image/jpeg;base64,
 
       return imageData;
+
     }).then(imageBase64 => {
+
       this.base64Img = imageBase64;
+      
     })
 
 
@@ -109,5 +117,10 @@ export class ChildCreationPage {
       duration: 4000,
       position: 'top'
     }).present();
+  }
+  getStyle(){
+    return {
+      'background-image': this.base64Img ? "data:image/jpeg;base64,"+this.base64Img:"";
+    }
   }
 }
