@@ -61,25 +61,8 @@ export class ChildCreationPage {
       mediaType: this.camera.MediaType.ALLMEDIA,
     };
 
-<<<<<<< HEAD
-    this.camera.getPicture(options).then(imageData => {
-
-      //data:image/jpeg;base64,
-
-      return imageData;
-
-    }).then(imageBase64 => {
-      if (imageBase64) {
-        this.base64Img = imageBase64;
-      }
-
-    }).catch(err=>console.log(err))
-
-
-=======
     return this.camera.getPicture(options)
       .then(imageBase64 => this.base64Img = imageBase64);
->>>>>>> 7d0bc081d37e6a83ef4738bfa64af3c9ff85096a
   }
 
   attachToken() {
