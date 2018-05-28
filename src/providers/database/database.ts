@@ -102,7 +102,7 @@ export class DatabaseProvider {
 
   addChildtoFamily(child: Child, familyId: string): Promise<void> {
     return this.afs.collection('families').doc(familyId).collection(`members`).add(child)
-      .then(childRef => this.afs.collection('children').doc(childRef.id).set(child));
+      .then(childRef => this.afs.collection('children').doc(childRef.id).set({...child, familyId}));
   }
 
   addUserProfile(user): Promise<void> {

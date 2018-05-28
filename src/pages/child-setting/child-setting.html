@@ -12,22 +12,31 @@
 
 </ion-header>
 
-
 <ion-content padding>
-  <ion-item>
-    <h1>Token</h1>
-  </ion-item>
-  <ion-item no-lines>
-    <h4>{{child.token}}</h4>
-    <button class="btn btn-orange" (click)="addToClipboard()">Kopier</button>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla efficitur dolor mauris, sed accumsan diam elementum vitae.
-      Phasellus commodo luctus nisl nec pharetra. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed quis
-      elit sodales, euismod lacus ut, gravida ex. </p>
+  <h1 class="title-with-border">Verifiseringskoden</h1>
+  <!--<ion-item no-lines>-->
+  <ion-row no-padding>
+    <ion-col col>
+      <h4 class="token-text">{{child.token}}</h4>
+    </ion-col>
 
-  </ion-item>
-  <ion-item>
-    Kontaktinformasjon
-  </ion-item>
+    <ion-col col>
+      <button class="btn btn-orange btn-copy-token" (click)="addToClipboard()">Kopier</button>
+    </ion-col>
+  </ion-row>
+
+  <p class="title-small">Slik legger du inn barnebrukeren i Barneappen</p>
+  <p>
+    1. Kopier verifiseringskoden
+    <br> 2. Åpne Barneappen
+    <br> 3. Trykk på ikonet for å legge til en ny bruker.
+    <br> 4. Kopierer inn verifiseringskoden i tekstfeltet
+    <br>
+    <br>
+  </p>
+
+  <!-- </ion-item>-->
+  <h1 class="title-with-border"> Kontaktinformasjon</h1>
   <ion-item no-lines>
     <h5>Bilde</h5>
     <img src="{{childImg}}" style="height: 10em; width:10em;" alt="bildet av barn" />
@@ -39,26 +48,27 @@
   <ion-input type="text" placeholder="Barnets navn" [(ngModel)]="child.name"></ion-input>
   <!--</ion-item>-->
 
-  <ion-item no-lines>
-    <ion-label class="label" color="primary" stacked>Etternavn</ion-label>
-    <ion-input type="text" placeholder="Barnets etternavn" [(ngModel)]="child.lastname"></ion-input>
-  </ion-item>
-  <ion-item no-lines>
-    <ion-label class="label" color="primary" stacked>Alder</ion-label>
-    <ion-input type="text" placeholder="Barnets alder" [(ngModel)]="child.age"></ion-input>
-  </ion-item>
-  <ion-item>
-    <h3>Begrensninger</h3>
-  </ion-item>
+  <!--<ion-item no-lines>-->
+  <ion-label class="label" color="primary" stacked>Etternavn</ion-label>
+  <ion-input type="text" placeholder="Barnets etternavn" [(ngModel)]="child.lastname"></ion-input>
+  <!-- </ion-item>-->
+
+  <!--<ion-item no-lines>-->
+  <ion-label class="label" color="primary" stacked>Alder</ion-label>
+  <ion-input type="text" placeholder="Barnets alder" [(ngModel)]="child.age"></ion-input>
+  <!-- </ion-item>-->
+
+  <ion-label class="label">Bilde</ion-label>
+  <img class="round-img" src="" alt="Profilbilde av barn" />
+
+  <h1 class="title-with-border">Begrensninger</h1>
   <ion-item no-lines>
 
-    <ion-label>Kun mulighet til å ønske godteri til helg</ion-label>
+    <ion-label class="label">Kun mulighet til å ønske godteri til helg</ion-label>
     <ion-checkbox></ion-checkbox>
   </ion-item>
   <!-- Create auto generated rows and cols based on limitations -->
-  <ion-item no-lines>
-    <h5>Spesifikke begrensninger</h5>
-  </ion-item>
+  <ion-label class="label">Spesifikke begrensninger</ion-label>
   <ion-grid>
 
   </ion-grid>
@@ -92,8 +102,9 @@
   <ion-item>
     Ønsker du å
     <span (click)="deleteChild(child)">
-      <u>slette bruker</u>
+      <u class="red-text">slette bruker?</u>
     </span>
-  </ion-item>
-  <button class="btn btn-green" ion-button color="secondary">Lagre</button>
+
+    <button class="btn btn-green btn-margin-top" ion-button color="secondary">Lagre</button>
+    </ion-item>
 </ion-content>

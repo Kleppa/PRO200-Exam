@@ -13,19 +13,23 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="settings-body">
+
+  <div class="users-container">
   <ion-list>
-    <button ion-item *ngFor="let user of users | async" (click)="presentAdultModal(user)">
+    <button ion-item no-lines class="user-settings" *ngFor="let user of users | async" (click)="presentAdultModal(user)">
       <img src={{user.image}} style="height: 2em; width: 2em;" /> {{user.first_name}} - Kolonialbruker
     </button>
   </ion-list>
+  </div>
   <ion-list>
 
-    <button ion-item *ngFor="let child of children | async" (click)="goToChildSettingPage(child)">
+    <button ion-item class="user-settings" *ngFor="let child of children | async" (click)="goToChildSettingPage(child)">
       <img src={{child.img}} style="height: 2em; width:2em;" /> {{child.name}} - Barn
-
     </button>
+
   </ion-list>
+  
   <button class="btn new-kid-btn btn-green" ion-button block (click)="goToCreateChildCreationPage()"> Opprett ny barnebruker</button>
   <ion-item no-lines>
     <p class="or-text">Eller...</p>

@@ -11,12 +11,12 @@
     
   <!--<ion-item>-->
     <ion-label class="label label-white">E-post</ion-label>
-    <ion-input class="input input-white" type="email" [(ngModel)]="email"></ion-input>
+    <ion-input class="input input-white" placeholder="E-post"type="email" [(ngModel)]="email"></ion-input>
   <!--</ion-item>-->
 
   <!--<ion-item>-->
     <ion-label class="label label-white">Passord</ion-label>
-    <ion-input class="input input-white" type="password" id="password-input" [(ngModel)]="password"></ion-input>
+    <ion-input class="input input-white" placeholder="Passord" type="password" id="password-input" [(ngModel)]="password"></ion-input>
     <button class="eye-button" *ngIf="!showPassword" ion-button large clear (click)="togglePassword()" bottom item-end>
       <ion-icon name="eye-off"></ion-icon>
     </button>
@@ -29,7 +29,7 @@
   <a class="forgot-password" (click)="forgotPassword()">Glemt passord?</a>
 
 
-  <button full ion-button class="register-button btn btn-orange" (click)="register()">Lag ny konto</button>
+  <button full ion-button class="register-button btn btn-orange" (click)="register()">Lag ny brukerkonto</button>
 
 
 </ion-content>

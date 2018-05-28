@@ -2,5 +2,25 @@ page-settings {
 
     .or-text {
         text-align: center;
+        background-color: transparent;
+    }
+
+    .settings-body {
+        background-color: color($colors, lys-varmgrå);;
+    }
+
+    .users-container {
+        background-color: color($colors, lys-varmgrå);;
+        width: 100vw;
+        position: relative;
+        margin-left: -50vw;
+        left: 50%;
+    }
+
+    .user-settings {
+        margin: 0.2rem 0 0.2rem 0;
+        background-color: red;
+        background-color: #fff;
+
     }
 }
