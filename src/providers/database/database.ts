@@ -18,13 +18,17 @@ export class DatabaseProvider {
   constructor(public afs: AngularFirestore,
     private afAuth: AngularFireAuth,
     private afStorage: AngularFireStorage) {
-    this.familyMembers = this.afs.collection('users')
-      .doc<User>(this.afAuth.auth.currentUser.uid)
-      .valueChanges()
-      .map(user => user.familyId)
-      .switchMap(familyId => familyId
-        ? this.afs.collection('families').doc(familyId).collection('members').valueChanges()
-        : Observable.empty());
+      
+    if (this.afAuth.auth.currentUser.uid) {
+      this.familyMembers = this.afs.collection('users')
+        .doc<User>(this.afAuth.auth.currentUser.uid)
+        .valueChanges()
+        .map(user => user.familyId)
+        .switchMap(familyId => familyId
+          ? this.afs.collection('families').doc(familyId).collection('members').valueChanges()
+          : Observable.empty());
+    }
+
   }
 
   addDocToColl(data: any, collection: string) {
@@ -54,7 +58,7 @@ export class DatabaseProvider {
 
       resultPromise.then(result => {
 
-        result.docs.filter(item => {
+        filteredResult = result.docs.filter(item => {
 
           const doesNotIncludeFilteredKeyWords = _.some(_.keys(item), key => {
 
@@ -66,7 +70,7 @@ export class DatabaseProvider {
 
           return doesNotIncludeFilteredKeyWords;
         })
-        filteredResult = result.docs;
+
       })
       return filteredResult;
     }
@@ -77,7 +81,7 @@ export class DatabaseProvider {
 
       resultPromise.then(result => {
 
-        result.docs.filter(item => {
+        filteredResult = result.docs.filter(item => {
 
           const doesNotIncludeFilteredKeyWords = _.some(_.keys(item), key => {
 
@@ -89,7 +93,7 @@ export class DatabaseProvider {
 
           return doesNotIncludeFilteredKeyWords;
         })
-        filteredResult = result.docs;
+
       })
       return filteredResult;
     }

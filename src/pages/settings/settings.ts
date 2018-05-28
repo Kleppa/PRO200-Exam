@@ -20,8 +20,8 @@ export class SettingsPage {
   public base64pathPrefix:string=`data:image/jpeg;base64,`;
 
   constructor(private dbProvider: DatabaseProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
-    this.getChildren();
-    this.getAdults();
+    this.children = this.getFamilyMembers("children");
+    this.users = this.getFamilyMembers("adult");
     //
   }
 
@@ -58,16 +58,10 @@ export class SettingsPage {
     })
   }
 
-  getChildren() {
-    this.children = this.dbProvider
+  getFamilyMembers(userType:string){
+    return this.dbProvider
       .getFamilyMembers()
-      .map(members => members.filter(member => member.tag == 'child'));
-  }
-
-  getAdults() {
-    this.users = this.dbProvider
-      .getFamilyMembers()
-      .map(members => members.filter(member => member.email));
+      .map(members => members.filter(member => userType === "adult" ? member.tag : member.tag == 'child'));
   }
 
 }
