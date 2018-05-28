@@ -6,13 +6,8 @@ import { AdultSettingModalComponent } from '../../components/adult-setting-modal
 import { Child } from '../../models/child';
 import { AddAdultModalComponent } from '../../components/add-adult-modal/add-adult-modal';
 import { DatabaseProvider } from '../../providers/database/database';
-
-/**
- * Generated class for the SettingsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Observable } from 'rxjs';
+import { DocumentData } from 'angularfire2/firestore';
 
 @IonicPage()
 @Component({
@@ -20,24 +15,21 @@ import { DatabaseProvider } from '../../providers/database/database';
   templateUrl: 'settings.html',
 })
 export class SettingsPage {
-
-
-  public users: User[];
-  public children: Child[];
-
+  public users: Observable<DocumentData[]>;
+  public children: Observable<DocumentData[]>;
+  public base64pathPrefix:string=`data:image/jpeg;base64,`;
 
   constructor(private dbProvider: DatabaseProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
-    this.getChildrens();
-    this.getAdults();
+    this.children = this.getFamilyMembers("children");
+    this.users = this.getFamilyMembers("adult");
+    //
   }
-
 
   goToChildSettingPage(child) {
     this.navCtrl.push(`ChildSettingPage`, { child: child })
   }
 
   presentAdultModal(user: User) {
-
     let adultSettingModal = this.modalCtrl.create(AdultSettingModalComponent, {
       user: name,
       img: user.image,
@@ -51,8 +43,8 @@ export class SettingsPage {
 
   goToCreateChildCreationPage() {
     this.navCtrl.push(`ChildCreationPage`);
-
   }
+
   addAdultUser() {
 
     const adultModal = this.modalCtrl.create(AddAdultModalComponent, {});
@@ -65,27 +57,11 @@ export class SettingsPage {
       }
     })
   }
-  getChildrens() {
-    const famIdPromise = new Promise(res => {
-      this.dbProvider.getUserFromDatabase(this.dbProvider.getUser).subscribe(user => {
-        let dbUser = user.payload.data() as User
-        res(dbUser.familyId);
-      })
-    })
-    famIdPromise.then((ID: string) => {
-      this.children = this.dbProvider.getChildrenOfFamily(ID);
-    })
-  }
-  getAdults() {
-    const famIdPromise = new Promise(res => {
-      this.dbProvider.getUserFromDatabase(this.dbProvider.getUser).subscribe(user => {
-        let dbUser = user.payload.data() as User
-        res(dbUser.familyId);
-      })
-    })
-    famIdPromise.then((ID: string) => {
-      this.users = this.dbProvider.getAdultsOfFamily(ID);
-    })
+
+  getFamilyMembers(userType:string){
+    return this.dbProvider
+      .getFamilyMembers()
+      .map(members => members.filter(member => userType === "adult" ? member.tag : member.tag == 'child'));
   }
 
 }

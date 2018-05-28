@@ -35,21 +35,24 @@
 
   <!-- </ion-item>-->
   <h1 class="title-with-border"> Kontaktinformasjon</h1>
-
+  <ion-item no-lines>
+      <p>Bilde</p>
+      <img src="{{child.img}}" alt="bildet av barn" />
+    </ion-item>
 
   <!-- <ion-item no-lines>-->
-  <ion-label class="label">Fornavn</ion-label>
-  <ion-input class="input" type="text" placeholder="Barnets fornavn">{{child.name}}</ion-input>
-  <!--</ion-item>-->
+      <ion-label class="label" color="primary" stacked>Fornavn</ion-label>
+      <ion-input type="text" placeholder="Barnets navn" [(ngModel)]="child.name"></ion-input>
+    <!--</ion-item>-->
 
   <!--<ion-item no-lines>-->
-  <ion-label class="label">Etternavn</ion-label>
-  <ion-input class="input" type="text" placeholder="Barnets etternavn">{{child.lastname}}</ion-input>
+      <ion-label class="label" color="primary" stacked>Etternavn</ion-label>
+      <ion-input type="text" placeholder="Barnets etternavn" [(ngModel)]="child.lastname" ></ion-input>
   <!-- </ion-item>-->
 
   <!--<ion-item no-lines>-->
-  <ion-label class="label" color="primary" stacked>Alder</ion-label>
-  <ion-input class="input" type="text" placeholder="Barnets alder">{{child.age}}</ion-input>
+      <ion-label class="label" color="primary" stacked>Alder</ion-label>
+      <ion-input type="text" placeholder="Barnets alder" [(ngModel)]="child.age" ></ion-input>
   <!-- </ion-item>-->
 
   <ion-label class="label">Bilde</ion-label>
@@ -66,41 +69,35 @@
   <ion-grid>
 
   </ion-grid>
+  <ion-item no-lines>
+    <ion-input placeholder="Legg til flere begrensninger">
+      <ion-icon name="search"></ion-icon>
+    </ion-input>
+  </ion-item>
+  <ion-icon>
 
+    <ion-content class="constraints-box">
+      <ion-chip #chip1>
+        <ion-label>Item 1</ion-label>
+        <button ion-button clear color="light" (click)="delete(chip1)">
+          <ion-icon name="close-circle"></ion-icon>
+        </button>
+      </ion-chip>
 
-  <ion-content class="constraints-box">
-    <ion-chip #chip1>
-      <ion-label>Item 1</ion-label>
-      <button ion-button clear color="light" (click)="delete(chip1)">
-        <ion-icon name="close-circle"></ion-icon>
-      </button>
-    </ion-chip>
+      <ion-chip #chip2>
+        <ion-label>Item 2</ion-label>
+        <button ion-button clear color="light" (click)="delete(chip2)">
+          <ion-icon name="close-circle"></ion-icon>
+        </button>
+      </ion-chip>
+    </ion-content>
 
-    <ion-chip #chip2>
-      <ion-label>Item 2</ion-label>
-      <button ion-button clear color="light" (click)="delete(chip1)">
-        <ion-icon name="close-circle"></ion-icon>
-      </button>
-    </ion-chip>
-
-
-    <ion-chip #chip3>
-      <ion-label>Item fjiwfjs</ion-label>
-      <button ion-button clear color="light" (click)="delete(chip1)">
-        <ion-icon name="close-circle"></ion-icon>
-      </button>
-    </ion-chip>
-
-  </ion-content>
-
-
-  <ion-input class="input" placeholder="Legg til flere begrensninger">
-    <ion-icon name="search"></ion-icon>
-  </ion-input>
-
-  <h1 class="title-with-border">Slette bruker</h1>
-
-  <p class="title-small"> Ønsker du å
+    <h3>
+      Slette bruker
+    </h3>
+  </ion-icon>
+  <ion-item>
+    Ønsker du å
     <span (click)="deleteChild(child)">
       <u class="red-text">slette bruker?</u>
     </span>

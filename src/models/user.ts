@@ -8,3 +8,4 @@ export interface User {
     birthdate?: string,
     familyId?:string
 }
+

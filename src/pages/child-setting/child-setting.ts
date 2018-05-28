@@ -21,6 +21,10 @@ export class ChildSettingPage {
   constructor(private navCtrl: NavController, private navParams: NavParams, private clipboard: Clipboard, private toastCtrl: ToastController) {
 
     this.child = navParams.get('child');
+    
+    if(this.child){
+      console.log(this.child)
+    }
 
     
   }
