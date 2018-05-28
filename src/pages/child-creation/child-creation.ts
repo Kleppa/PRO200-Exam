@@ -22,7 +22,7 @@ export class ChildCreationPage {
   child = {} as Child;
 
   public base64Img: string;
-  private tmpImageFromGaller;
+  public btnText: string = "+"
 
   constructor(private toastCtrl: ToastController
     , public navCtrl: NavController
@@ -88,10 +88,11 @@ export class ChildCreationPage {
       return imageData;
 
     }).then(imageBase64 => {
+      if (imageBase64) {
+        this.base64Img = imageBase64;
+      }
 
-      this.base64Img = imageBase64;
-      
-    })
+    }).catch(err=>console.log(err))
 
 
   }
@@ -116,11 +117,23 @@ export class ChildCreationPage {
       message: "Gå på barnet i innstillinger for barnets innlogginsnøkkel!",
       duration: 4000,
       position: 'top'
+
     }).present();
   }
-  getStyle(){
-    return {
-      'background-image': this.base64Img ? "data:image/jpeg;base64,"+this.base64Img:"";
+  getStyle(): {} {
+
+    if (this.base64Img) {
+      this.btnText = "";
+    } else {
+      this.btnText = "+"
     }
+
+    return {
+
+      'background-image': this.base64Img ? `url(data:image/jpeg;base64,${this.base64Img})` : "",
+      'background-size': "cover"
+    }
+
+
   }
 }

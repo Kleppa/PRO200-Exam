@@ -41,7 +41,7 @@ export class SettingsPage {
 
     let adultSettingModal = this.modalCtrl.create(AdultSettingModalComponent, {
       user: name,
-      img: +user.image,
+      img: user.image,
     })
     adultSettingModal.onDidDismiss(del => {
       if (del) {
