@@ -4,14 +4,7 @@ import { DatabaseProvider } from '../../providers/database/database';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 import { Child } from '../../models/child';
 import { Camera } from '@ionic-native/camera'
-
-
-/**
- * Generated class for the ChildCreationPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @IonicPage()
 @Component({
@@ -20,67 +13,55 @@ import { Camera } from '@ionic-native/camera'
 })
 export class ChildCreationPage {
   child = {} as Child;
-
   public base64Img: string;
   public btnText: string = "+"
 
-  constructor(private toastCtrl: ToastController
-    , public navCtrl: NavController
-    , public navParams: NavParams
-    , private dbProvider: DatabaseProvider
-    , private camera: Camera) {
-  }
+  constructor(private toastCtrl: ToastController,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private dbProvider: DatabaseProvider,
+    private afAuth: AngularFireAuth,
+    private camera: Camera) { }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ChildCreationPage');
-  }
   cancel() {
     this.navCtrl.pop();
   }
-  addChildToFamily() {
 
+  async addChildToFamily() {
     if (!(this.child.name || this.child.age)) {
-
       this.presentFailureToast()
-
     } else {
-
       this.child.tag = "child";
+      this.attachToken();
+
       if (this.base64Img) {
-
-        const randomTime = new Date().getTime();
-        const imgRef = `${this.dbProvider.getUser().uid}_${randomTime}.jpeg`
-
-
-        this.dbProvider.uploadImg(this.base64Img, imgRef).then((url) => {
-          this.child.img = url
-          console.log("IMAGE URL", url)
-
-          this.presentSuccessToast();
-        }).then(() => {
-
-          this.giveChildToken(this.child).then(() =>
-
-            this.dbProvider.addChildtoFamily(this.child, this.dbProvider.getUser()));
-        })
-      } else {
-        this.presentSuccessToast();
-
+        const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}`
+        this.dbProvider.uploadImg(this.child.img, imgRef)
+          .then(task => task.ref.getDownloadURL().then(url => this.child.img = url));
       }
-      this.navCtrl.pop();
 
+      this.dbProvider.getCurrentUser()
+        .then(user => this.dbProvider.addChildtoFamily(this.child, user.familyId))
+        .then(() => {
+          console.info('Added child to family', this.child)
+          this.presentSuccessToast();
+          this.navCtrl.pop();
+        })
+        .catch(reason => {
+          console.error('Failed adding child to family', reason);
+          this.presentFailureToast();
+        });
     }
   }
-  openGallery() {
 
+  openGallery(): Promise<any> {
     const options = {
-      quality: 50,
-      destinationType: this.camera.DestinationType.DATA_URL,
       sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
+      destinationType: this.camera.DestinationType.DATA_URL,
       mediaType: this.camera.MediaType.ALLMEDIA,
-      saveToPhotoAlbum: false
     };
 
+<<<<<<< HEAD
     this.camera.getPicture(options).then(imageData => {
 
       //data:image/jpeg;base64,
@@ -95,15 +76,18 @@ export class ChildCreationPage {
     }).catch(err=>console.log(err))
 
 
+=======
+    return this.camera.getPicture(options)
+      .then(imageBase64 => this.base64Img = imageBase64);
+>>>>>>> 7d0bc081d37e6a83ef4738bfa64af3c9ff85096a
   }
-  giveChildToken(child) {
-    return new Promise(res => {
-      if (!this.child.token) {
-        child.token = Math.random().toString(36).substr(2, 6).toUpperCase();
-      }
-      res();
-    })
+
+  attachToken() {
+    if (!this.child.token) {
+      this.child.token = Math.random().toString(36).substr(2, 6).toUpperCase();
+    }
   }
+
   presentFailureToast() {
     let toast = this.toastCtrl.create({
       message: 'Barnet trenger et navn og en alder',
@@ -112,6 +96,7 @@ export class ChildCreationPage {
     });
     toast.present();
   }
+
   presentSuccessToast() {
     this.toastCtrl.create({
       message: "Gå på barnet i innstillinger for barnets innlogginsnøkkel!",
@@ -136,4 +121,5 @@ export class ChildCreationPage {
 
 
   }
+
 }
