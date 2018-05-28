@@ -29,9 +29,10 @@
     Kontaktinformasjon
   </ion-item>
   <ion-item no-lines>
-    <p>Bilde</p>
-    <img src="{{child.img}}" alt="bildet av barn" />
+    <h5>Bilde</h5>
+    <img src="{{childImg}}" style="height: 10em; width:10em;" alt="bildet av barn" />
   </ion-item>
+  <button ion-button (click)="changePicture()">Endre bilde</button>
 
   <!-- <ion-item no-lines>-->
   <ion-label class="label" color="primary" stacked>Fornavn</ion-label>
@@ -40,11 +41,11 @@
 
   <ion-item no-lines>
     <ion-label class="label" color="primary" stacked>Etternavn</ion-label>
-    <ion-input type="text" placeholder="Barnets etternavn" [(ngModel)]="child.lastname" ></ion-input>
+    <ion-input type="text" placeholder="Barnets etternavn" [(ngModel)]="child.lastname"></ion-input>
   </ion-item>
   <ion-item no-lines>
     <ion-label class="label" color="primary" stacked>Alder</ion-label>
-    <ion-input type="text" placeholder="Barnets alder" [(ngModel)]="child.age" ></ion-input>
+    <ion-input type="text" placeholder="Barnets alder" [(ngModel)]="child.age"></ion-input>
   </ion-item>
   <ion-item>
     <h3>Begrensninger</h3>

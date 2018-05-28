@@ -15,13 +15,15 @@ import { DocumentData } from 'angularfire2/firestore';
   templateUrl: 'settings.html',
 })
 export class SettingsPage {
+
   public users: Observable<DocumentData[]>;
   public children: Observable<DocumentData[]>;
+
   public base64pathPrefix:string=`data:image/jpeg;base64,`;
 
   constructor(private dbProvider: DatabaseProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
-    this.children = this.getFamilyMembers("children");
-    this.users = this.getFamilyMembers("adult");
+    this.children = this.getChildren();
+    this.users = this.getAdults();
     //
   }
 
@@ -58,10 +60,17 @@ export class SettingsPage {
     })
   }
 
-  getFamilyMembers(userType:string){
+
+  getChildren() {
     return this.dbProvider
       .getFamilyMembers()
-      .map(members => members.filter(member => userType === "adult" ? member.tag : member.tag == 'child'));
+      .map(members => members.filter(member => member.tag == 'child'));
+  }
+
+  getAdults() {
+    return this.dbProvider
+      .getFamilyMembers()
+      .map(members => members.filter(member => !member.tag));
   }
 
 }

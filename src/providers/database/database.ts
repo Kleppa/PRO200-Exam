@@ -137,5 +137,9 @@ export class DatabaseProvider {
   uploadImg(imgBase64: string, imgRef: string): AngularFireUploadTask {
     return this.afStorage.ref(imgRef).putString(imgBase64, `base64`, { contentType: `image/jpeg` });
   }
+  updateChild(child:Child){
+
+  
+  }
 
 }

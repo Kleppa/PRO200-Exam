@@ -35,7 +35,7 @@ export class ChildCreationPage {
       this.attachToken();
 
       if (this.base64Img) {
-        const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}`
+        const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}.jpeg`
         this.dbProvider.uploadImg(this.child.img, imgRef)
           .then(task => task.ref.getDownloadURL().then(url => this.child.img = url));
       }
@@ -54,14 +54,14 @@ export class ChildCreationPage {
     }
   }
 
-  openGallery(): Promise<any> {
+  openGallery() {
+
     const options = {
       sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
       destinationType: this.camera.DestinationType.DATA_URL,
       mediaType: this.camera.MediaType.ALLMEDIA,
     };
 
-<<<<<<< HEAD
     this.camera.getPicture(options).then(imageData => {
 
       //data:image/jpeg;base64,
@@ -72,14 +72,7 @@ export class ChildCreationPage {
       if (imageBase64) {
         this.base64Img = imageBase64;
       }
-
     }).catch(err=>console.log(err))
-
-
-=======
-    return this.camera.getPicture(options)
-      .then(imageBase64 => this.base64Img = imageBase64);
->>>>>>> 7d0bc081d37e6a83ef4738bfa64af3c9ff85096a
   }
 
   attachToken() {
