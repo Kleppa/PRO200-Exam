@@ -16,11 +16,13 @@ import { AddAdultModalComponent } from '../components/add-adult-modal/add-adult-
 import { Clipboard } from '@ionic-native/clipboard';
 import { Camera } from '@ionic-native/camera';
 import { AngularFireStorageModule, AngularFireStorage } from 'angularfire2/storage';
+import { AdultSettingModalComponent } from '../components/adult-setting-modal/adult-setting-modal';
 
 @NgModule({
   declarations: [
     MyApp,
-    AddAdultModalComponent
+    AddAdultModalComponent,
+    AdultSettingModalComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +35,8 @@ import { AngularFireStorageModule, AngularFireStorage } from 'angularfire2/stora
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AddAdultModalComponent
+    AddAdultModalComponent,
+    AdultSettingModalComponent
   ],
   providers: [
     StatusBar,

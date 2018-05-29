@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular/navigation/nav-controller';
+import { ViewController } from 'ionic-angular/navigation/view-controller';
+import { NavParams } from 'ionic-angular/navigation/nav-params';
 
 /**
  * Generated class for the AdultSettingModalComponent component.
@@ -12,13 +14,21 @@ import { NavController } from 'ionic-angular/navigation/nav-controller';
   templateUrl: 'adult-setting-modal.html'
 })
 export class AdultSettingModalComponent {
-
-  text: string;
-
-  constructor() {
-    console.log('Hello AdultSettingModalComponent Component');
-    this.text = 'Hello World';
-  }
+  user:{};
   
 
+  constructor(private navParams: NavParams,private viewController:ViewController) {
+    this.user = this.navParams.get('user')
+    
+    this.viewController.getContent()
+  }
+  dismiss(command?:boolean) {
+
+    if (command) {
+      this.viewController.dismiss(command);
+    } else {
+      this.viewController.dismiss();
+    }
+  }
 }
+  

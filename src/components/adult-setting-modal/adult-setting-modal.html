@@ -1,4 +1,12 @@
 <!-- Generated template for the AdultSettingModalComponent component -->
-<div>
-  
-</div>
+<!-- Generated template for the AddAdultModalComponent component -->
+<ion-content class="main-view">
+        <div class="overlay" (click)="dismiss()"></div>
+        <div class="modal_content">
+          <h2>{{user}}</h2>
+         <button ion-button (click)="dismiss(true)" >Slett bruker fra familie</button>
+         <button ion-button (click)="dismiss()" color="secondary" >Avbryt</button>
+      
+      </div>
+      </ion-content>
+      

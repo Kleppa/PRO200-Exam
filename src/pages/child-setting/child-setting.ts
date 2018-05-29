@@ -112,4 +112,12 @@ export class ChildSettingPage {
     this.child.limits = this.child.limits.filter(limitInArray=>limitInArray!==limit)
     this.limitations = this.child.limits
   }
+  delete(){
+    this.dbProvider.deleteChild(this.child,this.famId);
+    this.toastCtrl.create({
+      duration:2500,
+      position:`top`,
+      message:`${this.child.name} har blitt slettet fra din familie`
+    }).present().then(()=>this.navCtrl.pop());
+  }
 }

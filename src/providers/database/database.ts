@@ -11,6 +11,7 @@ import firebase from 'firebase/app';
 import { User } from '../../models/user';
 
 @Injectable()
+
 export class DatabaseProvider {
   membersDocId;
   familyMembers: Observable<firebase.firestore.DocumentData[]>;
@@ -114,7 +115,7 @@ export class DatabaseProvider {
 
   addUserProfile(user): Promise<void> {
     user.familyId = this.membersDocId;
-    
+
     return this.afs.collection('users')
       .doc(this.afAuth.auth.currentUser.uid)
       .set(user);
@@ -146,11 +147,24 @@ export class DatabaseProvider {
   }
 
   updateChild(child: Child, docid: string, famid: string) {
-    console.log("familyid",famid)
+    console.log("familyid", famid)
     return this.afs.collection(`families`).doc(famid).collection(`members`).doc(docid).update(child).then(() => {
       this.afs.collection(`children`).doc(docid).update(child);
 
     })
+  }
+  deleteChild(child: Child, famid: string): Promise<void> {
+    return this.afs.collection(`families`).doc(famid).collection(`members`).doc(child.id).delete().then(() => {
+      this.afs.collection(`children`).doc(child.id).delete();
+    })
+  }
+  deleteAdult(user) {
+    //Something like this.
+    
+    // return this.afs.collection(`families`).doc(famid).collection(`members`).doc(child.id).delete().then(() => {
+    //   this.afs.collection(`children`).doc(child.id).delete();
+    // })
+
   }
 
 }

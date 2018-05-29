@@ -26,29 +26,34 @@ export class SettingsPage {
     this.children = this.getChildren();
     this.users = this.getAdults();
 
-   this.dbProvider.getCurrentUser().then(user=> this.familyId=user.familyId);
- 
-    
-    
+    this.dbProvider.getCurrentUser().then(user => this.familyId = user.familyId);
+
+
+
   }
 
-  goToChildSettingPage(child,familyId) {
-      console.log(child)
-      this.navCtrl.push(`ChildSettingPage`, {
-        child: child,
-        famid: this.familyId
-      })
-  }
-
-  presentAdultModal(user: User) {
-    let adultSettingModal = this.modalCtrl.create(AdultSettingModalComponent, {
-      user: name,
-      img: user.image,
+  goToChildSettingPage(child, familyId) {
+    console.log(child)
+    this.navCtrl.push(`ChildSettingPage`, {
+      child: child,
+      famid: this.familyId
     })
-    adultSettingModal.onDidDismiss(del => {
-      if (del) {
+  }
 
+  presentAdultModal(user: {}) {
+
+    let adultSettingModal = this.modalCtrl.create(AdultSettingModalComponent, {
+      user: user
+    });
+    adultSettingModal.present();
+
+    adultSettingModal.onDidDismiss((del?) => {
+      this.dbProvider.getCurrentUser().then(res => {
+        if (del && !(user[`email`] === res.email)) {
+            this.dbProvider.deleteAdult(user);
+        }
       }
+      )
     })
   }
 
@@ -62,7 +67,7 @@ export class SettingsPage {
     adultModal.present();
 
     adultModal.onDidDismiss(email => {
-      console.log(email)
+
       if (email) {
         this.dbProvider.addUserToFamily(email);
       }
