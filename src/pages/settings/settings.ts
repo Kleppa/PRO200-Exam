@@ -18,17 +18,26 @@ export class SettingsPage {
 
   public users: Observable<DocumentData[]>;
   public children: Observable<DocumentData[]>;
-
-  public base64pathPrefix:string=`data:image/jpeg;base64,`;
+  private familyId;
+  private childId;
+  public base64pathPrefix: string = `data:image/jpeg;base64,`;
 
   constructor(private dbProvider: DatabaseProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
     this.children = this.getChildren();
     this.users = this.getAdults();
-    //
+
+   this.dbProvider.getCurrentUser().then(user=> this.familyId=user.familyId);
+ 
+    
+    
   }
 
-  goToChildSettingPage(child) {
-    this.navCtrl.push(`ChildSettingPage`, { child: child })
+  goToChildSettingPage(child,familyId) {
+      console.log(child)
+      this.navCtrl.push(`ChildSettingPage`, {
+        child: child,
+        famid: this.familyId
+      })
   }
 
   presentAdultModal(user: User) {

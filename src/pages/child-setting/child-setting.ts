@@ -25,15 +25,14 @@ export class ChildSettingPage {
   public child: Child;
   public limit: string;
   public limitations:string[];
+  private famId;
   constructor(private afAuth: AngularFireAuth, private dbProvider: DatabaseProvider, private camera: Camera, private navCtrl: NavController, private navParams: NavParams, private clipboard: Clipboard, private toastCtrl: ToastController) {
 
     this.child = navParams.get('child');
+    this.famId = navParams.get('famid');
+
     this.limitations = this.child.limits;
     this.childImg=this.child.img;
-    if (this.child) {
-      console.log(this.child)
-    }
-
 
   }
 
@@ -64,8 +63,6 @@ export class ChildSettingPage {
     };
 
     this.camera.getPicture(options).then(imageData => {
-
-      //data:image/jpeg;base64,
      
       if (imageData) {
 
@@ -78,17 +75,26 @@ export class ChildSettingPage {
 
     }).catch(err => console.log(err));
   }
-  saveChanges() {
+  async saveChanges() {
 
     if (this.base64Img) {
 
       const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}.jpeg`
       
-      this.dbProvider.uploadImg(this.base64Img, imgRef)
-        .then(task => task.ref.getDownloadURL().then(url => this.child.img = url)).then(()=>{
-          this.dbProvider.updateChild(this.child);
-        })
+     await this.dbProvider.uploadImg(this.base64Img, imgRef)
+        .then(task => task.ref.getDownloadURL().then(url => this.child.img = url));
     }
+
+    await this.dbProvider.updateChild(this.child, this.child.id ,this.famId).then(()=>{
+      this.toastCtrl.create({
+        duration:3000,
+        position:"top",
+        message:"Endringene er lagret!"
+      }).present().then(()=>{
+        this.navCtrl.pop();
+      })
+    });
+    
   }
   addLimitToChild(){
 
@@ -101,5 +107,9 @@ export class ChildSettingPage {
     this.limitations=this.child.limits;
 
     this.limit=""
+  }
+  removeLimitations(limit:string){
+    this.child.limits = this.child.limits.filter(limitInArray=>limitInArray!==limit)
+    this.limitations = this.child.limits
   }
 }

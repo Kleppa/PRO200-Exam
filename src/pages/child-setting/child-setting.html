@@ -60,7 +60,7 @@
   <ion-item no-lines>
 
     <ion-label class="label">Kun mulighet til å ønske godteri til helg</ion-label>
-    <ion-checkbox></ion-checkbox>
+    <ion-checkbox [(ngModel)]="child.candyOnWeekendsOnly"></ion-checkbox>
   </ion-item>
   <!-- Create auto generated rows and cols based on limitations -->
   <ion-label class="label">Spesifikke begrensninger</ion-label>
@@ -68,9 +68,9 @@
     <div class="constraints-box">
       <ion-chip *ngFor="let item of limitations" >
 
-        <ion-label>Item 1</ion-label>
+        <ion-label>{{item}}</ion-label>
 
-        <button ion-button clear color="light" (click)="removeLimitation(item)">
+        <button ion-button clear color="light" (click)="removeLimitations(item)">
 
           <ion-icon name="close-circle"></ion-icon>
 
@@ -98,5 +98,5 @@
     </span>
   </ion-item>
 
-    <button class="btn btn-green btn-margin-top" ion-button color="secondary">Lagre</button>
+    <button (click)="saveChanges()" class="btn btn-green btn-margin-top" ion-button color="secondary">Lagre</button>
 </ion-content>

@@ -19,11 +19,9 @@
   
     <ion-list>
     <button ion-item no-lines class="user-settings" *ngFor="let user of users | async" (click)="presentAdultModal(user)">
-      <img src={{user.image}} style="height: 2em; width: 2em;" /> {{user.first_name}}
+      <img src={{user.image}}  style="height: 2em; width: 2em;" /> {{user.first_name}}
     </button>
-  </ion-list>
-  
-  <ion-list>
+ 
     <button ion-item no-lines class="user-settings" *ngFor="let child of children | async" (click)="goToChildSettingPage(child)">
       <img src={{child.img}} style="height: 2em; width:2em;" /> {{child.name}}
     </button>

@@ -18,14 +18,21 @@ export class DatabaseProvider {
   constructor(public afs: AngularFirestore,
     private afAuth: AngularFireAuth,
     private afStorage: AngularFireStorage) {
-      
+
     if (this.afAuth.auth.currentUser.uid) {
       this.familyMembers = this.afs.collection('users')
         .doc<User>(this.afAuth.auth.currentUser.uid)
         .valueChanges()
         .map(user => user.familyId)
         .switchMap(familyId => familyId
-          ? this.afs.collection('families').doc(familyId).collection('members').valueChanges()
+          ? this.afs.collection('families').doc(familyId).collection('members').snapshotChanges()
+            .map(actions =>
+              actions.map(a => {
+                const data = a.payload.doc.data();
+                const id = a.payload.doc.id;
+                return { id, ...data };
+              })
+            )
           : Observable.empty());
     }
 
@@ -102,12 +109,12 @@ export class DatabaseProvider {
 
   addChildtoFamily(child: Child, familyId: string): Promise<void> {
     return this.afs.collection('families').doc(familyId).collection(`members`).add(child)
-      .then(childRef => this.afs.collection('children').doc(childRef.id).set({...child, familyId}));
+      .then(childRef => this.afs.collection('children').doc(childRef.id).set({ ...child, familyId }));
   }
 
   addUserProfile(user): Promise<void> {
     user.familyId = this.membersDocId;
-
+    
     return this.afs.collection('users')
       .doc(this.afAuth.auth.currentUser.uid)
       .set(user);
@@ -137,9 +144,13 @@ export class DatabaseProvider {
   uploadImg(imgBase64: string, imgRef: string): AngularFireUploadTask {
     return this.afStorage.ref(imgRef).putString(imgBase64, `base64`, { contentType: `image/jpeg` });
   }
-  updateChild(child:Child){
 
-  
+  updateChild(child: Child, docid: string, famid: string) {
+    console.log("familyid",famid)
+    return this.afs.collection(`families`).doc(famid).collection(`members`).doc(docid).update(child).then(() => {
+      this.afs.collection(`children`).doc(docid).update(child);
+
+    })
   }
 
 }

@@ -5,5 +5,7 @@ export interface Child{
     token?:string,
     img?:string,
     tag:string,
-    limits?:string[]
+    limits?:string[],
+    id?:string,
+    candyOnWeekendsOnly?:boolean;
 }
