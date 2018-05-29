@@ -61,15 +61,27 @@ export class SettingsPage {
     this.navCtrl.push(`ChildCreationPage`);
   }
 
-  addAdultUser() {
+   addAdultUser() {
 
     const adultModal = this.modalCtrl.create(AddAdultModalComponent, {});
     adultModal.present();
 
-    adultModal.onDidDismiss(email => {
-
+    adultModal.onDidDismiss( email => {
+      let matchingUser:User;
       if (email) {
-        this.dbProvider.addUserToFamily(email);
+        
+       this.dbProvider.findUser(email)
+          .then(result => { 
+            
+            result.forEach(user=>{
+         
+              matchingUser= (user.exists) ? user.data() as User : null ;
+              console.log("matchinguser", matchingUser)
+         
+            })
+        }).then(()=>{
+        this.dbProvider.addUser(matchingUser,this.familyId);
+      }).catch(err =>console.error(err))
       }
     })
   }

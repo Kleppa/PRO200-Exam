@@ -130,6 +130,13 @@ export class DatabaseProvider {
       .doc(this.afAuth.auth.currentUser.uid)
       .set(user);
   }
+  addUser(user:User,famid:string){
+   
+    return this.afs.collection('families')
+    .doc(famid)
+    .collection('members')
+    .add(user).catch(err=>console.error(err));
+  }
 
   getCurrentUser(): Promise<User> {
     return this.afs.collection('users')
@@ -160,11 +167,18 @@ export class DatabaseProvider {
   }
   deleteAdult(user) {
     //Something like this.
-    
+
     // return this.afs.collection(`families`).doc(famid).collection(`members`).doc(child.id).delete().then(() => {
     //   this.afs.collection(`children`).doc(child.id).delete();
     // })
 
+  }
+   findUser(email:string){
+ 
+    console.log("email", email)
+    return this.afs.collection('users').ref
+    .where("email","==",email).get();
+  
   }
 
 }
