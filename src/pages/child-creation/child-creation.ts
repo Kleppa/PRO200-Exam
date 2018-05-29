@@ -111,8 +111,6 @@ export class ChildCreationPage {
       'background-image': this.base64Img ? `url(data:image/jpeg;base64,${this.base64Img})` : "",
       'background-size': "cover"
     }
-
-
   }
 
 }

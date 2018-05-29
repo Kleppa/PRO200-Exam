@@ -82,22 +82,16 @@
     <ion-content class="constraints-box">
       <ion-chip #chip1>
         <ion-label>Item 1</ion-label>
-        <button ion-button clear color="light" (click)="delete(chip1)">
+        <button ion-button clear color="light" (click)="removeLimitation(chip1)">
           <ion-icon name="close-circle"></ion-icon>
         </button>
       </ion-chip>
-
-      <ion-chip #chip2>
-        <ion-label>Item 2</ion-label>
-        <button ion-button clear color="light" (click)="delete(chip2)">
-          <ion-icon name="close-circle"></ion-icon>
-        </button>
-      </ion-chip>
-    </ion-content>
+    </ion-content>  
 
     <h3>
       Slette bruker
     </h3>
+
   </ion-icon>
   <ion-item>
     Ønsker du å
