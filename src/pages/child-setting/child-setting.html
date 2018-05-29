@@ -80,11 +80,16 @@
   <ion-icon>
 
     <div class="constraints-box">
-      <ion-chip #chip1>
+      <ion-chip *ngFor="let item of limitations" >
+
         <ion-label>Item 1</ion-label>
-        <button ion-button clear color="light" (click)="removeLimitation(chip1)">
+
+        <button ion-button clear color="light" (click)="removeLimitation(item)">
+
           <ion-icon name="close-circle"></ion-icon>
+
         </button>
+
       </ion-chip>
     </div>  
 
