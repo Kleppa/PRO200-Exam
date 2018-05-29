@@ -52,8 +52,7 @@ export class SettingsPage {
         if (del && !(user[`email`] === res.email)) {
             this.dbProvider.deleteAdult(user);
         }
-      }
-      )
+      })
     })
   }
 

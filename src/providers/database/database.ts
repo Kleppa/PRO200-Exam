@@ -109,6 +109,7 @@ export class DatabaseProvider {
   }
 
   addChildtoFamily(child: Child, familyId: string): Promise<void> {
+    
     return this.afs.collection('families').doc(familyId).collection(`members`).add(child)
       .then(childRef => this.afs.collection('children').doc(childRef.id).set({ ...child, familyId }));
   }
@@ -166,12 +167,20 @@ export class DatabaseProvider {
     })
   }
   deleteAdult(user) {
+    console.log(user)
+    /* */
     //Something like this.
 
-    // return this.afs.collection(`families`).doc(famid).collection(`members`).doc(child.id).delete().then(() => {
-    //   this.afs.collection(`children`).doc(child.id).delete();
-    // })
+    return this.afs.collection(`families`).doc(user.familyId).collection(`members`)
+    .ref.where("email","==",user.email).get().then((userFound)=>{
+      userFound.forEach(doc=>{
+        
+        let docid = doc.id;
+        console.log(doc.id)
 
+        this.afs.collection(`families`).doc(user.familyId).collection(`members`).doc(docid).delete()
+      })
+    })
   }
    findUser(email:string){
  
