@@ -37,29 +37,24 @@
 
   <!-- </ion-item>-->
   <h1 class="title-with-border"> Kontaktinformasjon</h1>
-  <ion-item no-lines>
-    <h5>Bilde</h5>
+    <ion-label class="label">Bilde</ion-label>
     <img src="{{childImg}}" style="height: 10em; width:10em;" alt="bildet av barn" />
-  </ion-item>
-  <button ion-button (click)="changePicture()">Endre bilde</button>
+  <button ion-button class="btn btn-orange" (click)="changePicture()">Endre bilde</button>
 
   <!-- <ion-item no-lines>-->
-  <ion-label class="label" color="primary" stacked>Fornavn</ion-label>
+  <ion-label class="label">Fornavn</ion-label>
   <ion-input type="text" placeholder="Barnets navn" [(ngModel)]="child.name"></ion-input>
   <!--</ion-item>-->
 
   <!--<ion-item no-lines>-->
-  <ion-label class="label" color="primary" stacked>Etternavn</ion-label>
+  <ion-label class="label">Etternavn</ion-label>
   <ion-input type="text" placeholder="Barnets etternavn" [(ngModel)]="child.lastname"></ion-input>
   <!-- </ion-item>-->
 
   <!--<ion-item no-lines>-->
-  <ion-label class="label" color="primary" stacked>Alder</ion-label>
+  <ion-label class="label">Alder</ion-label>
   <ion-input type="text" placeholder="Barnets alder" [(ngModel)]="child.age"></ion-input>
   <!-- </ion-item>-->
-
-  <ion-label class="label">Bilde</ion-label>
-  <img class="round-img" src="" alt="Profilbilde av barn" />
 
   <h1 class="title-with-border">Begrensninger</h1>
   <ion-item no-lines>
@@ -69,15 +64,6 @@
   </ion-item>
   <!-- Create auto generated rows and cols based on limitations -->
   <ion-label class="label">Spesifikke begrensninger</ion-label>
-  <ion-grid>
-
-  </ion-grid>
-  <ion-item no-lines>
-    <ion-input placeholder="Legg til flere begrensninger">
-      <ion-icon name="search"></ion-icon>
-    </ion-input>
-  </ion-item>
-  <ion-icon>
 
     <div class="constraints-box">
       <ion-chip *ngFor="let item of limitations" >
@@ -93,17 +79,25 @@
       </ion-chip>
     </div>  
 
-    <h3>
-      Slette bruker
-    </h3>
-
-  </ion-icon>
-  <ion-item>
+    <ion-row no-padding>
+      <ion-col col-8>
+      <ion-input class="input" placeholder="Legg til flere begrensninger">
+        <ion-icon name="search"></ion-icon>
+      </ion-input>
+      </ion-col>
+      
+      <ion-col col-4>
+      <button ion-button class="btn btn-orange">Legg til</button>
+      </ion-col>
+    </ion-row>
+      
+      <h1 class="title-with-border">Slette bruker</h1>
+  <ion-item no-lines>
     Ønsker du å
     <span (click)="deleteChild(child)">
       <u class="red-text">slette bruker?</u>
     </span>
+  </ion-item>
 
     <button class="btn btn-green btn-margin-top" ion-button color="secondary">Lagre</button>
-    </ion-item>
 </ion-content>

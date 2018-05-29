@@ -16,23 +16,22 @@
 <ion-content padding class="settings-body">
 
   <div class="users-container">
-  <ion-list>
+  
+    <ion-list>
     <button ion-item no-lines class="user-settings" *ngFor="let user of users | async" (click)="presentAdultModal(user)">
-      <img src={{user.image}} style="height: 2em; width: 2em;" /> {{user.first_name}} - Kolonialbruker
+      <img src={{user.image}} style="height: 2em; width: 2em;" /> {{user.first_name}}
     </button>
-  </ion-list>
-  </div>
-  <ion-list>
-
-    <button ion-item class="user-settings" *ngFor="let child of children | async" (click)="goToChildSettingPage(child)">
-      <img src={{child.img}} style="height: 2em; width:2em;" /> {{child.name}} - Barn
-    </button>
-
   </ion-list>
   
+  <ion-list>
+    <button ion-item no-lines class="user-settings" *ngFor="let child of children | async" (click)="goToChildSettingPage(child)">
+      <img src={{child.img}} style="height: 2em; width:2em;" /> {{child.name}}
+    </button>
+  </ion-list>
+
+</div>
+
   <button class="btn new-kid-btn btn-green" ion-button block (click)="goToCreateChildCreationPage()"> Opprett ny barnebruker</button>
-  <ion-item no-lines>
     <p class="or-text">Eller...</p>
-  </ion-item>
   <button class="btn add-existing-user-btn btn-orange" ion-button block (click)="addAdultUser()"> Legg til eksisterende Kolonial.no-bruker</button>
 </ion-content>
