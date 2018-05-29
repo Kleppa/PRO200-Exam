@@ -75,19 +75,18 @@
           <ion-icon name="close-circle"></ion-icon>
 
         </button>
-
       </ion-chip>
     </div>  
 
     <ion-row no-padding>
       <ion-col col-8>
-      <ion-input class="input" placeholder="Legg til flere begrensninger">
+      <ion-input [(ngModel)]="limit" class="input" placeholder="Legg til flere begrensninger">
         <ion-icon name="search"></ion-icon>
       </ion-input>
       </ion-col>
       
       <ion-col col-4>
-      <button ion-button class="btn btn-orange">Legg til</button>
+      <button (click)="addLimitToChild()"ion-button class="btn btn-orange">Legg til</button>
       </ion-col>
     </ion-row>
       

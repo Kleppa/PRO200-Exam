@@ -23,9 +23,12 @@ export class ChildSettingPage {
   base64Img: string = ""
   childImg;
   public child: Child;
+  public limit: string;
+  public limitations:string[];
   constructor(private afAuth: AngularFireAuth, private dbProvider: DatabaseProvider, private camera: Camera, private navCtrl: NavController, private navParams: NavParams, private clipboard: Clipboard, private toastCtrl: ToastController) {
 
     this.child = navParams.get('child');
+    this.limitations = this.child.limits;
     this.childImg=this.child.img;
     if (this.child) {
       console.log(this.child)
@@ -83,8 +86,20 @@ export class ChildSettingPage {
       
       this.dbProvider.uploadImg(this.base64Img, imgRef)
         .then(task => task.ref.getDownloadURL().then(url => this.child.img = url)).then(()=>{
-          
+          this.dbProvider.updateChild(this.child);
         })
     }
+  }
+  addLimitToChild(){
+
+    if(this.child.limits){
+      this.child.limits.push(this.limit);
+      
+    }else{
+      this.child.limits=[this.limit];
+    }
+    this.limitations=this.child.limits;
+
+    this.limit=""
   }
 }

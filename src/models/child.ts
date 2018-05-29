@@ -4,5 +4,6 @@ export interface Child{
     age:number,
     token?:string,
     img?:string,
-    tag:string
+    tag:string,
+    limits?:string[]
 }
