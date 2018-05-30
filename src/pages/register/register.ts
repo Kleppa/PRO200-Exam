@@ -26,7 +26,7 @@ export class RegisterPage {
   // TODO: feilhåndtering ved allerede eksisterende
   async register() {
     await this.signUp();
-    await this.dbProvider.addUserToFamily(this.user);
+   // await this.dbProvider.addUserToFamily(this.user);
     await this.dbProvider.addUserProfile(this.user);
   }
 

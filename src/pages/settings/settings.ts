@@ -23,12 +23,22 @@ export class SettingsPage {
   public base64pathPrefix: string = `data:image/jpeg;base64,`;
 
   constructor(private dbProvider: DatabaseProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
-    this.children = this.getChildren();
-    this.users = this.getAdults();
-
-    this.dbProvider.getCurrentUser().then(user => this.familyId = user.familyId);
 
 
+
+
+
+  }
+  ionViewWillEnter() {
+    console.log("Did enter")
+    this.dbProvider.getCurrentUser().then(user => {
+      this.familyId = user.familyId
+      if (this.familyId) {
+        console.log(this.familyId)
+        this.children = this.getChildren();
+        this.users = this.getAdults();
+      }
+    });
 
   }
 
@@ -41,7 +51,7 @@ export class SettingsPage {
   }
 
   presentAdultModal(user: {}) {
-
+    
     let adultSettingModal = this.modalCtrl.create(AdultSettingModalComponent, {
       user: user
     });
@@ -49,8 +59,10 @@ export class SettingsPage {
 
     adultSettingModal.onDidDismiss((del?) => {
       this.dbProvider.getCurrentUser().then(res => {
+
         if (del && !(user[`email`] === res.email)) {
-            this.dbProvider.deleteAdult(user);
+          
+          this.dbProvider.deleteAdult(user.id,user,this.familyId);
         }
       })
     })
@@ -60,33 +72,45 @@ export class SettingsPage {
     this.navCtrl.push(`ChildCreationPage`);
   }
 
-   addAdultUser() {
+  addAdultUser() {
 
     const adultModal = this.modalCtrl.create(AddAdultModalComponent, {});
     adultModal.present();
 
-    adultModal.onDidDismiss( email => {
-      let matchingUser:User;
+    adultModal.onDidDismiss(email => {
+      let matchingUser: User;
       if (email) {
-        
-       this.dbProvider.findUser(email)
-          .then(result => { 
-            
-            result.forEach(user=>{
-         
-              matchingUser= (user.exists) ? user.data() as User : null ;
-              console.log("matchinguser", matchingUser)
-         
+
+        this.dbProvider.findUser(email)
+          .then((result) => {
+
+            result.forEach(async user => {
+
+              matchingUser = ((user.exists) && !user.data().familyId) ? user.data() as User : null;
+
             })
-        }).then(()=>{
-        this.dbProvider.addUser(matchingUser,this.familyId);
-      }).catch(err =>console.error(err))
+          }).then(async () => {
+
+            await this.dbProvider.getCurrentUser().then(async (current) => {
+
+              if (!current.familyId) {
+                console.log("the fuck")
+                await this.dbProvider.addUserToFamily(current);
+                await this.dbProvider.giveUserFamilyId(current);
+              }
+            })
+            await this.dbProvider.addUser(matchingUser, this.familyId).then(() => {
+
+              this.dbProvider.giveUserFamilyId(matchingUser, this.familyId)
+            });
+          }).catch(err => console.error(err))
       }
     })
   }
 
 
   getChildren() {
+
     return this.dbProvider
       .getFamilyMembers()
       .map(members => members.filter(member => member.tag == 'child'));

@@ -28,6 +28,12 @@ export class ChildCreationPage {
   }
 
   async addChildToFamily() {
+    await this.dbProvider.getCurrentUser().then(async (user)=>{
+      if(!user.familyId){
+        await this.dbProvider.addUserToFamily(user);
+        await this.dbProvider.giveUserFamilyId(user);
+      }
+    })
     if (!(this.child.name || this.child.age)) {
       this.presentFailureToast()
     } else {
