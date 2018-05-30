@@ -217,5 +217,18 @@ export class DatabaseProvider {
     .where("email","==",email).get();
   
   }
+  getChildren() {
+
+    return this
+      .getFamilyMembers()
+      .map(members => members.filter(member => member.tag == 'child'));
+  }
+
+  getAdults() {
+    return this
+      .getFamilyMembers()
+      .map(members => members.filter(member => !member.tag));
+  }
+
 
 }

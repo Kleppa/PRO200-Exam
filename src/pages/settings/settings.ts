@@ -116,14 +116,13 @@ export class SettingsPage {
   getChildren() {
 
     return this.dbProvider
-      .getFamilyMembers()
-      .map(members => members.filter(member => member.tag == 'child'));
+      .getChildren();
   }
 
   getAdults() {
     return this.dbProvider
       .getFamilyMembers()
-      .map(members => members.filter(member => !member.tag));
+      .getAdults();
   }
 
 }
