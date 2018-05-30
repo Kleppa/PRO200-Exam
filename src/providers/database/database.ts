@@ -186,11 +186,8 @@ export class DatabaseProvider {
     })
   }
   deleteAdult(user:{},famId?:string):Promise<void> {
-    console.log("deleting",user)
     const fId = famId ? famId : user[`familyId`];
-    console.log(...(_.toArray(user)))
-    console.log(fId)
-
+  
     return this.afs.collection(`families`).doc(fId).collection(`members`).
     ref.where("email","==",user['email']).get().then((userFound)=>{
 
@@ -217,14 +214,14 @@ export class DatabaseProvider {
     .where("email","==",email).get();
   
   }
-  getChildren() {
+  getChildren():Observable<DocumentData[]> {
 
     return this
       .getFamilyMembers()
       .map(members => members.filter(member => member.tag == 'child'));
   }
 
-  getAdults() {
+  getAdults():Observable<DocumentData[]> {
     return this
       .getFamilyMembers()
       .map(members => members.filter(member => !member.tag));

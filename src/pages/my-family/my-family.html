@@ -1,12 +1,45 @@
 <ion-header>
 
   <ion-navbar>
-      <ion-buttons><button ion-button icon-only (click)="goToSetting()"><ion-icon name="settings"></ion-icon></button></ion-buttons>
+    <ion-buttons>
+      <button ion-button icon-only (click)="goToSetting()">
+        <ion-icon name="settings"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>Min Familie</ion-title>
   </ion-navbar>
-  
+
 </ion-header>
 
 <ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-15 *ngFor="let adult of adults |async ">
+        
+        <ion-avatar>
+          <img src="{{adult.image}}" style="heigh:5em;width:5em;">
+        </ion-avatar>
+        <p style="font-size: 9px;">{{adult.first_name}}</p>
+
+      </ion-col>
+      
+      <ion-col col-15 *ngFor="let child of children |async">
+ 
+         
+          <ion-avatar>
+
+            <img src="{{child.img}}" style="heigh:5em;width:5em;">
+
+          </ion-avatar>
+          <p style="font-size: 9px;">{{child.name}}</p>
+     
+
+      </ion-col>
+      <ion-col>
+        <button (click)=presentUserToAddModal() style="width:100%" ion-button> replace this with grey-profile imgbutn</button>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
 
 </ion-content>

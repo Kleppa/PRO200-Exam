@@ -24,13 +24,17 @@ export class SettingsPage {
 
   constructor(private dbProvider: DatabaseProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
 
-
+    this.init();
 
 
 
   }
   ionViewWillEnter() {
     console.log("Did enter")
+  
+
+  }
+  init(){
     this.dbProvider.getCurrentUser().then(user => {
       this.familyId = user.familyId
       if (this.familyId) {
@@ -39,7 +43,6 @@ export class SettingsPage {
         this.users = this.getAdults();
       }
     });
-
   }
 
   goToChildSettingPage(child, familyId) {
@@ -69,6 +72,8 @@ export class SettingsPage {
   }
 
   goToCreateChildCreationPage() {
+    //i think there needs to be a family id check here aswell
+    // or in the subpage
     this.navCtrl.push(`ChildCreationPage`);
   }
 
@@ -112,16 +117,13 @@ export class SettingsPage {
     })
   }
 
-
   getChildren() {
-
     return this.dbProvider
       .getChildren();
   }
 
   getAdults() {
     return this.dbProvider
-      .getFamilyMembers()
       .getAdults();
   }
 
