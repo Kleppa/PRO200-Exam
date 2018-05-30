@@ -61,8 +61,8 @@ export class SettingsPage {
       this.dbProvider.getCurrentUser().then(res => {
 
         if (del && !(user[`email`] === res.email)) {
-          
-          this.dbProvider.deleteAdult(user.id,user,this.familyId);
+          console.log(user)
+          this.dbProvider.deleteAdult(user,this.familyId);
         }
       })
     })
@@ -94,9 +94,13 @@ export class SettingsPage {
             await this.dbProvider.getCurrentUser().then(async (current) => {
 
               if (!current.familyId) {
-                console.log("the fuck")
+              
                 await this.dbProvider.addUserToFamily(current);
                 await this.dbProvider.giveUserFamilyId(current);
+                await this.dbProvider.getCurrentUser().then((updatedCurrent)=>{
+                  current =updatedCurrent;
+                  this.familyId=current.familyId;
+                })
               }
             })
             await this.dbProvider.addUser(matchingUser, this.familyId).then(() => {

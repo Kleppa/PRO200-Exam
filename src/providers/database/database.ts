@@ -185,9 +185,9 @@ export class DatabaseProvider {
       this.afs.collection(`children`).doc(child.id).delete();
     })
   }
-  deleteAdult(uid:string,user:{},famId?:string):Promise<void> {
+  deleteAdult(user:{},famId?:string):Promise<void> {
     console.log("deleting",user)
-    const fId = famId ? famId : user.familyId;
+    const fId = famId ? famId : user[`familyId`];
     console.log(...(_.toArray(user)))
     console.log(fId)
 
@@ -195,13 +195,16 @@ export class DatabaseProvider {
     ref.where("email","==",user['email']).get().then((userFound)=>{
 
       userFound.forEach(doc=>{
-        console.log("id",uid)
+        
         this.afs.collection(`families`).doc(fId).collection(`members`).doc(doc.id).delete().then(()=>{
           
-          this.afs.collection(`users`).doc(uid).update({
-
-            familyId: firebase.firestore.FieldValue.delete()
-
+          this.afs.collection(`users`).ref.where("email","==",doc.data()[`email`]).get().then(user =>{
+            user.forEach(u=>{
+              this.afs.collection(`users`).doc(u.id).update({
+                familyId: firebase.firestore.FieldValue.delete()
+    
+              })
+            })
           })
         })
       })
