@@ -40,6 +40,7 @@ export class SettingsPage {
       if (this.familyId) {
         console.log(this.familyId)
         this.children = this.getChildren();
+        console.log(this.children)
         this.users = this.getAdults();
       }
     });
@@ -103,7 +104,7 @@ export class SettingsPage {
                 await this.dbProvider.addUserToFamily(current);
                 await this.dbProvider.giveUserFamilyId(current);
                 await this.dbProvider.getCurrentUser().then((updatedCurrent)=>{
-                  current =updatedCurrent;
+                  current = updatedCurrent;
                   this.familyId=current.familyId;
                 })
               }

@@ -54,7 +54,7 @@ export class MyFamilyPage {
     chooseUserModal.onDidDismiss((decision?) => {
 
       if (decision === 1) {
-        //Create kid
+     
         this.navCtrl.push('ChildCreationPage')
 
       } else if (decision === 2) {
