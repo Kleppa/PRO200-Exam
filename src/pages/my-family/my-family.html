@@ -12,35 +12,49 @@
 </ion-header>
 
 <ion-content padding>
+    <h1 class="title-with-border">Familiemedlemmene</h1>
+
   <ion-grid>
     <ion-row>
-      <ion-col col-15 *ngFor="let adult of adults |async ">
+      <ion-col col-3 *ngFor="let adult of adults |async ">
         
         <ion-avatar>
-          <img src="{{adult.image}}" style="heigh:5em;width:5em;">
+            <div class="round-img">
+                <img class="profile-img" src="assets/imgs/profil.jpg">
+          <!--<img class="profile-img" src="{{adult.image}}">-->
+        </div>
+
         </ion-avatar>
-        <p style="font-size: 9px;">{{adult.first_name}}</p>
+        <p class="name-text">{{adult.first_name}}</p>
 
       </ion-col>
       
-      <ion-col col-15 *ngFor="let child of children |async">
+      <ion-col col-3 *ngFor="let child of children |async">
  
-         
           <ion-avatar>
 
-            <img src="{{child.img}}" style="heigh:5em;width:5em;">
+            <div class="round-img">
+            <!--<img class="profile-img" src="{{child.img}}"> RIKTIG KODE, MÅ BARE TESTE BILDE-->
+            <img class="profile-img" src="assets/imgs/profil.jpg">
+          </div>
 
           </ion-avatar>
-          <p style="font-size: 9px;">{{child.name}}</p>
+          <p class="name-text">{{child.name}}</p>
      
 
       </ion-col>
-      <ion-col>
-        <button clear icon-only (click)=presentUserToAddModal() style="width:100%" ion-button>
-           <ion-icon style="background-color:grey;" name="person-add"></ion-icon></button>
+    
+      <ion-col col-3>
+        <button class="btn-orange btn btn-add-family" clear icon-only (click)=presentUserToAddModal() ion-button>
+           +</button>
+
       </ion-col>
 
     </ion-row>
   </ion-grid>
 
+  <h1 class="title-with-border">Ønsker fra familien</h1>
+  
+
 </ion-content>
+

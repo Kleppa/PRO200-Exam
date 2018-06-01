@@ -9,4 +9,37 @@ page-my-family {
     //     width: 50px;
     //     overflow-x: auto !important;
     //   }
+
+    .name-text {
+        font-size: 1.3rem;
+        margin-top: 0.2rem;
+    }
+
+    .round-img {
+        width: 50px;
+        height: 50px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 50%;
+
+    }
+
+    .profile-img {
+        display: inline;
+        margin: 0 auto;
+        height: 140%;
+        width: auto !important;
+    }
+
+    .row-slide {
+        width: auto;
+    }
+
+    .btn-add-family {
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        font-size: 3rem;
+
+    }
 }
