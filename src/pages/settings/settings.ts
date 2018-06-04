@@ -8,6 +8,8 @@ import { AddAdultModalComponent } from '../../components/add-adult-modal/add-adu
 import { DatabaseProvider } from '../../providers/database/database';
 import { Observable } from 'rxjs';
 import { DocumentData } from 'angularfire2/firestore';
+import firebase from 'firebase/app';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @IonicPage()
 @Component({
@@ -22,54 +24,39 @@ export class SettingsPage {
   private childId;
   public base64pathPrefix: string = `data:image/jpeg;base64,`;
 
-  constructor(private dbProvider: DatabaseProvider, public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
-
+  constructor(private dbProvider: DatabaseProvider,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private modalCtrl: ModalController,
+    private afAuth: AngularFireAuth) {
     this.init();
-
-
-
   }
-  ionViewWillEnter() {
-    console.log("Did enter")
-  
 
-  }
-  init(){
-    this.dbProvider.getCurrentUser().then(user => {
-      this.familyId = user.familyId
-      if (this.familyId) {
-        console.log(this.familyId)
-        this.children = this.getChildren();
-        console.log(this.children)
-        this.users = this.getAdults();
-      }
-    });
+  init() {
+    this.children = this.getChildren();
+    this.users = this.getAdults();
   }
 
   goToChildSettingPage(child, familyId) {
-    console.log(child)
     this.navCtrl.push(`ChildSettingPage`, {
       child: child,
       famid: this.familyId
-    })
+    });
   }
 
-  presentAdultModal(user: {}) {
-    
+  confirmDeletion(user: {}) {
     let adultSettingModal = this.modalCtrl.create(AdultSettingModalComponent, {
       user: user
     });
     adultSettingModal.present();
 
     adultSettingModal.onDidDismiss((del?) => {
-      this.dbProvider.getCurrentUser().then(res => {
-
+      this.dbProvider.getCurrentUser().subscribe(res => {
         if (del && !(user[`email`] === res.email)) {
-          console.log(user)
-          this.dbProvider.deleteAdult(user,this.familyId);
+          this.dbProvider.deleteAdult(user, this.familyId);
         }
-      })
-    })
+      });
+    });
   }
 
   goToCreateChildCreationPage() {
@@ -89,26 +76,23 @@ export class SettingsPage {
 
         this.dbProvider.findUser(email)
           .then((result) => {
-
             result.forEach(async user => {
-
               matchingUser = ((user.exists) && !user.data().familyId) ? user.data() as User : null;
-
             })
-          }).then(async () => {
+          })
+          .then(async () => {
+            this.afAuth.user.map(user => user.uid).first().subscribe(async id =>
+              await this.dbProvider.getCurrentUser().subscribe(async (current) => {
+                if (!current.familyId) {
+                  await this.dbProvider.addUserToFamily(current);
+                  await this.dbProvider.giveUserFamilyId(current);
+                  await this.dbProvider.getCurrentUser().subscribe((updatedCurrent) => {
+                    current = updatedCurrent;
+                    this.familyId = current.familyId;
+                  });
+                }
+              }));
 
-            await this.dbProvider.getCurrentUser().then(async (current) => {
-
-              if (!current.familyId) {
-              
-                await this.dbProvider.addUserToFamily(current);
-                await this.dbProvider.giveUserFamilyId(current);
-                await this.dbProvider.getCurrentUser().then((updatedCurrent)=>{
-                  current = updatedCurrent;
-                  this.familyId=current.familyId;
-                })
-              }
-            })
             await this.dbProvider.addUser(matchingUser, this.familyId).then(() => {
 
               this.dbProvider.giveUserFamilyId(matchingUser, this.familyId)
@@ -118,14 +102,12 @@ export class SettingsPage {
     })
   }
 
-  getChildren() {
-    return this.dbProvider
-      .getChildren();
+  getChildren(): Observable<DocumentData[]> {
+    return this.dbProvider.getChildren();
   }
 
-  getAdults() {
-    return this.dbProvider
-      .getAdults();
+  getAdults(): Observable<DocumentData[]> {
+    return this.dbProvider.getAdults();
   }
 
 }

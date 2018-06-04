@@ -28,12 +28,13 @@ export class ChildCreationPage {
   }
 
   async addChildToFamily() {
-    await this.dbProvider.getCurrentUser().then(async (user)=>{
-      if(!user.familyId){
+    await this.dbProvider.getCurrentUser().subscribe(async (user) => {
+      if (!user.familyId) {
         await this.dbProvider.addUserToFamily(user);
         await this.dbProvider.giveUserFamilyId(user);
       }
-    })
+    });
+
     if (!(this.child.name || this.child.age)) {
       this.presentFailureToast()
     } else {
@@ -46,17 +47,16 @@ export class ChildCreationPage {
           .then(task => task.ref.getDownloadURL().then(url => this.child.img = url));
       }
 
-      this.dbProvider.getCurrentUser()
-        .then(user => this.dbProvider.addChildtoFamily(this.child, user.familyId))
-        .then(() => {
-          console.info('Added child to family', this.child)
-          this.presentSuccessToast();
-          this.navCtrl.pop();
-        })
-        .catch(reason => {
-          console.error('Failed adding child to family', reason);
-          this.presentFailureToast();
-        });
+      this.afAuth.user.first().map(user => user.uid).subscribe(id =>
+        this.dbProvider.getCurrentUser().map(user => user.familyId)
+          .subscribe(async familyId => {
+            await this.dbProvider.addChildtoFamily(this.child, familyId);
+            this.presentSuccessToast();
+            this.navCtrl.pop();
+          }, error => {
+            console.error('Failed adding child to family', error);
+            this.presentFailureToast();
+          }));
     }
   }
 
@@ -78,7 +78,7 @@ export class ChildCreationPage {
       if (imageBase64) {
         this.base64Img = imageBase64;
       }
-    }).catch(err=>console.log(err))
+    }).catch(err => console.log(err))
   }
 
   attachToken() {

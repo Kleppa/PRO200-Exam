@@ -15,41 +15,13 @@ import { Item } from '../../models/item';
 
 export class DatabaseProvider {
   membersDocId;
-  familyMembers: Observable<firebase.firestore.DocumentData[]>;
 
   constructor(public afs: AngularFirestore,
     private afAuth: AngularFireAuth,
-    private afStorage: AngularFireStorage) {
-
-      this.setUpFamilyObservables();
-
-  }
+    private afStorage: AngularFireStorage) { }
 
   addDocToColl(data: any, collection: string) {
     this.afs.collection(collection).add(data);
-  }
-  setUpFamilyObservables(){
-
-    if (this.afAuth.auth.currentUser) {
-      
-      this.familyMembers = this.afs.collection('users')
-        .doc<User>(this.afAuth.auth.currentUser.uid)
-        .valueChanges()
-        .map(user => user.familyId)
-        .switchMap(familyId => 
-          familyId
-          ? this.afs.collection('families').doc(familyId).collection('members').snapshotChanges()
-            .map(actions =>
-              actions.map(a => {
-                const data = a.payload.doc.data();
-                const id = a.payload.doc.id;
-                console.log({id,...data})
-                return { id, ...data };
-              })
-            )
-          : Observable.empty());
-         
-    }
   }
 
   getDataFromColl(collection: string) {
@@ -58,7 +30,7 @@ export class DatabaseProvider {
         const data = a.payload.doc.data();
         const id = a.payload.doc.id;
         return { id, ...data }
-      }))
+      }));
   }
 
   getItemsFromDatabase(numberOfItemsToGet: number, startAt?: number, filterKeyWords?: string[]) {
@@ -118,7 +90,6 @@ export class DatabaseProvider {
   }
 
   addChildtoFamily(child: Child, familyId: string): Promise<void> {
-
     return this.afs.collection('families').doc(familyId).collection(`members`).add(child)
       .then(childRef => this.afs.collection('children').doc(childRef.id).set({ ...child, familyId }));
   }
@@ -141,104 +112,114 @@ export class DatabaseProvider {
   }
 
 
-  giveUserFamilyId(user:User, famId?:string){
+  giveUserFamilyId(user: User, famId?: string) {
     user.familyId = this.membersDocId ? this.membersDocId : famId;
-    console.log(user)
-    return this.afs.collection('users').ref.where("email","==",user.email).get().then(usersFromQuery =>{
+    return this.afs.collection('users').ref.where("email", "==", user.email).get().then(usersFromQuery => {
       usersFromQuery.forEach(val => {
-        this.afs.collection(`users`).doc(val.id).update(user).then(()=>{
-          this.setUpFamilyObservables();
-          console.log("Setting up obs")
-        });
-      })
-    })
+        this.afs.collection(`users`).doc(val.id).update(user);
+      });
+    });
   }
 
-  addUserToFamily(user): Promise<void> {
-    console.log(user)
+  addUserToFamily(user: User): Promise<void> {
     this.membersDocId = this.afs.createId();
-    
+
     return this.afs.collection('families')
       .doc(this.membersDocId)
       .collection('members')
       .doc(this.afAuth.auth.currentUser.uid)
       .set(user);
   }
-  addUser(user:User,famid:string){
+
+  addUser(user: User, famid: string) {
     console.log(user)
     return this.afs.collection('families')
-    .doc(famid)
-    .collection('members')
-    .add(user).catch(err=>console.error(err));
+      .doc(famid)
+      .collection('members')
+      .add(user).catch(err => console.error(err));
   }
 
-  getCurrentUser(): Promise<User> {
-    return this.afs.collection('users')
-      .doc(this.afAuth.auth.currentUser.uid)
-      .ref.get()
-      .then(result => { return (result.exists) ? result.data() as User : null });
+  getCurrentUser(): Observable<User> {
+    return this.afAuth.user.first()
+      .map(user => user.uid)
+      .switchMap(id =>
+        Observable.fromPromise(this.afs.collection('users')
+          .doc(id).ref.get()
+          .then(result => (result.exists) ? result.data() as User : null)));
   }
 
   getFamilyMembers() {
-    return this.familyMembers ? this.familyMembers : Observable.empty();
+    return this.afAuth.user.first()
+      .map(user => user.uid)
+      .switchMap(userId => this.afs.collection('users')
+        .doc<User>(userId).valueChanges()
+        .map(user => user.familyId)
+        .switchMap(familyId =>
+          (familyId)
+            ? this.afs.collection('families').doc(familyId).collection<any>('members').snapshotChanges()
+              .map(actions =>
+                actions.map(a => {
+                  const data = a.payload.doc.data();
+                  const id = a.payload.doc.id;
+                  return { id, ...data };
+                }))
+            : Observable.empty()));
   }
 
   uploadImg(imgBase64: string, imgRef: string): AngularFireUploadTask {
     return this.afStorage.ref(imgRef).putString(imgBase64, `base64`, { contentType: `image/jpeg` });
   }
 
-  updateChild(child: Child, docid: string, famid: string):Promise<void> {
-    console.log("familyid", famid)
+  updateChild(child: Child, docid: string, famid: string): Promise<void> {
     return this.afs.collection(`families`).doc(famid).collection(`members`).doc(docid).update(child).then(() => {
       this.afs.collection(`children`).doc(docid).update(child);
-    })
+    });
   }
+
   deleteChild(child: Child, famid: string): Promise<void> {
     return this.afs.collection(`families`).doc(famid).collection(`members`).doc(child.id).delete().then(() => {
       this.afs.collection(`children`).doc(child.id).delete();
     })
   }
-  deleteAdult(user:{},famId?:string):Promise<void> {
-    const fId = famId ? famId : user[`familyId`];
-  
-    return this.afs.collection(`families`).doc(fId).collection(`members`).
-    ref.where("email","==",user['email']).get().then((userFound)=>{
 
-      userFound.forEach(doc=>{
-        
-        this.afs.collection(`families`).doc(fId).collection(`members`).doc(doc.id).delete().then(()=>{
-          
-          this.afs.collection(`users`).ref.where("email","==",doc.data()[`email`]).get().then(user =>{
-            user.forEach(u=>{
-              this.afs.collection(`users`).doc(u.id).update({
-                familyId: firebase.firestore.FieldValue.delete()
-    
+  deleteAdult(user: {}, famId?: string): Promise<void> {
+    const fId = famId ? famId : user[`familyId`];
+
+    return this.afs.collection(`families`).doc(fId).collection(`members`).
+      ref.where("email", "==", user['email']).get().then((userFound) => {
+
+        userFound.forEach(doc => {
+
+          this.afs.collection(`families`).doc(fId).collection(`members`).doc(doc.id).delete().then(() => {
+
+            this.afs.collection(`users`).ref.where("email", "==", doc.data()[`email`]).get().then(user => {
+              user.forEach(u => {
+                this.afs.collection(`users`).doc(u.id).update({
+                  familyId: firebase.firestore.FieldValue.delete()
+
+                })
               })
             })
           })
         })
       })
-    })
   }
-   findUser(email:string):Promise<QuerySnapshot>{
- 
-    console.log("email", email)
-    return this.afs.collection('users').ref
-    .where("email","==",email).get();
-  
-  }
-  getChildren():Observable<DocumentData[]> {
 
+  findUser(email: string): Promise<QuerySnapshot> {
+    return this.afs.collection('users').ref
+      .where("email", "==", email).get();
+  }
+
+  getChildren(): Observable<DocumentData[]> {
     return this
       .getFamilyMembers()
       .map(members => members.filter(member => member.tag == 'child'));
   }
 
-  getAdults():Observable<DocumentData[]> {
+  getAdults(): Observable<DocumentData[]> {
     return this
       .getFamilyMembers()
       .map(members => members.filter(member => !member.tag));
   }
-
 
 }

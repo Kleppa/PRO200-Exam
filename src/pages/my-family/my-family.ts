@@ -22,65 +22,63 @@ export class MyFamilyPage {
   private adults: Observable<DocumentData[]>;
   private children: Observable<DocumentData[]>;
   private wishes: Observable<DocumentData[]>;
-  itemsToShow:number = 3;
+  itemsToShow: number = 3;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dbProvider: DatabaseProvider, private modalController: ModalController) {
-    this.dbProvider.getCurrentUser().then(async (user) => {
-      await this.dbProvider.getFamilyMembers()
-      this.mainUser = user;
-      this.familyId = user.familyId;
-    }).then(() => {
-      if (this.familyId) {
-        this.adults = this.dbProvider.getAdults();
-        this.children = this.dbProvider.getChildren();
-        this.wishes = this.dbProvider.getFamilyWishes(this.familyId);
-      }
+    this.dbProvider.getCurrentUser()
+      .subscribe(async (user) => {
+        await this.dbProvider.getFamilyMembers()
+        this.mainUser = user;
+        this.familyId = user.familyId;
+        if (this.familyId) {
+          this.adults = this.dbProvider.getAdults();
+          this.children = this.dbProvider.getChildren();
+          this.wishes = this.dbProvider.getFamilyWishes(this.familyId);
+        }
+      });
+  }
+
+  goToChildWishes(child: Child) {
+    this.navCtrl.push(`ChildWishesPage`, {
+      child: child,
+      wishes: this.wishes.filter(item => item[`childToken`] == child.token)
     })
-
-  }
-  goToChildWishes(child:Child){
-    this.navCtrl.push(`ChildWishesPage`,{
-      child:child,
-    wishes:this.wishes.filter(item=>item[`childToken`] == child.token)})
   }
 
-  incrementItemsToShow(number:number){
-    this.itemsToShow+=number;
+  incrementItemsToShow(number: number) {
+    this.itemsToShow += number;
   }
 
-  decreaseItemsToShow(number:number){
-    this.itemsToShow-=number;
+  decreaseItemsToShow(number: number) {
+    this.itemsToShow -= number;
   }
 
   goToSetting() {
     this.navCtrl.push(`SettingsPage`);
   }
 
-
   goToChildSettingPage(child) {
     console.log(child)
     this.navCtrl.push(`ChildSettingPage`, {
       child: child,
       famid: this.familyId
-    })
+    });
   }
+
   presentUserToAddModal() {
     const chooseUserModal = this.modalController.create(ChooseUserComponent);
     chooseUserModal.present();
+
     chooseUserModal.onDidDismiss((decision?) => {
-
       if (decision === 1) {
-     
         this.navCtrl.push('ChildCreationPage')
-
       } else if (decision === 2) {
-        
         this.addAdult();
-
       }
-    })
+    });
   }
-  addAdult(){
+
+  addAdult() {
     const adultModal = this.modalController.create(AddAdultModalComponent);
     adultModal.present();
 
@@ -98,15 +96,14 @@ export class MyFamilyPage {
             })
           }).then(async () => {
 
-            await this.dbProvider.getCurrentUser().then(async (current) => {
+            await this.dbProvider.getCurrentUser().subscribe(async (current) => {
 
               if (!current.familyId) {
-              
                 await this.dbProvider.addUserToFamily(current);
                 await this.dbProvider.giveUserFamilyId(current);
-                await this.dbProvider.getCurrentUser().then((updatedCurrent)=>{
-                  current =updatedCurrent;
-                  this.familyId=current.familyId;
+                await this.dbProvider.getCurrentUser().subscribe((updatedCurrent) => {
+                  current = updatedCurrent;
+                  this.familyId = current.familyId;
                 })
               }
             })
@@ -114,14 +111,13 @@ export class MyFamilyPage {
 
               this.dbProvider.giveUserFamilyId(matchingUser, this.familyId)
             });
-          }).catch(err => console.error(err))
+          }).catch(err => console.error(err));
       }
-    })
-   
-
+    });
   }
-  numberOfChildWishes(child:Child){
+
+  numberOfChildWishes(child: Child) {
     return this.wishes.filter(wish => wish[`childToken`] === child.token).count();
   }
-  
+
 }
