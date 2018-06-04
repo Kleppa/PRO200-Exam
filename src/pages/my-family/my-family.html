@@ -40,6 +40,7 @@
 
 
             <!--<img class="profile-img" src="{{child.img}}"> RIKTIG KODE, MÅ BARE TESTE BILDE-->
+
             <img class="profile-img" src="assets/imgs/profil.jpg">
           </div>
 
@@ -62,6 +63,7 @@
   <h3 *ngIf="!wishes"> Det er ingen ønsker fra familien</h3>
 
   <div *ngIf="wishes">
+
     <div *ngIf="wishes.isEmpty">
 
       <h3>Det er ingen ønsker fra familien</h3>
@@ -69,8 +71,8 @@
     <ion-list>
 
       <ion-item *ngFor="let wish of (wishes |async)| slice:0:itemsToShow;">
-
-        <img src="{{wish.image}}" />
+        <p>{{wish.childToken}}</p>
+        <img  src="{{wish.image}}" />
 
         <p>
           <b>{{wish.name}}
