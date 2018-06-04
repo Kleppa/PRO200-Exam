@@ -18,7 +18,7 @@
   <div class="users-container">
   
     <ion-list>
-    <button ion-item no-lines class="user-settings" *ngFor="let user of users | async" (click)="presentAdultModal(user)">
+    <button ion-item no-lines class="user-settings" *ngFor="let user of users | async" (click)="confirmDeletion(user)">
       <img src={{user.image}}  style="height: 2em; width: 2em;" /> {{user.first_name}}
     </button>
  
