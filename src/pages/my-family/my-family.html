@@ -31,9 +31,12 @@
       
       <ion-col col-3 *ngFor="let child of children |async">
  
-          <ion-avatar>
-
+          <ion-avatar (click)="goToChildWishes(child)">
+              <p>{{numberOfChildWishes(child)|async}}</p>
             <div class="round-img">
+
+            
+
             <!--<img class="profile-img" src="{{child.img}}"> RIKTIG KODE, MÅ BARE TESTE BILDE-->
             <img class="profile-img" src="assets/imgs/profil.jpg">
           </div>
@@ -55,15 +58,20 @@
   
   <h1 class="title-with-border">Ønsker fra familien</h1>
   <h3 *ngIf="!wishes"> Det er ingen ønsker fra familien</h3>
+
   <div *ngIf="wishes">
     <div *ngIf="wishes.isEmpty">
+
       <h3>Det er ingen ønsker fra familien</h3>
     </div>
-  <ion-list style="max-height:150px;">
+  <ion-list>
 
-    <ion-item *ngFor="let wish of (wishes|async)| slice:0:itemsToShow;">
+    <ion-item *ngFor="let wish of (wishes |async)| slice:0:itemsToShow;">
+   
       <img src="{{wish.image}}"/> 
+      
       <p><b>{{wish.name}}</b>{{wish.size}}<br>{{wish.price}}</p>
+
       <button ion-button color="secondary"> X </button>
       <button ion-button color="primary"> + </button>
 

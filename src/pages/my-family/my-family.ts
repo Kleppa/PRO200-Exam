@@ -8,6 +8,8 @@ import { DocumentData } from 'angularfire2/firestore';
 import { ModalController } from 'ionic-angular/components/modal/modal-controller';
 import { ChooseUserComponent } from '../../components/choose-user/choose-user';
 import { AddAdultModalComponent } from '../../components/add-adult-modal/add-adult-modal';
+import { Child } from '../../models/child';
+import { ChildWishesPage } from '../child-wishes/child-wishes';
 
 @IonicPage()
 @Component({
@@ -35,6 +37,11 @@ export class MyFamilyPage {
       }
     })
 
+  }
+  goToChildWishes(child:Child){
+    this.navCtrl.push(`ChildWishesPage`,{
+      child:child,
+    wishes:this.wishes.filter(item=>item[`childToken`] == child.token)})
   }
 
   incrementItemsToShow(number:number){
@@ -110,6 +117,11 @@ export class MyFamilyPage {
           }).catch(err => console.error(err))
       }
     })
+   
 
   }
+  numberOfChildWishes(child:Child){
+    return this.wishes.filter(wish => wish[`childToken`] === child.token).count();
+  }
+  
 }
