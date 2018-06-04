@@ -36,27 +36,26 @@ export class ChildCreationPage {
     });
 
     if (!(this.child.name || this.child.age)) {
-      this.presentFailureToast()
+      this.presentFailureToast();
     } else {
       this.child.tag = "child";
       this.attachToken();
 
       if (this.base64Img) {
         const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}.jpeg`
-        this.dbProvider.uploadImg(this.child.img, imgRef)
-          .then(task => task.ref.getDownloadURL().then(url => this.child.img = url));
+        await this.dbProvider.uploadImg(this.child.img, imgRef)
+          .then(url => this.child.img = url);
       }
 
-      this.afAuth.user.first().map(user => user.uid).subscribe(id =>
-        this.dbProvider.getCurrentUser().map(user => user.familyId)
-          .subscribe(async familyId => {
-            await this.dbProvider.addChildtoFamily(this.child, familyId);
-            this.presentSuccessToast();
-            this.navCtrl.pop();
-          }, error => {
-            console.error('Failed adding child to family', error);
-            this.presentFailureToast();
-          }));
+      this.dbProvider.getCurrentUser().map(user => user.familyId)
+        .subscribe(async familyId => {
+          await this.dbProvider.addChildtoFamily(this.child, familyId);
+          this.presentSuccessToast();
+          this.navCtrl.pop();
+        }, error => {
+          console.error('Failed adding child to family', error);
+          this.presentFailureToast();
+        });
     }
   }
 

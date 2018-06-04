@@ -99,16 +99,16 @@ export class DatabaseProvider {
       .doc(this.afAuth.auth.currentUser.uid)
       .set(user);
   }
-  getFamilyWishes(famId:string):Observable<DocumentData[]>{
+  getFamilyWishes(famId: string): Observable<DocumentData[]> {
 
     return this.afs.collection(`families`).doc(famId).collection(`wishlist`).snapshotChanges()
-    .map(actions => actions.map(a=>{
+      .map(actions => actions.map(a => {
 
-      const data = a.payload.doc.data() as Item;
-      const id = a.payload.doc.id;
+        const data = a.payload.doc.data() as Item;
+        const id = a.payload.doc.id;
 
-      return {id,...data}
-    }))
+        return { id, ...data }
+      }))
   }
 
 
@@ -166,8 +166,9 @@ export class DatabaseProvider {
             : Observable.empty()));
   }
 
-  uploadImg(imgBase64: string, imgRef: string): AngularFireUploadTask {
-    return this.afStorage.ref(imgRef).putString(imgBase64, `base64`, { contentType: `image/jpeg` });
+  uploadImg(imgBase64: string, imgRef: string): Promise<any> {
+    return this.afStorage.ref(imgRef).putString(imgBase64, `base64`, { contentType: `image/jpeg` })
+      .then(task => { return task.ref.getDownloadURL() });
   }
 
   updateChild(child: Child, docid: string, famid: string): Promise<void> {
