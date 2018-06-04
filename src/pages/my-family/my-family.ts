@@ -19,6 +19,9 @@ export class MyFamilyPage {
   private mainUser: User;
   private adults: Observable<DocumentData[]>;
   private children: Observable<DocumentData[]>;
+  private wishes: Observable<DocumentData[]>;
+  itemsToShow:number = 3;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private dbProvider: DatabaseProvider, private modalController: ModalController) {
     this.dbProvider.getCurrentUser().then(async (user) => {
       await this.dbProvider.getFamilyMembers()
@@ -28,14 +31,20 @@ export class MyFamilyPage {
       if (this.familyId) {
         this.adults = this.dbProvider.getAdults();
         this.children = this.dbProvider.getChildren();
+        this.wishes = this.dbProvider.getFamilyWishes(this.familyId);
       }
     })
 
   }
 
-  ionViewDidLoad() {
-
+  incrementItemsToShow(number:number){
+    this.itemsToShow+=number;
   }
+
+  decreaseItemsToShow(number:number){
+    this.itemsToShow-=number;
+  }
+
   goToSetting() {
     this.navCtrl.push(`SettingsPage`);
   }

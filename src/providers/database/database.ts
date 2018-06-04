@@ -9,6 +9,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import firebase from 'firebase/app';
 import { User } from '../../models/user';
+import { Item } from '../../models/item';
 
 @Injectable()
 
@@ -47,7 +48,7 @@ export class DatabaseProvider {
               })
             )
           : Observable.empty());
-          console.log(this.familyMembers)
+         
     }
   }
 
@@ -127,6 +128,18 @@ export class DatabaseProvider {
       .doc(this.afAuth.auth.currentUser.uid)
       .set(user);
   }
+  getFamilyWishes(famId:string):Observable<DocumentData[]>{
+
+    return this.afs.collection(`families`).doc(famId).collection(`wishlist`).snapshotChanges()
+    .map(actions => actions.map(a=>{
+
+      const data = a.payload.doc.data() as Item;
+      const id = a.payload.doc.id;
+
+      return {id,...data}
+    }))
+  }
+
 
   giveUserFamilyId(user:User, famId?:string){
     user.familyId = this.membersDocId ? this.membersDocId : famId;

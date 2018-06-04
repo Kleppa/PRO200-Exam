@@ -52,9 +52,25 @@
 
     </ion-row>
   </ion-grid>
-
-  <h1 class="title-with-border">Ønsker fra familien</h1>
   
+  <h1 class="title-with-border">Ønsker fra familien</h1>
+  <h3 *ngIf="!wishes"> Det er ingen ønsker fra familien</h3>
+  <div *ngIf="wishes">
+    <div *ngIf="wishes.isEmpty">
+      <h3>Det er ingen ønsker fra familien</h3>
+    </div>
+  <ion-list style="max-height:150px;">
 
+    <ion-item *ngFor="let wish of (wishes|async)| slice:0:itemsToShow;">
+      <img src="{{wish.image}}"/> 
+      <p><b>{{wish.name}}</b>{{wish.size}}<br>{{wish.price}}</p>
+      <button ion-button color="secondary"> X </button>
+      <button ion-button color="primary"> + </button>
+
+
+    </ion-item>
+  </ion-list>
+  <button *ngIf="!wishes.isEmpty" ion-button (click)="incrementItemsToShow(3)">Last inn flere</button>
+</div>
 </ion-content>
 
