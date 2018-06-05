@@ -172,19 +172,10 @@ export class DatabaseProvider {
             : Observable.empty()));
   }
 
-<<<<<<< HEAD
-  uploadImg(imgBase64: string, imgRef: string): Promise<any> {
-    console.log("inside")
-    
-
-    return this.afStorage.ref(imgRef).putString(imgBase64, `base64`, { contentType: `image/jpeg` })
-        .then(task => { return task.ref.getDownloadURL() }).catch(err => console.log(err));
-=======
   uploadImg(imgBase64: string, imgRef: string) {
     return this.afStorage.ref(imgRef)
       .putString(imgBase64, `base64`, { contentType: `image/jpeg` })
       .task.then(task => { return task.ref.getDownloadURL() });
->>>>>>> 5b6670348e3d89ef42ad16c67b77a6e2e15c264b
   }
 
   updateChild(child: Child, docid: string, famid: string): Promise<void> {
@@ -240,7 +231,7 @@ export class DatabaseProvider {
   }
   addWishToCart(wish){
     this.getCurrentUser().subscribe(user =>{
-      
+      console.log(wish);
       this.afs.collection('families').doc(user.familyId).collection(`cart`).add(wish).then(()=>{
         wish[`status`]="godkjent"
         this.afs.collection('families').doc(user.familyId).collection(`wishlist`).ref.where(wish[`EAN`], "==", `EAN`).get().then(docs =>{
@@ -253,6 +244,7 @@ export class DatabaseProvider {
     
   }
   denyWish(wish){
+    console.log(wish)
     this.getCurrentUser().subscribe(user =>{
       this.afs.collection('families').doc(user.familyId).collection(`wishlist`).ref.where(wish[`EAN`], "==", `EAN`).get().then(docs =>{
         wish[`status`]="ikke godkjent"

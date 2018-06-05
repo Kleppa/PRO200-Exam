@@ -31,26 +31,6 @@ export class ChildCreationPage {
   }
 
   async addChildToFamily() {
-<<<<<<< HEAD
-    await this.dbProvider.getCurrentUser().subscribe(async (user) => {
-      if (!user.familyId) {
-        await this.dbProvider.addUserToFamily(user);
-        await this.dbProvider.giveUserFamilyId(user);
-      }
-    });
-
-    if ((!this.child.name || !this.child.age)) {
-      this.presentFailureToast();
-    } else {
-      this.child.tag = "child";
-      this.attachToken();
-
-      if (this.base64Img) {
-        const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}.jpeg`
-        console.log("HELLLOOOOOO")
-        await this.dbProvider.uploadImg(this.base64Img, imgRef)
-          .then(url => this.child.img = url);
-=======
     let submitting: Loading;
 
     try {
@@ -68,7 +48,7 @@ export class ChildCreationPage {
         }
       });
 
-      if (!(this.child.name || this.child.age)) {
+      if ((!this.child.name || !this.child.age)) {
         submitting.dismiss();
         this.presentFailureToast('Du må fylle inn barnets navn og alder.');
       } else {
@@ -89,11 +69,14 @@ export class ChildCreationPage {
             this.presentSuccessToast();
             this.navCtrl.pop();
           });
->>>>>>> 5b6670348e3d89ef42ad16c67b77a6e2e15c264b
       }
     } catch (err) {
+
       submitting.dismiss();
+
       console.error('Failed adding child to family', err);
+      console.log(...err);
+      console.log(err)
       this.presentFailureToast('Kunne ikke legge barnet til i familie, prøv igjen.');
     }
   }

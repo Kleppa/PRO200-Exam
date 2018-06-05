@@ -27,3 +27,9 @@ page-child-creation {
         background-color:color($colors, bringebær)!important;;
     }
  }
+
+ .presentSuccessToastStyle {
+    > div{
+        background-color:color($primary-profile, grønn)!important;;
+    }
+ }
