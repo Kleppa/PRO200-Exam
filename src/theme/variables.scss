@@ -29,22 +29,20 @@ $app-direction: ltr;
 $primary-profile: (
   primary: #000,
   eggeplomme: #ffa51e,
-  mørk-aubergine: #413746,
+  mork-aubergine: #413746,
   aubergine: #8255c3,
-  grønn: #1bb776,
+  gronn: #1bb776,
 );
 
 $colors: (
   primary: #000,
   frost: rgb(210,235,250), // Frost
-  bringebær: rgb(235,85,75), // Bringebær
+  bringebar: rgb(235,85,75), // Bringebær
   sort-aubergine: rgb(45,40,50), // Sort aubergine
-  varmgrå: rgb(215,215,210), // Varmgrå
-  lys-varmgrå: rgb(240,240,236), // Lys varmgrå
+  varmgra: rgb(215,215,210), // Varmgrå
+  lys-varmgra: rgb(240,240,236), // Lys varmgrå
   hvit: rgb(255,255,255), // Hvit
-    
 );
-
 
 // Shared Variables
 // --------------------------------------------------
@@ -53,9 +51,8 @@ $colors: (
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
 
-
 //
-$tabs-background: color($primary-profile, mørk-aubergine);;
+$tabs-background: color($primary-profile, mork-aubergine);;
 
 // App iOS Variables
 // --------------------------------------------------
@@ -66,8 +63,8 @@ $tabs-ios-tab-icon-color-active: color($colors, hvit);;
 $tabs-ios-tab-text-color-active: color($colors, hvit);;
 
 // intactive tab
-$tabs-ios-tab-text-color: color($colors, varmgrå);;
-$tabs-ios-tab-icon-color: color($colors, varmgrå);;
+$tabs-ios-tab-text-color: color($colors, varmgra);;
+$tabs-ios-tab-icon-color: color($colors, varmgra);;
 
 
 // size tab 
@@ -88,8 +85,8 @@ $tabs-md-tab-text-color-active: color($colors, hvit);;
 $tabs-md-tab-icon-color-active: color($colors, hvit);;
 
 // inactive tabs
-$tabs-md-tab-text-color: color($colors, varmgrå);;
-$tabs-md-tab-icon-color: color($colors, varmgrå);;
+$tabs-md-tab-text-color: color($colors, varmgra);;
+$tabs-md-tab-icon-color: color($colors, varmgra);;
 
 // size tab 
 $tabs-md-tab-icon-size: 2.7rem;

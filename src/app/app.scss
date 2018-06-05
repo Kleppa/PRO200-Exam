@@ -69,7 +69,7 @@ modal-wrapper {
 }
 
 .btn-green {
-  background-color: color($primary-profile, grønn);;
+  background-color: color($primary-profile, gronn);;
 }
 
 .btn-orange {
@@ -79,11 +79,11 @@ modal-wrapper {
 .btn-red {
   background-color:transparent;
   //border: 1px solid color($colors, bringebær);;
-  color: color($colors, bringebær);;
+  color: color($colors, bringebar);;
 }
 
 .btn-red-red {
-  background-color: color($colors, bringebær);;
+  background-color: color($colors, bringebar);;
 }
 
 .btn-aubergine{
@@ -94,8 +94,19 @@ modal-wrapper {
 .btn-round {
   border-radius: 50%;
   box-shadow: none !important;
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
+}
+
+.btn-symbol {
+  color: #fff !important;
+  font-size: 2.5rem !important;
+  font-weight: 400;
+}
+
+.btn-symbol-pluss {
+  font-size: 3rem !important;
+
 }
 
 .btn-margin-top {
@@ -111,11 +122,12 @@ modal-wrapper {
 }
 // all inputs 
 .input {
-  border: 1px solid color($colors, varmgrå);;
+  border: 1px solid color($colors, varmgra);;
   border-radius: 5px;
   padding: 1px;
   width: 100%; 
   display: block;
+  //padding-left: 10px;
 }
 
 // all labels
@@ -133,11 +145,11 @@ modal-wrapper {
 
 // label with light color
 .label-white {
-  color: color($colors, lys-varmgrå);;
+  color: color($colors, lys-varmgra);;
 }
 
 .eye-button {
-  color: color($colors, lys-varmgrå);;
+  color: color($colors, lys-varmgra);;
 }
 
 // x
@@ -157,7 +169,7 @@ modal-wrapper {
 // title with border 
 .title-with-border {
   font-size: 1.7rem;
-  border-bottom: 1px solid color($colors, varmgrå);;
+  border-bottom: 1px solid color($colors, varmgra);;
   padding-bottom: 0.2rem;
   font-weight: bold;
 

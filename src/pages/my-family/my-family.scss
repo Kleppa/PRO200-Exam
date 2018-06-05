@@ -52,9 +52,48 @@ page-my-family {
     text-decoration: none;
     }
 
+    // wish
     .no-wish-text {
         font-size: 1.5rem;
     }
 
+    .wish-img {
+        height: 50px;
+        padding: 0 !important;
+    }
+
+    .wish-price {
+        font-size: 1.1rem;
+    }
+
+    .wish-name {
+        width: 105px;
+        overflow-wrap: break-word;
+        //word-break: break-all;
+        white-space: normal;
+        font-size: 1.3rem;
+    }
+
+    .wish-size {
+        font-size: 1rem;
+    }
+
+    .number-of-items {
+        text-align: center;
+        margin: auto;
+        right: 0;
+        left: 0;
+        //display: block;
+        margin-top: 7px;
+    }
+
+    .number-of-items-text {
+        font-size: 1.3rem;
+    }
+
+    .wish-item {
+        border-bottom: 1px solid color($colors, lys-varmgra);;
+        border-top: none !important;
+    }
    
 }

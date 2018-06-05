@@ -12,7 +12,7 @@
 </ion-header>
 
 <ion-content padding>
-  <h1 class="title-with-border">Familiemedlemmene</h1>
+  <h1 class="title-with-border">Familiemedlemmer</h1>
 
   <div class="family-container">
       <div class="family-member" *ngFor="let adult of adults |async ">
@@ -50,31 +50,43 @@
 
   <div *ngIf="wishes">
     <ion-list>
-      <ion-item *ngFor="let wish of (wishes |async)| slice:0:itemsToShow;">
-        
-        <ion-row>
-          <ion-col col-2>
-        <img  src="{{wish.image}}" />
+      
+      <ion-item  *ngFor="let wish of (wishes |async)| slice:0:itemsToShow;" no-lines>
+        <div class="wish-item">
+        <ion-row no-margin no-padding class="row">
+          <ion-col col-2 no-padding no-margin>
+        <img class="wish-img"src="{{wish.image}}" />
         </ion-col>
         
-        <ion-col col-6>
-        <p>
-          <b>{{wish.name}}
-          </b>{{wish.size}}
-          <br>kr {{wish.price}}
+        <ion-col col-4 no-padding no-margin>
+        <p class="wish-name">
+          <b>{{wish.name}}</b>
+        </p>
+        <p class="wish-size">
+          {{wish.size}}
         </p>
       </ion-col>
 
       <ion-col col-2>
-        <button class="btn-red-red btn-round" ion-button color="secondary"> x </button>
+          <p class="wish-price">
+            <b>kr {{wish.price}}</b>
+          </p>
+        </ion-col>
+
+      <ion-col col-1.5 no-margin no-padding>
+        <button class="btn-red-red btn-round" ion-button color="secondary"> <p class="btn-symbol">x</p></button>
       </ion-col>
 
-      <ion-col col-2>
-        <button class="btn-orange btn-round" ion-button color="primary"> + </button>
+      <ion-col col-1 no-margin no-padding class="number-of-items">
+          <p class="number-of-items-text">1</p>
+        </ion-col>
+
+      <ion-col col-1.5 no-margin no-padding>
+        <button class="btn-orange btn-round" ion-button color="primary"> <p class="btn-symbol btn-symbol-pluss">+</p> </button>
       </ion-col>
 
       </ion-row>
-
+    </div>
       </ion-item>
     </ion-list>
     <button *ngIf="!wishes.isEmpty" ion-button (click)="incrementItemsToShow(3)">Last inn flere</button>

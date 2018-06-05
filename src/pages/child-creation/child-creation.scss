@@ -5,7 +5,7 @@ page-child-creation {
 
     .add-picture-btn {
         background-color: transparent;
-        border: 1px solid color($colors, varmgrå);;
+        border: 1px solid color($colors, varmgra);;
         color: #000;
         height: 100px;
         width: 100px;        
@@ -24,12 +24,12 @@ page-child-creation {
 
 .presentFailureToastStyle {
     > div{
-        background-color:color($colors, bringebær)!important;;
+        background-color:color($colors, bringebar)!important;;
     }
  }
 
  .presentSuccessToastStyle {
     > div{
-        background-color:color($colors, grønn)!important;;
+        background-color:color($primary-profile, gronn)!important;;
     }
  }
