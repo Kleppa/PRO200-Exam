@@ -31,6 +31,7 @@ export class ChildCreationPage {
   }
 
   async addChildToFamily() {
+    let breakLimit = 0;
     let submitting: Loading;
 
     try {
@@ -42,6 +43,7 @@ export class ChildCreationPage {
 
       await this.dbProvider.getCurrentUser().subscribe(async (user) => {
         if (!user.familyId) {
+          console.log(user)
           submitting.setContent('Oppretter familie...');
           await this.dbProvider.addUserToFamily(user);
           await this.dbProvider.giveUserFamilyId(user);
@@ -57,20 +59,25 @@ export class ChildCreationPage {
         if (this.base64Img) {
           const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}.jpeg`;
           submitting.setContent('Laster opp bilde...');
-          
-          await this.dbProvider.uploadImg(this.base64Img, imgRef).then((downloadurl)=>{
+
+          await this.dbProvider.uploadImg(this.base64Img, imgRef).then((downloadurl) => {
             this.child.img = downloadurl;
           });
           submitting.setContent('Bilde lastet opp!');
         }
-
-        this.dbProvider.getCurrentUser().map(user => user.familyId)
+     
+        this.dbProvider.getCurrentUser().map(user => user.familyId).first()
           .subscribe(async familyId => {
-            submitting.setContent('legger til barnet i familie..');
-            await this.dbProvider.addChildtoFamily(this.child, familyId);
-            submitting.dismiss();
-            this.presentSuccessToast();
-            this.navCtrl.pop();
+            if (breakLimit == 0) {
+              console.log(familyId)
+              submitting.setContent('legger til barnet i familie..');
+              await this.dbProvider.addChildtoFamily(this.child, familyId);
+              breakLimit++;
+              submitting.dismiss();
+              this.presentSuccessToast();
+              this.navCtrl.pop();
+            }
+
           });
       }
     } catch (err) {

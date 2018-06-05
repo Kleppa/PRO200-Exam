@@ -27,9 +27,14 @@ export class MyFamilyPage {
   itemsToShow: number = 3;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dbProvider: DatabaseProvider, private modalController: ModalController) {
+  
+    this.initObs();
+  }
+  initObs(){
+        
     this.adults = this.dbProvider.getAdults();
     this.children = this.dbProvider.getChildren();
-    this.itemsInCart = this.dbProvider.getNumberOfItemsInCart();
+    this.itemsInCart = 0
     this.wishes = this.dbProvider.getFamilyWishes().map(items => {
       return items.filter(item => {
         console.log("ITEM", item)
@@ -41,9 +46,9 @@ export class MyFamilyPage {
       .subscribe(user => {
         this.mainUser = user;
         this.familyId = user.familyId;
+        console.log(`FAM ID `, this.familyId)
       });
   }
-
   goToChildWishes(child: Child) {
     this.navCtrl.push(`ChildWishesPage`, {
       child: child,
@@ -129,6 +134,7 @@ export class MyFamilyPage {
     return this.wishes.filter(wish => wish[`childToken`] === child.token).count();
   }
   denyWish(wish) {
+    console.log("Deny WISHHHHHH")
     this.dbProvider.denyWish(wish);
   }
   addWishToCart(wish) {

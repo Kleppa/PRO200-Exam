@@ -76,7 +76,7 @@
             </ion-col>
 
             <ion-col col-1.5 no-margin no-padding>
-              <button class="btn-red-red btn-round" ion-button color="secondary">
+              <button (click)="denyWish(wish)"  class="btn-red-red btn-round" ion-button color="secondary">
                 <p class="btn-symbol">x</p>
               </button>
             </ion-col>
@@ -85,8 +85,8 @@
               <p class="number-of-items-text">1</p>
             </ion-col>
 
-            <ion-col col-1.5 no-margin no-padding>
-              <button class="btn-orange btn-round" ion-button color="primary">
+            <ion-col col-1.5 no-margin no-padding >
+              <button class="btn-orange btn-round" ion-button color="primary" (click)="addWishToCart(wish)" >
                 <p class="btn-symbol btn-symbol-pluss">+</p>
               </button>
             </ion-col>
@@ -95,6 +95,6 @@
         </div>
       </ion-item>
     </ion-list>
-    <button *ngIf="!wishes.isEmpty" ion-button (click)="incrementItemsToShow(3)">Last inn flere</button>
+    <button  ion-button (click)="incrementItemsToShow(3)">Last inn flere</button>
   </div>
 </ion-content>

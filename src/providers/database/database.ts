@@ -198,7 +198,7 @@ export class DatabaseProvider {
   }
 
   denyWish(wish) {
-
+    console.log("DENYING WISH")
     this.getCurrentUser().subscribe(user => {
       this.afs.collection('families').doc(user.familyId).collection(`wishlist`).ref.where(`EAN`, "==", wish[`EAN`]).get().then(docs => {
         console.log("found doc")
@@ -211,14 +211,14 @@ export class DatabaseProvider {
     })
   }
 
-  getNumberOfItemsInCart() {
-    console.log("hello")
-    return this.getCurrentUser().subscribe(user => {
-      this.afs.collection(`families`).doc(user.familyId).collection(`cart`)
-        .snapshotChanges().map(actions => {
-          return actions.length;
-        });
+  // getNumberOfItemsInCart() {
+  //   console.log("hello")
+  //   return this.getCurrentUser().subscribe(user => {
+  //     this.afs.collection(`families`).doc(user.familyId).collection(`cart`)
+  //       .snapshotChanges().map(actions => {
+  //         return actions.length;
+  //       });
 
-    })
-  }
+  //   })
+ // }
 }
