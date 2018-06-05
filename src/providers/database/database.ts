@@ -10,6 +10,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import firebase from 'firebase/app';
 import { User } from '../../models/user';
 import { Item } from '../../models/item';
+import { UploadTaskSnapshot } from 'angularfire2/storage/interfaces';
 
 @Injectable()
 
@@ -141,12 +142,16 @@ export class DatabaseProvider {
   }
 
   getCurrentUser(): Observable<User> {
+    console.log('getting user')
     return this.afAuth.user.first()
       .map(user => user.uid)
       .switchMap(id =>
         Observable.fromPromise(this.afs.collection('users')
           .doc(id).ref.get()
-          .then(result => (result.exists) ? result.data() as User : null)));
+          .then(result => {
+            console.log('user gotten', result);
+            return (result.exists) ? result.data() as User : null
+          })));
   }
 
   getFamilyMembers() {
@@ -167,12 +172,19 @@ export class DatabaseProvider {
             : Observable.empty()));
   }
 
+<<<<<<< HEAD
   uploadImg(imgBase64: string, imgRef: string): Promise<any> {
     console.log("inside")
     
 
     return this.afStorage.ref(imgRef).putString(imgBase64, `base64`, { contentType: `image/jpeg` })
         .then(task => { return task.ref.getDownloadURL() }).catch(err => console.log(err));
+=======
+  uploadImg(imgBase64: string, imgRef: string) {
+    return this.afStorage.ref(imgRef)
+      .putString(imgBase64, `base64`, { contentType: `image/jpeg` })
+      .task.then(task => { return task.ref.getDownloadURL() });
+>>>>>>> 5b6670348e3d89ef42ad16c67b77a6e2e15c264b
   }
 
   updateChild(child: Child, docid: string, famid: string): Promise<void> {

@@ -88,7 +88,12 @@
     <plugin name="cordova-plugin-ionic-webview" spec="^1.1.19" />
     <allow-navigation href="http://10.32.4.18:8100" />
     <engine name="ios" spec="4.5.4" />
+<<<<<<< HEAD
     <engine name="android" spec="7.0.0" />
     <allow-navigation href="http://10.32.4.15:8101" />
     <allow-navigation href="http://10.32.4.15:8100" />
+=======
+    <engine name="android" spec="~7.0.0" />
+    <allow-navigation href="http://10.32.1.15:8100" />
+>>>>>>> 5b6670348e3d89ef42ad16c67b77a6e2e15c264b
 </widget>
