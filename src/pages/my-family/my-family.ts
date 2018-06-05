@@ -23,27 +23,26 @@ export class MyFamilyPage {
   public children: Observable<DocumentData[]>;
   public wishes: Observable<DocumentData[]>;
   public itemsInCart;
-  public priceOfCart:number;
+  public priceOfCart: number;
   itemsToShow: number = 3;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dbProvider: DatabaseProvider, private modalController: ModalController) {
+    this.adults = this.dbProvider.getAdults();
+    this.children = this.dbProvider.getChildren();
+    this.itemsInCart = this.dbProvider.getNumberOfItemsInCart();
+    this.wishes = (this.familyId)
+      ? this.dbProvider.getFamilyWishes(this.familyId).map(items => {
+        return items.filter(item => {
+          console.log("ITEM", item)
+          return item.status === `venter`
+        });
+      })
+      : Observable.empty();
+
     this.dbProvider.getCurrentUser()
-      .subscribe(async (user) => {
+      .subscribe(user => {
         this.mainUser = user;
         this.familyId = user.familyId;
-
-        if (this.familyId) {
-          this.itemsInCart =this.dbProvider.getNumberOfItemsInCart();
-          this.adults = this.dbProvider.getAdults();
-          this.children = this.dbProvider.getChildren();
-          this.wishes = this.dbProvider.getFamilyWishes(this.familyId).map(items=>{
-            return items.filter(item => {
-              console.log("ITEM",item)
-              return item.status ===`venter`});
-          })
-        
-        }
-
       });
   }
 
@@ -51,8 +50,8 @@ export class MyFamilyPage {
     this.navCtrl.push(`ChildWishesPage`, {
       child: child,
       wishes: this.dbProvider.getFamilyWishes(this.familyId).map(items => {
-      
-        return items.filter(item =>  item[`childToken`] === child.token && item.status === `venter`);
+
+        return items.filter(item => item[`childToken`] === child.token && item.status === `venter`);
       })
     });
   }
@@ -131,10 +130,10 @@ export class MyFamilyPage {
   numberOfChildWishes(child: Child) {
     return this.wishes.filter(wish => wish[`childToken`] === child.token).count();
   }
-  denyWish(wish){
+  denyWish(wish) {
     this.dbProvider.denyWish(wish);
   }
-  addWishToCart(wish){
+  addWishToCart(wish) {
     this.dbProvider.addWishToCart(wish);
   }
 }

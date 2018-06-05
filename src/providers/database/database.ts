@@ -36,62 +36,6 @@ export class DatabaseProvider {
       }));
   }
 
-  getItemsFromDatabase(numberOfItemsToGet: number, startAt?: number, filterKeyWords?: string[]) {
-    const marketplaceRef = this.afs.collection(`Marketplace`).ref;
-    let filteredResult: QueryDocumentSnapshot[];
-
-    if (startAt && !filterKeyWords) {
-      return marketplaceRef.limit(numberOfItemsToGet).startAt(startAt).get();
-    }
-
-    if (startAt && filterKeyWords) {
-      let filteredResult: QueryDocumentSnapshot[];
-      const resultPromise = marketplaceRef.limit(numberOfItemsToGet).startAt(startAt).get();
-
-      resultPromise.then(result => {
-
-        filteredResult = result.docs.filter(item => {
-
-          const doesNotIncludeFilteredKeyWords = _.some(_.keys(item), key => {
-
-            _.forEach(filterKeyWords, (fKey) => {
-
-              return !_.includes(_.upperCase(item[key]), _.upperCase(fKey))
-            });
-          })
-
-          return doesNotIncludeFilteredKeyWords;
-        })
-
-      })
-      return filteredResult;
-    }
-
-    if (!startAt && filterKeyWords) {
-
-      const resultPromise = marketplaceRef.limit(numberOfItemsToGet).get();
-
-      resultPromise.then(result => {
-
-        filteredResult = result.docs.filter(item => {
-
-          const doesNotIncludeFilteredKeyWords = _.some(_.keys(item), key => {
-
-            _.forEach(filterKeyWords, (fKey) => {
-
-              return !_.includes(_.upperCase(item[key]), _.upperCase(fKey))
-            });
-          })
-
-          return doesNotIncludeFilteredKeyWords;
-        })
-
-      })
-      return filteredResult;
-    }
-    return marketplaceRef.limit(numberOfItemsToGet).get();
-  }
-
   addChildtoFamily(child: Child, familyId: string): Promise<void> {
     return this.afs.collection('families').doc(familyId).collection(`members`).add(child)
       .then(childRef => this.afs.collection('children').doc(childRef.id).set({ ...child, familyId }));
@@ -157,6 +101,7 @@ export class DatabaseProvider {
       .map(user => user.uid)
       .switchMap(userId => this.afs.collection('users')
         .doc<User>(userId).valueChanges()
+        .filter(user => (user.familyId) ? true : false)
         .map(user => user.familyId)
         .switchMap(familyId => (familyId)
           ? this.afs.collection('families').doc(familyId).collection<any>('members').snapshotChanges()
@@ -166,7 +111,7 @@ export class DatabaseProvider {
                 const id = a.payload.doc.id;
                 return { id, ...data };
               }))
-          : Observable.empty() as Observable<any[]>));
+          : Observable.empty()));
   }
 
   uploadImg(imgBase64: string, imgRef: string) {
@@ -232,29 +177,29 @@ export class DatabaseProvider {
       .map(members => members.filter(member => !member.tag));
     return this.cache.loadFromDelayedObservable('family-adults', request, 'family', 60 * 60, 'all');
   }
-  
-  addWishToCart(wish){
-   
-    this.getCurrentUser().subscribe(user =>{
+
+  addWishToCart(wish) {
+
+    this.getCurrentUser().subscribe(user => {
       console.log(wish);
-      this.afs.collection('families').doc(user.familyId).collection(`cart`).add(wish).then(()=>{
-        wish[`status`]="godkjent"
-        this.afs.collection('families').doc(user.familyId).collection(`wishlist`).ref.where(`EAN`, "==", wish[`EAN`]).get().then(docs =>{
-          docs.forEach(doc =>{
+      this.afs.collection('families').doc(user.familyId).collection(`cart`).add(wish).then(() => {
+        wish[`status`] = "godkjent"
+        this.afs.collection('families').doc(user.familyId).collection(`wishlist`).ref.where(`EAN`, "==", wish[`EAN`]).get().then(docs => {
+          docs.forEach(doc => {
             this.afs.collection('families').doc(user.familyId).collection(`wishlist`).doc(doc.id).update(wish);
           })
         })
       })
     })
   }
-  
-  denyWish(wish){
-   
-    this.getCurrentUser().subscribe(user =>{
-      this.afs.collection('families').doc(user.familyId).collection(`wishlist`).ref.where(`EAN`, "==", wish[`EAN`]).get().then(docs =>{
-       console.log("found doc")
-        wish[`status`]="ikke godkjent"
-        docs.forEach(doc =>{
+
+  denyWish(wish) {
+
+    this.getCurrentUser().subscribe(user => {
+      this.afs.collection('families').doc(user.familyId).collection(`wishlist`).ref.where(`EAN`, "==", wish[`EAN`]).get().then(docs => {
+        console.log("found doc")
+        wish[`status`] = "ikke godkjent"
+        docs.forEach(doc => {
           console.log("found doc")
           this.afs.collection('families').doc(user.familyId).collection(`wishlist`).doc(doc.id).update(wish);
         })
@@ -262,13 +207,13 @@ export class DatabaseProvider {
     })
   }
 
-  getNumberOfItemsInCart(){
+  getNumberOfItemsInCart() {
     console.log("hello")
-  return  this.getCurrentUser().subscribe(user =>{
+    return this.getCurrentUser().subscribe(user => {
       this.afs.collection(`families`).doc(user.familyId).collection(`cart`)
-      .snapshotChanges().map(actions => {
-        return actions.length;
-      });
+        .snapshotChanges().map(actions => {
+          return actions.length;
+        });
 
     })
   }
