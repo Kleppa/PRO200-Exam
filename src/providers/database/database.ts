@@ -32,6 +32,7 @@ export class DatabaseProvider {
         const id = a.payload.doc.id;
         return { id, ...data }
       }));
+      //the fuck
   }
 
   getItemsFromDatabase(numberOfItemsToGet: number, startAt?: number, filterKeyWords?: string[]) {
@@ -178,6 +179,10 @@ export class DatabaseProvider {
   }
 
   updateChild(child: Child, docid: string, famid: string): Promise<void> {
+    console.log("HELLO INSIDE UPDATE")
+    console.log(child )
+    console.log(docid )
+    console.log(famid )
     return this.afs.collection(`families`).doc(famid).collection(`members`).doc(docid).update(child).then(() => {
       this.afs.collection(`children`).doc(docid).update(child);
     });
@@ -228,5 +233,29 @@ export class DatabaseProvider {
       .getFamilyMembers()
       .map(members => members.filter(member => !member.tag));
   }
-
+  addWishToCart(wish){
+    this.getCurrentUser().subscribe(user =>{
+      console.log(wish);
+      this.afs.collection('families').doc(user.familyId).collection(`cart`).add(wish).then(()=>{
+        wish[`status`]="godkjent"
+        this.afs.collection('families').doc(user.familyId).collection(`wishlist`).ref.where(wish[`EAN`], "==", `EAN`).get().then(docs =>{
+          docs.forEach(doc =>{
+            this.afs.collection('families').doc(user.familyId).collection(`wishlist`).doc(doc.id).update(wish);
+          })
+        })
+      })
+    })
+    
+  }
+  denyWish(wish){
+    console.log(wish)
+    this.getCurrentUser().subscribe(user =>{
+      this.afs.collection('families').doc(user.familyId).collection(`wishlist`).ref.where(wish[`EAN`], "==", `EAN`).get().then(docs =>{
+        wish[`status`]="ikke godkjent"
+        docs.forEach(doc =>{
+          this.afs.collection('families').doc(user.familyId).collection(`wishlist`).doc(doc.id).update(wish);
+        })
+      })
+    })
+  }
 }

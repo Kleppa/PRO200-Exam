@@ -33,7 +33,11 @@ export class MyFamilyPage {
         if (this.familyId) {
           this.adults = this.dbProvider.getAdults();
           this.children = this.dbProvider.getChildren();
-          this.wishes = this.dbProvider.getFamilyWishes(this.familyId);
+          this.wishes = this.dbProvider.getFamilyWishes(this.familyId).map(items=>{
+            return items.filter(item => {
+              console.log(item)
+              return item.status ===`venter`});
+          })
         }
       });
   }
@@ -41,8 +45,11 @@ export class MyFamilyPage {
   goToChildWishes(child: Child) {
     this.navCtrl.push(`ChildWishesPage`, {
       child: child,
-      wishes: this.wishes.filter(item => item[`childToken`] == child.token)
-    })
+      wishes: this.dbProvider.getFamilyWishes(this.familyId).map(items => {
+      
+        return items.filter(item =>  item[`childToken`] === child.token && item.status === `venter`);
+      })
+    });
   }
 
   incrementItemsToShow(number: number) {
@@ -119,5 +126,10 @@ export class MyFamilyPage {
   numberOfChildWishes(child: Child) {
     return this.wishes.filter(wish => wish[`childToken`] === child.token).count();
   }
-
+  denyWish(wish){
+    this.dbProvider.denyWish(wish);
+  }
+  addWishToCart(wish){
+    this.dbProvider.addWishToCart(wish);
+  }
 }
