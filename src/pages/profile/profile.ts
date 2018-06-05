@@ -19,9 +19,9 @@ export class ProfilePage {
     this.afAuth.auth.signOut()
       .then(reason => {
         console.info(reason);
-        this.navCtrl.pop();
-      })
-      .catch(reason => console.error(reason));
+        this.navCtrl.setRoot('LoginPage');
+        this.navCtrl.popToRoot();
+      });
   }
 
 }

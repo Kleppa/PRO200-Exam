@@ -19,6 +19,8 @@ import { AngularFireStorageModule, AngularFireStorage } from 'angularfire2/stora
 import { AdultSettingModalComponent } from '../components/adult-setting-modal/adult-setting-modal';
 import { ChooseUserComponent } from '../components/choose-user/choose-user';
 
+import { CacheModule } from 'ionic-cache';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -32,7 +34,7 @@ import { ChooseUserComponent } from '../components/choose-user/choose-user';
     AngularFireModule.initializeApp(env),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    
+    CacheModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -44,13 +46,11 @@ import { ChooseUserComponent } from '../components/choose-user/choose-user';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     DatabaseProvider,
     Clipboard,
     Camera,
-    AngularFireStorage
-    
-    
+    AngularFireStorage,
   ]
 })
-export class AppModule {}
+export class AppModule { }

@@ -4,7 +4,7 @@ import { Child } from '../../models/child';
 import * as shortid from 'shortid'
 import { Clipboard } from '@ionic-native/clipboard';
 import { ToastController } from 'ionic-angular';
-import { Camera } from '@ionic-native/camera';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DatabaseProvider } from '../../providers/database/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 /**
@@ -56,10 +56,11 @@ export class ChildSettingPage {
     //Delete child from family
   }
   changePicture() {
-    const options = {
-      sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
+    const options: CameraOptions = {
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
       destinationType: this.camera.DestinationType.DATA_URL,
-      mediaType: this.camera.MediaType.ALLMEDIA,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true
     };
 
     this.camera.getPicture(options).then(imageData => {
