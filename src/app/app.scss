@@ -78,7 +78,7 @@ modal-wrapper {
 
 .btn-red {
   background-color:transparent;
-  border: 1px solid color($colors, bringebær);;
+  //border: 1px solid color($colors, bringebær);;
   color: color($colors, bringebær);;
 }
 
@@ -159,6 +159,8 @@ modal-wrapper {
   font-size: 1.7rem;
   border-bottom: 1px solid color($colors, varmgrå);;
   padding-bottom: 0.2rem;
+  font-weight: bold;
+
 }
 
 // or-text
@@ -167,3 +169,16 @@ modal-wrapper {
   background-color: transparent;
 }
 
+// modal
+
+.title-modal {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-left: 5%;
+
+}
+
+.text-modal {
+  margin-left: 5%;
+
+}

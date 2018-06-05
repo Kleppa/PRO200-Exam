@@ -2,10 +2,12 @@
 <ion-content class="main-view">
   <div class="overlay" (click)="dismiss()"></div>
   <div class="modal_content">
-    <!--<ion-item>-->
-      <ion-label class="label" >Registrert E-post til Kolonial.no-bruker</ion-label>
-      <ion-input type="text" [(ngModel)]="email" placeholder="Registert e-post til Kolonial.no-bruker"></ion-input>
-    <!--</ion-item>-->
+
+      <h1 class="title-modal">Kolonial.no-bruker</h1>
+      <p class="text-modal">Legg til en eksisterende Kolonial.no-bruker som familemedlem i din Kolonial-familie.</p>
+
+      <ion-label class="label add-user-label" >E-post</ion-label>
+      <ion-input class="input add-user-input" type="text" [(ngModel)]="email" placeholder="Registert e-post til Kolonial.no-bruker"></ion-input>
     
     <ion-row no-padding class="add-adult-btn-row">
         <ion-col col-6>

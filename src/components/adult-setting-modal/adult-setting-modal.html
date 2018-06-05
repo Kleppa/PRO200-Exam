@@ -3,9 +3,22 @@
 <ion-content class="main-view">
         <div class="overlay" (click)="dismiss()"></div>
         <div class="modal_content">
+
+            <h1 class="title-modal">Fjern bruker</h1>
+            <p class="text-modal">Er du sikker på at du vil fjerne dette familiemedlemmet fra din Kolonial-familie?</p>
+
           <h2>{{user.email}}</h2>
-         <button ion-button (click)="dismiss(true)" >Slett bruker fra familie</button>
-         <button ion-button (click)="dismiss()" color="secondary" >Avbryt</button>
+
+        <ion-row>
+            <ion-col col-6>
+              <button class="btn btn-green" ion-button (click)="dismiss(true)" >Fjern bruker fra familie</button>
+            </ion-col>
+         
+            <ion-col col-6>
+              <button class="btn btn-red" ion-button (click)="dismiss()" color="secondary" >Avbryt</button>
+            </ion-col>
+
+        </ion-row>
       
       </div>
       </ion-content>
