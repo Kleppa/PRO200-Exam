@@ -105,20 +105,24 @@ export class ChildCreationPage {
   presentFailureToast(message: string) {
     let toast = this.toastCtrl.create({
       message: message,
-      duration: 10000,
+      duration: 5000,
       position: 'top',
       cssClass: "presentFailureToastStyle",
-      showCloseButton: true
+      showCloseButton: true,
+      closeButtonText: "Lukk"
     });
     toast.present();
   }
 
   presentSuccessToast() {
     this.toastCtrl.create({
-      message: "Gå på barnet i innstillinger for barnets innlogginsnøkkel!",
-      duration: 2000,
+      message: "Gå på barnet i innstillinger for verfiseringskode til barneappen",
+      duration: 5000,
       cssClass: "presentSuccessToastStyle",
-      position: 'top'
+      position: 'top',
+      showCloseButton: true,
+      closeButtonText: "Lukk"
+
     }).present();
   }
 

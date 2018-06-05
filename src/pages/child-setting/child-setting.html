@@ -35,26 +35,26 @@
     <br>
   </p>
 
-  <!-- </ion-item>-->
   <h1 class="title-with-border"> Kontaktinformasjon</h1>
     <ion-label class="label">Bilde</ion-label>
-    <img src="{{childImg}}" style="height: 10em; width:10em;" alt="bildet av barn" />
-  <button ion-button class="btn btn-orange" (click)="changePicture()">Endre bilde</button>
+    <ion-row>
+      <ion-col col-12>
+        <img src="{{childImg}}" style="height: 10em; width:10em;" alt="bildet av barn" />
+      </ion-col>
+      
+      <ion-col col-12>
+        <button ion-button class="btn btn-orange" (click)="changePicture()">Endre bilde</button>
+      </ion-col>  
+    </ion-row>
 
-  <!-- <ion-item no-lines>-->
   <ion-label class="label">Fornavn</ion-label>
-  <ion-input type="text" placeholder="Barnets navn" [(ngModel)]="child.name"></ion-input>
-  <!--</ion-item>-->
+  <ion-input class="input" type="text" placeholder="Barnets navn" [(ngModel)]="child.name"></ion-input>
 
-  <!--<ion-item no-lines>-->
   <ion-label class="label">Etternavn</ion-label>
-  <ion-input type="text" placeholder="Barnets etternavn" [(ngModel)]="child.lastname"></ion-input>
-  <!-- </ion-item>-->
+  <ion-input class="input" type="text" placeholder="Barnets etternavn" [(ngModel)]="child.lastname"></ion-input>
 
-  <!--<ion-item no-lines>-->
   <ion-label class="label">Alder</ion-label>
-  <ion-input type="text" placeholder="Barnets alder" [(ngModel)]="child.age"></ion-input>
-  <!-- </ion-item>-->
+  <ion-input class="input" type="text" placeholder="Barnets alder" [(ngModel)]="child.age"></ion-input>
 
   <h1 class="title-with-border">Begrensninger</h1>
   <ion-item no-lines>
@@ -62,6 +62,7 @@
     <ion-label class="label">Kun mulighet til å ønske godteri til helg</ion-label>
     <ion-checkbox [(ngModel)]="child.candyOnWeekendsOnly"></ion-checkbox>
   </ion-item>
+  
   <!-- Create auto generated rows and cols based on limitations -->
   <ion-label class="label">Spesifikke begrensninger</ion-label>
 
@@ -80,7 +81,7 @@
 
     <ion-row no-padding>
       <ion-col col-8>
-      <ion-input [(ngModel)]="limit" class="input" placeholder="Legg til flere begrensninger">
+      <ion-input [(ngModel)]="limit" class="input input-limits" placeholder="Legg til flere begrensninger">
         <ion-icon name="search"></ion-icon>
       </ion-input>
       </ion-col>

@@ -2,7 +2,7 @@ page-login {
 
     // body
     .login-body {
-        background-color: color($primary-profile, mørk-aubergine);;
+        background-color: color($primary-profile, mork-aubergine);;
     }
 
   
@@ -43,12 +43,13 @@ page-login {
 
     .register-button:active {
         background-color: transparent;
-        border: 1px solid color($primary-profile, grønn);;
+        border: 1px solid color($primary-profile, gronn);;
     }
 
     .forgot-password {
         display:block;
-        text-align:center;width:100%;
+        text-align:center;
+        width:100%;
         color: #fff;
     }
     

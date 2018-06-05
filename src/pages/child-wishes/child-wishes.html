@@ -18,7 +18,7 @@
   <ion-item>
     <h2>Her er {{child.name}} sine ønsker.</h2>
   </ion-item>
-  <p>{{child.token}}</p>
+
   <ion-list>
     <ion-item *ngFor="let wish of wishes | async">
         
@@ -47,7 +47,5 @@
             </ion-row>
        
             </ion-item>
-   
   </ion-list>
-
 </ion-content>

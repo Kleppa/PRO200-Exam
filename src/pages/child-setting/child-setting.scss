@@ -1,7 +1,7 @@
 page-child-setting {
 
     .token-text {
-        background-color: color($colors, lys-varmgrå);;
+        background-color: color($colors, lys-varmgra);;
         padding: 0.8rem;
         border-radius: 5px; 
     }
@@ -21,7 +21,11 @@ page-child-setting {
     }
 
     .red-text {
-        color:  color($colors, bringebær);;
+        color:  color($colors, bringebar);;
+    }
+
+    .input-limits {
+        padding-left: 15px;
     }
 
    
