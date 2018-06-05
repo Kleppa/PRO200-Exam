@@ -30,14 +30,12 @@ export class MyFamilyPage {
     this.adults = this.dbProvider.getAdults();
     this.children = this.dbProvider.getChildren();
     this.itemsInCart = this.dbProvider.getNumberOfItemsInCart();
-    this.wishes = (this.familyId)
-      ? this.dbProvider.getFamilyWishes(this.familyId).map(items => {
-        return items.filter(item => {
-          console.log("ITEM", item)
-          return item.status === `venter`
-        });
-      })
-      : Observable.empty();
+    this.wishes = this.dbProvider.getFamilyWishes().map(items => {
+      return items.filter(item => {
+        console.log("ITEM", item)
+        return item.status === `venter`
+      });
+    });
 
     this.dbProvider.getCurrentUser()
       .subscribe(user => {
@@ -49,7 +47,7 @@ export class MyFamilyPage {
   goToChildWishes(child: Child) {
     this.navCtrl.push(`ChildWishesPage`, {
       child: child,
-      wishes: this.dbProvider.getFamilyWishes(this.familyId).map(items => {
+      wishes: this.dbProvider.getFamilyWishes().map(items => {
 
         return items.filter(item => item[`childToken`] === child.token && item.status === `venter`);
       })

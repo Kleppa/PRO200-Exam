@@ -47,14 +47,18 @@ export class DatabaseProvider {
       .set(user);
   }
 
-  getFamilyWishes(famId: string): Observable<DocumentData[]> {
-    let request = this.afs.collection(`families`).doc(famId).collection(`wishlist`).snapshotChanges()
-      .map(actions => actions.map(a => {
-        const data = a.payload.doc.data() as Item;
-        const id = a.payload.doc.id;
-        return { id, ...data }
-      }));
-    return this.cache.loadFromDelayedObservable<DocumentData[]>('family-wishes', request, 'family');
+  getFamilyWishes(): Observable<DocumentData[]> {
+    let request =
+      this.getCurrentUser().filter(user => (user.familyId) ? true : false)
+        .map(user => user.familyId)
+        .switchMap(familyId =>
+          this.afs.collection(`families`).doc(familyId).collection(`wishlist`).snapshotChanges()
+            .map(actions => actions.map(a => {
+              const data = a.payload.doc.data() as Item;
+              const id = a.payload.doc.id;
+              return { id, ...data }
+            })));
+    return this.cache.loadFromDelayedObservable<DocumentData[]>('family-wishes', request, 'family', 60*30, 'all');
   }
 
   giveUserFamilyId(user: User, famId?: string) {
