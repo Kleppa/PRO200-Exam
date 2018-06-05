@@ -234,11 +234,12 @@ export class DatabaseProvider {
       .map(members => members.filter(member => !member.tag));
   }
   addWishToCart(wish){
+   
     this.getCurrentUser().subscribe(user =>{
       console.log(wish);
       this.afs.collection('families').doc(user.familyId).collection(`cart`).add(wish).then(()=>{
         wish[`status`]="godkjent"
-        this.afs.collection('families').doc(user.familyId).collection(`wishlist`).ref.where(wish[`EAN`], "==", `EAN`).get().then(docs =>{
+        this.afs.collection('families').doc(user.familyId).collection(`wishlist`).ref.where(`EAN`, "==", wish[`EAN`]).get().then(docs =>{
           docs.forEach(doc =>{
             this.afs.collection('families').doc(user.familyId).collection(`wishlist`).doc(doc.id).update(wish);
           })
@@ -248,14 +249,29 @@ export class DatabaseProvider {
     
   }
   denyWish(wish){
-    console.log(wish)
+   
+    
+    console.log("EAN",wish[`EAN`])
+
     this.getCurrentUser().subscribe(user =>{
-      this.afs.collection('families').doc(user.familyId).collection(`wishlist`).ref.where(wish[`EAN`], "==", `EAN`).get().then(docs =>{
+      this.afs.collection('families').doc(user.familyId).collection(`wishlist`).ref.where(`EAN`, "==", wish[`EAN`]).get().then(docs =>{
+       console.log("found doc")
         wish[`status`]="ikke godkjent"
         docs.forEach(doc =>{
+          console.log("found doc")
           this.afs.collection('families').doc(user.familyId).collection(`wishlist`).doc(doc.id).update(wish);
         })
       })
+    })
+  }
+  getNumberOfItemsInCart(){
+    console.log("hello")
+  return  this.getCurrentUser().subscribe(user =>{
+      this.afs.collection(`families`).doc(user.familyId).collection(`cart`)
+      .snapshotChanges().map(actions => {
+        return actions.length;
+      });
+
     })
   }
 }
