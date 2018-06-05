@@ -18,7 +18,7 @@ choose-user {
             left: 0;
             right: 0;
             width: 100%;
-            height: 30%;
+            height: auto;
             padding: 10px;
             z-index: 100;
             margin: 0 auto;
@@ -39,6 +39,11 @@ choose-user {
           .add-adult-btn-row {
             text-align: center;
             margin-top: 1rem;
+          }
+
+          .btn-dismiss {
+            float: right;
+            border: none;
           }
       
       

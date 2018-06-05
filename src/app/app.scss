@@ -65,6 +65,7 @@ modal-wrapper {
   border-radius: 5px; 
   color: #fff;
   font-size: 1.5rem;
+  box-shadow: none !important;
 }
 
 .btn-green {
@@ -77,8 +78,24 @@ modal-wrapper {
 
 .btn-red {
   background-color:transparent;
-  border: 1px solid color($colors, bringebær);;
+  //border: 1px solid color($colors, bringebær);;
   color: color($colors, bringebær);;
+}
+
+.btn-red-red {
+  background-color: color($colors, bringebær);;
+}
+
+.btn-aubergine{
+  background-color:  color($primary-profile, aubergine);;
+
+}
+
+.btn-round {
+  border-radius: 50%;
+  box-shadow: none !important;
+  height: 40px;
+  width: 40px;
 }
 
 .btn-margin-top {
@@ -89,6 +106,9 @@ modal-wrapper {
   padding: 0 3rem 3rem 0;
 }
 
+.btn-100 {
+  width: 100%;
+}
 // all inputs 
 .input {
   border: 1px solid color($colors, varmgrå);;
@@ -120,7 +140,7 @@ modal-wrapper {
   color: color($colors, lys-varmgrå);;
 }
 
-  // x
+// x
   .click-back {
     width: 100%;
     margin-top: 1rem; 
@@ -139,6 +159,26 @@ modal-wrapper {
   font-size: 1.7rem;
   border-bottom: 1px solid color($colors, varmgrå);;
   padding-bottom: 0.2rem;
+  font-weight: bold;
+
 }
 
+// or-text
+.or-text {
+  text-align: center;
+  background-color: transparent;
+}
 
+// modal
+
+.title-modal {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-left: 5%;
+
+}
+
+.text-modal {
+  margin-left: 5%;
+
+}

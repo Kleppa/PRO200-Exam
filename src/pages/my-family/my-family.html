@@ -14,75 +14,66 @@
 <ion-content padding>
   <h1 class="title-with-border">Familiemedlemmene</h1>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col col-3 *ngFor="let adult of adults |async ">
-
+  <div class="family-container">
+      <div class="family-member" *ngFor="let adult of adults |async ">
         <ion-avatar>
           <div class="round-img">
             <img class="profile-img" src="assets/imgs/profil.jpg">
             <!--<img class="profile-img" src="{{adult.image}}">-->
           </div>
-
         </ion-avatar>
-        <p class="name-text">{{adult.first_name}}</p>
+          <p class="name-text">{{adult.first_name}}</p>
+      </div>
 
-      </ion-col>
-
-      <ion-col col-3 *ngFor="let child of children |async">
-
+      <div class="family-member" *ngFor="let child of children |async">
         <ion-avatar (click)="goToChildWishes(child)">
-
           <p *ngIf="!numberOfChildWishes(child).isEmpty">{{numberOfChildWishes(child)|async}}</p>
-
-          <div class="round-img">
-
-
-
+            <div class="round-img">
             <!--<img class="profile-img" src="{{child.img}}"> RIKTIG KODE, MÅ BARE TESTE BILDE-->
-
             <img class="profile-img" src="assets/imgs/profil.jpg">
-          </div>
-
+            </div>
         </ion-avatar>
         <p class="name-text">{{child.name}}</p>
+      </div>
+    
+    </div>
 
+    <div>
+      <button class="btn-aubergine btn btn-add-family" clear icon-only (click)=presentUserToAddModal() ion-button>
+        Legg til</button>
+    </div>
+      
 
-      </ion-col>
-
-      <ion-col col-3>
-        <button class="btn-orange btn btn-add-family" clear icon-only (click)=presentUserToAddModal() ion-button>
-          +</button>
-
-      </ion-col>
-
-    </ion-row>
-  </ion-grid>
 
   <h1 class="title-with-border">Ønsker fra familien</h1>
-  <h3 *ngIf="!wishes"> Det er ingen ønsker fra familien</h3>
+  <h3 class="no-wish-text" *ngIf="!wishes"> Det er ingen ønsker fra familien</h3>
 
   <div *ngIf="wishes">
-
-    <div *ngIf="wishes.isEmpty">
-
-      <h3>Det er ingen ønsker fra familien</h3>
-    </div>
     <ion-list>
-
       <ion-item *ngFor="let wish of (wishes |async)| slice:0:itemsToShow;">
-        <p>{{wish.childToken}}</p>
-        <img src="{{wish.image}}" />
-
+        
+        <ion-row>
+          <ion-col col-2>
+        <img  src="{{wish.image}}" />
+        </ion-col>
+        
+        <ion-col col-6>
         <p>
           <b>{{wish.name}}
           </b>{{wish.size}}
-          <br>{{wish.price}}
+          <br>kr {{wish.price}}
         </p>
+      </ion-col>
 
-        <button ion-button color="secondary"> X </button>
-        <button ion-button color="primary"> + </button>
+      <ion-col col-2>
+        <button class="btn-red-red btn-round" ion-button color="secondary"> x </button>
+      </ion-col>
 
+      <ion-col col-2>
+        <button class="btn-orange btn-round" ion-button color="primary"> + </button>
+      </ion-col>
+
+      </ion-row>
 
       </ion-item>
     </ion-list>

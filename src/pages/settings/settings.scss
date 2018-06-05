@@ -1,10 +1,6 @@
 page-settings {
 
-    .or-text {
-        text-align: center;
-        background-color: transparent;
-    }
-
+   
     .settings-body {
         background-color: color($colors, lys-varmgrå);;
     }
@@ -22,5 +18,9 @@ page-settings {
         background-color: red;
         background-color: #fff;
 
+    }
+
+    .new-kid-btn {
+        margin-bottom: 20px;
     }
 }

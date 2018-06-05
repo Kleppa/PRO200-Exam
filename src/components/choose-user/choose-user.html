@@ -3,11 +3,21 @@
     <div class="overlay" (click)="dismiss()"></div>
     <div class="modal_content">
 
-     <button class="btn btn-orange" (click)="dismiss(2)" ion-button>  Legg til eksisterende Kolonial.no-bruker</button>
+        <h1 class="title-modal">Ny bruker</h1>
+        <p class="text-modal">Legg til et familemedlem i din Kolonial-familie.</p>
+      <ion-row>
 
-     <button class="btn btn-green" (click)="dismiss(1)" ion-button>  Opprett ny barnebruker</button>
+      
+        <ion-col col-12>
+          <button class="btn btn-orange btn-100" (click)="dismiss(2)" ion-button>  Legg til eksisterende Kolonial.no-bruker</button>
+        </ion-col>
 
-     <button class="btn btn-red"(click)="dismiss()" ion-button>Avbryt</button>
+        <ion-col col-12>
+          <button class="btn btn-green btn-100" (click)="dismiss(1)" ion-button>  Opprett ny barnebruker</button>
+        </ion-col>
+    
+    </ion-row>
+    <button class="btn btn-red btn-dismiss"(click)="dismiss()" ion-button>Avbryt</button>
   
   </div>
   </ion-content>

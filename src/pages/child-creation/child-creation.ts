@@ -100,6 +100,7 @@ export class ChildCreationPage {
       message: message,
       duration: 10000,
       position: 'top',
+      cssClass: "presentFailureToastStyle",
       showCloseButton: true
     });
     toast.present();
@@ -109,6 +110,7 @@ export class ChildCreationPage {
     this.toastCtrl.create({
       message: "Gå på barnet i innstillinger for barnets innlogginsnøkkel!",
       duration: 2000,
+      cssClass: "presentSuccessToastStyle",
       position: 'top'
     }).present();
   }
