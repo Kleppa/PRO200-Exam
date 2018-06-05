@@ -250,9 +250,6 @@ export class DatabaseProvider {
   }
   denyWish(wish){
    
-    
-    console.log("EAN",wish[`EAN`])
-
     this.getCurrentUser().subscribe(user =>{
       this.afs.collection('families').doc(user.familyId).collection(`wishlist`).ref.where(`EAN`, "==", wish[`EAN`]).get().then(docs =>{
        console.log("found doc")
