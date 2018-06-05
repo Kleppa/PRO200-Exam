@@ -41,16 +41,13 @@
             <p *ngIf="!numberOfChildWishes(child).isEmpty">{{numberOfChildWishes(child)|async}}</p>
               <div class="round-img">
               <img class="profile-img" src="{{child.img}}">
-            
-              </div>
+              </div> <!-- round image -->
           </ion-avatar>
           <p class="name-text">{{child.name}}</p>
-        </div>
+        </div> <!-- family member -->
      
-      </div>
+      </div> <!-- family container -->
     
-    </div>
-
     <div>
       <button class="btn-aubergine btn btn-add-family" clear icon-only (click)=presentUserToAddModal() ion-button>
         Legg til</button>
@@ -63,7 +60,6 @@
 
   <div *ngIf="wishes">
     <ion-list>
-      
       <ion-item  *ngFor="let wish of (wishes |async)| slice:0:itemsToShow;" no-lines>
         <div class="wish-item">
         <ion-row no-margin no-padding class="row">
