@@ -15,38 +15,12 @@
   <h1 class="title-with-border">Familiemedlemmer</h1>
 
   <div class="family-container">
-<<<<<<< HEAD
-      <div class="family-member" *ngFor="let adult of adults |async ">
-          
-        <ion-avatar>
-          <div class="round-img">
-          
-
-
-
-
-            <img class="profile-img" src="{{adult.image}}">
-          </div>
-        </ion-avatar>
-          <p class="name-text">{{adult.first_name}}</p>
-      </div>
-
-      <div class="family-member" *ngFor="let child of children |async">
-        <ion-avatar (click)="goToChildWishes(child)">
-          <p *ngIf="!numberOfChildWishes(child).isEmpty">{{numberOfChildWishes(child)|async}}</p>
-            <div class="round-img">
-              
-              <img class="profile-img" src="{{child.image}}">
-            </div>
-          </ion-avatar>
-            <p class="name-text">{{adult.first_name}}</p>
-=======
     <div class="family-member" *ngFor="let adult of adults |async ">
+
       <ion-avatar>
         <div class="round-img">
-          <img class="profile-img" src="assets/imgs/profil.jpg">
-          <!--<img class="profile-img" src="{{adult.image}}">-->
->>>>>>> bcc54128101d09915afc15bcb2a10baf56b690a5
+
+          <img class="profile-img" src="{{adult.image}}">
         </div>
       </ion-avatar>
       <p class="name-text">{{adult.first_name}}</p>
