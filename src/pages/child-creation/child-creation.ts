@@ -57,7 +57,10 @@ export class ChildCreationPage {
         if (this.base64Img) {
           const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}.jpeg`;
           submitting.setContent('Laster opp bilde...');
-          await this.dbProvider.uploadImg(this.base64Img, imgRef);
+          
+          await this.dbProvider.uploadImg(this.base64Img, imgRef).then((downloadurl)=>{
+            this.child.img = downloadurl;
+          });
           submitting.setContent('Bilde lastet opp!');
         }
 

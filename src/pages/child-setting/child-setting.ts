@@ -76,12 +76,15 @@ export class ChildSettingPage {
     }).catch(err => console.log(err));
   }
   async saveChanges() {
-
+    
     if (this.base64Img) {
 
       const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}.jpeg`
-
-      await this.dbProvider.uploadImg(this.base64Img, imgRef)
+      console.log("saving")
+      await this.dbProvider.uploadImg(this.base64Img, imgRef).then(url =>{
+        this.child.img=url;
+      })
+      
     }
 
     await this.dbProvider.updateChild(this.child, this.child.id, this.famId).then(() => {

@@ -179,6 +179,10 @@ export class DatabaseProvider {
   }
 
   updateChild(child: Child, docid: string, famid: string): Promise<void> {
+    console.log("HELLO INSIDE UPDATE")
+    console.log(child )
+    console.log(docid )
+    console.log(famid )
     return this.afs.collection(`families`).doc(famid).collection(`members`).doc(docid).update(child).then(() => {
       this.afs.collection(`children`).doc(docid).update(child);
     });
