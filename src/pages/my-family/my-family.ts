@@ -19,9 +19,9 @@ import { ChildWishesPage } from '../child-wishes/child-wishes';
 export class MyFamilyPage {
   private familyId: string;
   private mainUser: User;
-  private adults: Observable<DocumentData[]>;
-  private children: Observable<DocumentData[]>;
-  private wishes: Observable<DocumentData[]>;
+  public adults: Observable<DocumentData[]>;
+  public children: Observable<DocumentData[]>;
+  public wishes: Observable<DocumentData[]>;
   public itemsInCart;
   public priceOfCart:number;
   itemsToShow: number = 3;
