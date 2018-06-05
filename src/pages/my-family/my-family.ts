@@ -29,8 +29,6 @@ export class MyFamilyPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private dbProvider: DatabaseProvider, private modalController: ModalController) {
     this.dbProvider.getCurrentUser()
       .subscribe(async (user) => {
-        await this.dbProvider.getFamilyMembers()
-
         this.mainUser = user;
         this.familyId = user.familyId;
 
