@@ -76,7 +76,7 @@ export class ChildSettingPage {
     }).catch(err => console.log(err));
   }
   async saveChanges() {
-    
+    console.log( " SAVE CHANGES ENTERED")
     if (this.base64Img) {
 
       const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}.jpeg`
@@ -86,8 +86,9 @@ export class ChildSettingPage {
       })
       
     }
-
-    await this.dbProvider.updateChild(this.child, this.child.id, this.famId).then(() => {
+   await this.dbProvider.getCurrentUser().subscribe(user => {
+    
+     this.dbProvider.updateChild(this.child, this.child.id, user.familyId).then(() => {
       this.toastCtrl.create({
         duration: 3000,
         position: "top",
@@ -95,7 +96,8 @@ export class ChildSettingPage {
       }).present().then(() => {
         this.navCtrl.pop();
       })
-    });
+    })
+  })
 
   }
   addLimitToChild() {
@@ -115,11 +117,14 @@ export class ChildSettingPage {
     this.limitations = this.child.limits
   }
   delete() {
-    this.dbProvider.deleteChild(this.child, this.famId);
+    this.dbProvider.getCurrentUser().subscribe(user =>{
+    this.dbProvider.deleteChild(this.child, user.familyId);
     this.toastCtrl.create({
       duration: 2500,
       position: `top`,
       message: `${this.child.name} har blitt slettet fra din familie`
     }).present().then(() => this.navCtrl.pop());
+  })
   }
+
 }
