@@ -82,7 +82,6 @@ export class ChildSettingPage {
       const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}.jpeg`
 
       await this.dbProvider.uploadImg(this.base64Img, imgRef)
-        .then(url => this.child.img = url);
     }
 
     await this.dbProvider.updateChild(this.child, this.child.id, this.famId).then(() => {

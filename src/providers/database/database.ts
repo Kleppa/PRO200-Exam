@@ -10,6 +10,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import firebase from 'firebase/app';
 import { User } from '../../models/user';
 import { Item } from '../../models/item';
+import { UploadTaskSnapshot } from 'angularfire2/storage/interfaces';
 
 @Injectable()
 
@@ -140,12 +141,16 @@ export class DatabaseProvider {
   }
 
   getCurrentUser(): Observable<User> {
+    console.log('getting user')
     return this.afAuth.user.first()
       .map(user => user.uid)
       .switchMap(id =>
         Observable.fromPromise(this.afs.collection('users')
           .doc(id).ref.get()
-          .then(result => (result.exists) ? result.data() as User : null)));
+          .then(result => {
+            console.log('user gotten', result);
+            return (result.exists) ? result.data() as User : null
+          })));
   }
 
   getFamilyMembers() {
@@ -166,9 +171,10 @@ export class DatabaseProvider {
             : Observable.empty()));
   }
 
-  uploadImg(imgBase64: string, imgRef: string): Promise<any> {
-    return this.afStorage.ref(imgRef).putString(imgBase64, `base64`, { contentType: `image/jpeg` })
-      .then(task => { return task.ref.getDownloadURL() });
+  uploadImg(imgBase64: string, imgRef: string) {
+    return this.afStorage.ref(imgRef)
+      .putString(imgBase64, `base64`, { contentType: `image/jpeg` })
+      .task.then(task => { return task.ref.getDownloadURL() });
   }
 
   updateChild(child: Child, docid: string, famid: string): Promise<void> {

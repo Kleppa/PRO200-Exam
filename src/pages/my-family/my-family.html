@@ -32,7 +32,7 @@
       <ion-col col-3 *ngFor="let child of children |async">
 
         <ion-avatar (click)="goToChildWishes(child)">
-          
+
           <p *ngIf="!numberOfChildWishes(child).isEmpty">{{numberOfChildWishes(child)|async}}</p>
 
           <div class="round-img">
@@ -72,7 +72,7 @@
 
       <ion-item *ngFor="let wish of (wishes |async)| slice:0:itemsToShow;">
         <p>{{wish.childToken}}</p>
-        <img  src="{{wish.image}}" />
+        <img src="{{wish.image}}" />
 
         <p>
           <b>{{wish.name}}

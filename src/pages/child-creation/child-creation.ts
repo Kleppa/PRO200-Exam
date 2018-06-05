@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
 import { DatabaseProvider } from '../../providers/database/database';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 import { Child } from '../../models/child';
-import { Camera } from '@ionic-native/camera'
+import { Camera, CameraOptions } from '@ionic-native/camera'
 import { AngularFireAuth } from 'angularfire2/auth';
 
 @IonicPage()
@@ -17,67 +17,76 @@ export class ChildCreationPage {
   public btnText: string = "+"
 
   constructor(private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController,
     public navCtrl: NavController,
     public navParams: NavParams,
     private dbProvider: DatabaseProvider,
     private afAuth: AngularFireAuth,
-    private camera: Camera) { }
+    private camera: Camera) {
+    this.child.tag = "child";
+  }
 
   cancel() {
     this.navCtrl.pop();
   }
 
   async addChildToFamily() {
-    await this.dbProvider.getCurrentUser().subscribe(async (user) => {
-      if (!user.familyId) {
-        await this.dbProvider.addUserToFamily(user);
-        await this.dbProvider.giveUserFamilyId(user);
+    let submitting: Loading;
+
+    try {
+      submitting = this.loadingCtrl.create({
+        content: 'Starter opplasting...',
+        enableBackdropDismiss: false
+      });
+      submitting.present();
+
+      await this.dbProvider.getCurrentUser().subscribe(async (user) => {
+        if (!user.familyId) {
+          submitting.setContent('Oppretter familie...');
+          await this.dbProvider.addUserToFamily(user);
+          await this.dbProvider.giveUserFamilyId(user);
+        }
+      });
+
+      if (!(this.child.name || this.child.age)) {
+        submitting.dismiss();
+        this.presentFailureToast('Du må fylle inn barnets navn og alder.');
+      } else {
+        this.attachToken();
+
+        if (this.base64Img) {
+          const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}.jpeg`;
+          submitting.setContent('Laster opp bilde...');
+          await this.dbProvider.uploadImg(this.child.img, imgRef);
+          submitting.setContent('Bilde lastet opp!');
+        }
+
+        this.dbProvider.getCurrentUser().map(user => user.familyId)
+          .subscribe(async familyId => {
+            submitting.setContent('legger til barnet i familie..');
+            await this.dbProvider.addChildtoFamily(this.child, familyId);
+            submitting.dismiss();
+            this.presentSuccessToast();
+            this.navCtrl.pop();
+          });
       }
-    });
-
-    if (!(this.child.name || this.child.age)) {
-      this.presentFailureToast();
-    } else {
-      this.child.tag = "child";
-      this.attachToken();
-
-      if (this.base64Img) {
-        const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}.jpeg`
-        await this.dbProvider.uploadImg(this.child.img, imgRef)
-          .then(url => this.child.img = url);
-      }
-
-      this.dbProvider.getCurrentUser().map(user => user.familyId)
-        .subscribe(async familyId => {
-          await this.dbProvider.addChildtoFamily(this.child, familyId);
-          this.presentSuccessToast();
-          this.navCtrl.pop();
-        }, error => {
-          console.error('Failed adding child to family', error);
-          this.presentFailureToast();
-        });
+    } catch (err) {
+      submitting.dismiss();
+      console.error('Failed adding child to family', err);
+      this.presentFailureToast('Kunne ikke legge barnet til i familie, prøv igjen.');
     }
   }
 
   openGallery() {
-
-    const options = {
-      sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
+    const options: CameraOptions = {
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
       destinationType: this.camera.DestinationType.DATA_URL,
-      mediaType: this.camera.MediaType.ALLMEDIA,
+      encodingType: this.camera.EncodingType.JPEG,
+      correctOrientation: true
     };
 
-    this.camera.getPicture(options).then(imageData => {
-
-      //data:image/jpeg;base64,
-
-      return imageData;
-
-    }).then(imageBase64 => {
-      if (imageBase64) {
-        this.base64Img = imageBase64;
-      }
-    }).catch(err => console.log(err))
+    this.camera.getPicture(options)
+      .then(imageBase64 => this.base64Img = imageBase64);
   }
 
   attachToken() {
@@ -86,11 +95,12 @@ export class ChildCreationPage {
     }
   }
 
-  presentFailureToast() {
+  presentFailureToast(message: string) {
     let toast = this.toastCtrl.create({
-      message: 'Barnet trenger et navn og en alder',
-      duration: 2000,
-      position: 'top'
+      message: message,
+      duration: 10000,
+      position: 'top',
+      showCloseButton: true
     });
     toast.present();
   }
@@ -98,21 +108,15 @@ export class ChildCreationPage {
   presentSuccessToast() {
     this.toastCtrl.create({
       message: "Gå på barnet i innstillinger for barnets innlogginsnøkkel!",
-      duration: 4000,
+      duration: 2000,
       position: 'top'
-
     }).present();
   }
-  getStyle(): {} {
 
-    if (this.base64Img) {
-      this.btnText = "";
-    } else {
-      this.btnText = "+"
-    }
+  getStyle(): {} {
+    this.btnText = (this.base64Img) ? '' : '+';
 
     return {
-
       'background-image': this.base64Img ? `url(data:image/jpeg;base64,${this.base64Img})` : "",
       'background-size': "cover"
     }
