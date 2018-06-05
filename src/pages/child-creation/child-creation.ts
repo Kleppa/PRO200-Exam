@@ -48,7 +48,7 @@ export class ChildCreationPage {
         }
       });
 
-      if (!(this.child.name || this.child.age)) {
+      if ((!this.child.name || !this.child.age)) {
         submitting.dismiss();
         this.presentFailureToast('Du må fylle inn barnets navn og alder.');
       } else {
@@ -57,7 +57,10 @@ export class ChildCreationPage {
         if (this.base64Img) {
           const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}.jpeg`;
           submitting.setContent('Laster opp bilde...');
-          await this.dbProvider.uploadImg(this.child.img, imgRef);
+          
+          await this.dbProvider.uploadImg(this.base64Img, imgRef).then((downloadurl)=>{
+            this.child.img = downloadurl;
+          });
           submitting.setContent('Bilde lastet opp!');
         }
 
@@ -71,8 +74,12 @@ export class ChildCreationPage {
           });
       }
     } catch (err) {
+
       submitting.dismiss();
+
       console.error('Failed adding child to family', err);
+      console.log(...err);
+      console.log(err)
       this.presentFailureToast('Kunne ikke legge barnet til i familie, prøv igjen.');
     }
   }

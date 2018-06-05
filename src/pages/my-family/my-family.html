@@ -29,11 +29,24 @@
         <ion-avatar (click)="goToChildWishes(child)">
           <p *ngIf="!numberOfChildWishes(child).isEmpty">{{numberOfChildWishes(child)|async}}</p>
             <div class="round-img">
-            <!--<img class="profile-img" src="{{child.img}}"> RIKTIG KODE, MÅ BARE TESTE BILDE-->
-            <img class="profile-img" src="assets/imgs/profil.jpg">
+              
+              <img class="profile-img" src="{{adult.image}}">
             </div>
-        </ion-avatar>
-        <p class="name-text">{{child.name}}</p>
+          </ion-avatar>
+            <p class="name-text">{{adult.first_name}}</p>
+        </div>
+   
+        <div class="family-member" *ngFor="let child of children |async">
+          <ion-avatar (click)="goToChildWishes(child)">
+            <p *ngIf="!numberOfChildWishes(child).isEmpty">{{numberOfChildWishes(child)|async}}</p>
+              <div class="round-img">
+              <img class="profile-img" src="{{child.img}}">
+            
+              </div>
+          </ion-avatar>
+          <p class="name-text">{{child.name}}</p>
+        </div>
+     
       </div>
     
     </div>
