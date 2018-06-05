@@ -91,7 +91,8 @@ export class ChildCreationPage {
     let toast = this.toastCtrl.create({
       message: 'Barnet trenger et navn og en alder',
       duration: 2000,
-      position: 'top'
+      position: 'top',
+      cssClass: "presentFailureToastStyle",
     });
     toast.present();
   }
@@ -100,8 +101,9 @@ export class ChildCreationPage {
     this.toastCtrl.create({
       message: "Gå på barnet i innstillinger for barnets innlogginsnøkkel!",
       duration: 4000,
-      position: 'top'
-
+      position: 'top',
+      cssClass: "presentSuccessToastStyle",
+      
     }).present();
   }
   getStyle(): {} {
