@@ -31,6 +31,7 @@ export class DatabaseProvider {
         const id = a.payload.doc.id;
         return { id, ...data }
       }));
+      //the fuck
   }
 
   getItemsFromDatabase(numberOfItemsToGet: number, startAt?: number, filterKeyWords?: string[]) {
@@ -167,8 +168,11 @@ export class DatabaseProvider {
   }
 
   uploadImg(imgBase64: string, imgRef: string): Promise<any> {
+    console.log("inside")
+    
+
     return this.afStorage.ref(imgRef).putString(imgBase64, `base64`, { contentType: `image/jpeg` })
-      .then(task => { return task.ref.getDownloadURL() });
+        .then(task => { return task.ref.getDownloadURL() }).catch(err => console.log(err));
   }
 
   updateChild(child: Child, docid: string, famid: string): Promise<void> {
@@ -222,5 +226,28 @@ export class DatabaseProvider {
       .getFamilyMembers()
       .map(members => members.filter(member => !member.tag));
   }
-
+  addWishToCart(wish){
+    this.getCurrentUser().subscribe(user =>{
+      
+      this.afs.collection('families').doc(user.familyId).collection(`cart`).add(wish).then(()=>{
+        wish[`status`]="godkjent"
+        this.afs.collection('families').doc(user.familyId).collection(`wishlist`).ref.where(wish[`EAN`], "==", `EAN`).get().then(docs =>{
+          docs.forEach(doc =>{
+            this.afs.collection('families').doc(user.familyId).collection(`wishlist`).doc(doc.id).update(wish);
+          })
+        })
+      })
+    })
+    
+  }
+  denyWish(wish){
+    this.getCurrentUser().subscribe(user =>{
+      this.afs.collection('families').doc(user.familyId).collection(`wishlist`).ref.where(wish[`EAN`], "==", `EAN`).get().then(docs =>{
+        wish[`status`]="ikke godkjent"
+        docs.forEach(doc =>{
+          this.afs.collection('families').doc(user.familyId).collection(`wishlist`).doc(doc.id).update(wish);
+        })
+      })
+    })
+  }
 }

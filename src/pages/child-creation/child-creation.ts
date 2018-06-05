@@ -35,7 +35,7 @@ export class ChildCreationPage {
       }
     });
 
-    if (!(this.child.name || this.child.age)) {
+    if ((!this.child.name || !this.child.age)) {
       this.presentFailureToast();
     } else {
       this.child.tag = "child";
@@ -43,7 +43,8 @@ export class ChildCreationPage {
 
       if (this.base64Img) {
         const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}.jpeg`
-        await this.dbProvider.uploadImg(this.child.img, imgRef)
+        console.log("HELLLOOOOOO")
+        await this.dbProvider.uploadImg(this.base64Img, imgRef)
           .then(url => this.child.img = url);
       }
 
