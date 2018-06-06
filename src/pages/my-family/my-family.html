@@ -75,17 +75,13 @@
               </p>
             </ion-col>
 
-            <ion-col col-1.5 no-margin no-padding>
+            <ion-col col-2 no-margin no-padding>
               <button (click)="denyWish(wish)"  class="btn-red-red btn-round" ion-button color="secondary">
                 <p class="btn-symbol">x</p>
               </button>
             </ion-col>
 
-            <ion-col col-1 no-margin no-padding class="number-of-items">
-              <p class="number-of-items-text">1</p>
-            </ion-col>
-
-            <ion-col col-1.5 no-margin no-padding >
+            <ion-col col-2 no-margin no-padding >
               <button class="btn-orange btn-round" ion-button color="primary" (click)="addWishToCart(wish)" >
                 <p class="btn-symbol btn-symbol-pluss">+</p>
               </button>
@@ -95,6 +91,6 @@
         </div>
       </ion-item>
     </ion-list>
-    <button  ion-button (click)="incrementItemsToShow(3)">Last inn flere</button>
+    <button class="btn-aubergine btn btn-add-family" ion-button (click)="incrementItemsToShow(3)">Last inn flere</button>
   </div>
 </ion-content>
