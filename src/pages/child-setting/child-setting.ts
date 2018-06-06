@@ -41,11 +41,10 @@ export class ChildSettingPage {
     this.clipboard.copy(this.child.token).then(() => {
 
       this.toastCtrl.create({
-
         message: `Kopiert!`,
-        duration: 1500,
-        position: `top`
-
+        duration: 2000,
+        position: `top`,
+        cssClass: "greenToastStyle"
       });
     });
   }
@@ -92,9 +91,13 @@ export class ChildSettingPage {
 
       this.dbProvider.updateChild(this.child, this.child.id, user.familyId).then(() => {
         this.toastCtrl.create({
-          duration: 3000,
+          duration: 5000,
           position: "top",
-          message: "Endringene er lagret!"
+          message: "Endringene er lagret!",
+          cssClass: "greenToastStyle",
+          showCloseButton: true,
+          closeButtonText: "Lukk"
+
         }).present().then(() => {
           this.navCtrl.pop();
         })
@@ -124,9 +127,12 @@ export class ChildSettingPage {
     this.dbProvider.getCurrentUser().first().subscribe(user => {
       this.dbProvider.deleteChild(this.child, user.familyId);
       this.toastCtrl.create({
-        duration: 2500,
+        duration: 5000,
         position: `top`,
-        message: `${this.child.name} har blitt slettet fra din familie`
+        message: `${this.child.name} har blitt slettet fra din familie`,
+        cssClass: "redToastStyle",
+        showCloseButton: true,
+        closeButtonText: "Lukk"
       }).present().then(() => this.navCtrl.pop());
     })
   }
@@ -134,9 +140,12 @@ export class ChildSettingPage {
     console.log(this.changes)
     if (!this.changes) {
       this.toastCtrl.create({
-        duration: 2500,
+        duration: 3000,
         position: `top`,
-        message: `Endringene ble ikke lagret`
+        message: `Endringene ble ikke lagret`,
+        cssClass: "redToastStyle",
+        showCloseButton: true,
+        closeButtonText: "Lukk"
       }).present();
     }
   }
