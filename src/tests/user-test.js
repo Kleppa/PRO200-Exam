@@ -1,2 +1,0 @@
-//integrasjon-test
-

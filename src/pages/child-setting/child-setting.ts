@@ -120,6 +120,7 @@ export class ChildSettingPage {
     this.limitations = this.child.limits
   }
   delete() {
+    this.changes=true;
     this.dbProvider.getCurrentUser().first().subscribe(user => {
       this.dbProvider.deleteChild(this.child, user.familyId);
       this.toastCtrl.create({
