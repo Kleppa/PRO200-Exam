@@ -150,18 +150,25 @@ export class MyFamilyPage {
     this.dbProvider.denyWish(wish);
 
     this.toast.create({
-      message: "Avslår varen",
+      message: "Vare avslått",
       duration: 2500,
-      position: `top`
+      position: `top`,
+      cssClass: "redToastStyle",
+      showCloseButton: true,
+      closeButtonText: "Lukk"
     }).present();
   }
   addWishToCart(wish) {
     this.dbProvider.addWishToCart(wish);
     this.wishListSize--;
     this.toast.create({
-      message: "Legger til varen i handlekurven",
+      message: "Vare lagt i handlekurven",
       duration: 2500,
-      position: `top`
+      position: `top`,
+      cssClass: "greenToastStyle",
+      showCloseButton: true,
+      closeButtonText: "Lukk"
+
     }).present();
   }
 }

@@ -34,15 +34,26 @@ page-my-family {
     }
 
     // add family button
-    .btn-add-family {
-        width: 40%;
-
+    .btn-add-family, .btn-add-items {
+        margin:auto;
+        right: 0;
+        left: 0;
+        display: block;
+        font-size: 1.2rem;
     }
+
+    .btn-add-family {
+    width: 25%;
+
+    
+    }
+
 
     // family - container
     .family-container {
         overflow: auto;
         white-space: nowrap;
+        margin-right: 0;
     }
 
     .family-member{
