@@ -91,6 +91,6 @@
         </div>
       </ion-item>
     </ion-list>
-    <button class="btn-aubergine btn btn-add-family" ion-button (click)="incrementItemsToShow(3)">Last inn flere</button>
+    <button *ngIf="wishListSize > 3" class="btn-aubergine btn btn-add-family" ion-button (click)="incrementItemsToShow(3)">Last inn flere</button>
   </div>
 </ion-content>
