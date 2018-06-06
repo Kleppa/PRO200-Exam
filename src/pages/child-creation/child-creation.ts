@@ -5,6 +5,7 @@ import { ToastController } from 'ionic-angular/components/toast/toast-controller
 import { Child } from '../../models/child';
 import { Camera, CameraOptions } from '@ionic-native/camera'
 import { AngularFireAuth } from 'angularfire2/auth';
+import { CacheService } from 'ionic-cache';
 
 @IonicPage()
 @Component({
@@ -22,7 +23,8 @@ export class ChildCreationPage {
     public navParams: NavParams,
     private dbProvider: DatabaseProvider,
     private afAuth: AngularFireAuth,
-    private camera: Camera) {
+    private camera: Camera,
+    private cache: CacheService) {
     this.child.tag = "child";
   }
 
@@ -65,7 +67,7 @@ export class ChildCreationPage {
           });
           submitting.setContent('Bilde lastet opp!');
         }
-     
+
         this.dbProvider.getCurrentUser().map(user => user.familyId).first()
           .subscribe(async familyId => {
             if (breakLimit == 0) {
@@ -73,6 +75,7 @@ export class ChildCreationPage {
               submitting.setContent('legger til barnet i familie..');
               await this.dbProvider.addChildtoFamily(this.child, familyId);
               breakLimit++;
+              this.cache.clearGroup("family");
               submitting.dismiss();
               this.presentSuccessToast();
               this.navCtrl.pop();

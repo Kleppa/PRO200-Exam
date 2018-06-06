@@ -4,12 +4,15 @@ import { SettingsPage } from '../settings/settings';
 import { DatabaseProvider } from '../../providers/database/database';
 import { User } from '../../models/user';
 import { Observable } from 'rxjs';
+import { count } from 'rxjs/operators';
 import { DocumentData } from 'angularfire2/firestore';
 import { ModalController } from 'ionic-angular/components/modal/modal-controller';
 import { ChooseUserComponent } from '../../components/choose-user/choose-user';
 import { AddAdultModalComponent } from '../../components/add-adult-modal/add-adult-modal';
 import { Child } from '../../models/child';
 import { ChildWishesPage } from '../child-wishes/child-wishes';
+import { CacheService } from 'ionic-cache';
+import { Item } from '../../models/item';
 
 @IonicPage()
 @Component({
@@ -17,48 +20,50 @@ import { ChildWishesPage } from '../child-wishes/child-wishes';
   templateUrl: 'my-family.html',
 })
 export class MyFamilyPage {
+  public itemsInCart$: Observable<Item[]>;
   private familyId: string;
   private mainUser: User;
   public adults: Observable<DocumentData[]>;
   public children: Observable<DocumentData[]>;
   public wishes: Observable<DocumentData[]>;
-  public itemsInCart;
-  public priceOfCart: number;
+  public priceOfCart: number = 0;
   itemsToShow: number = 3;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private dbProvider: DatabaseProvider, private modalController: ModalController) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    private dbProvider: DatabaseProvider,
+    private modalController: ModalController,
+    private cache: CacheService) { }
 
+  ionViewWillEnter() {
+    console.log("Will enter")
+    this.initObs();
   }
-  initObs(){
-        
+
+  initObs() {
     this.adults = this.dbProvider.getAdults();
     this.children = this.dbProvider.getChildren();
-    this.itemsInCart = 0
+    this.itemsInCart$ = this.dbProvider.getCartItems();
     this.wishes = this.dbProvider.getFamilyWishes().map(items => {
-      return items.filter(item => {
-        console.log("ITEM", item)
-        return item.status === `venter`
-      });
-      
+      return items.filter(item => { return item['status'] === `venter` });
     });
+
+    this.itemsInCart$.filter(item => { return (item.pop() != undefined) }).map(items => items.pop().price)
+      .subscribe(price => this.priceOfCart = (price) ? this.priceOfCart + price : 0);
 
     this.dbProvider.getCurrentUser()
       .subscribe(user => {
         this.mainUser = user;
         this.familyId = user.familyId;
-        console.log(`FAM ID `, this.familyId)
+        console.log('familyId: ', this.familyId);
       });
   }
-  ionViewWillEnter(){
-    console.log("Will enter")
-    this.initObs();
-  }
+
   goToChildWishes(child: Child) {
     this.navCtrl.push(`ChildWishesPage`, {
       child: child,
       wishes: this.dbProvider.getFamilyWishes().map(items => {
-
-        return items.filter(item => item[`childToken`] === child.token && item.status === `venter`);
+        return items.filter(item => item[`childToken`] === child.token && item['status'] === `venter`);
       })
     });
   }
@@ -91,6 +96,7 @@ export class MyFamilyPage {
       if (decision === 1) {
         this.navCtrl.push('ChildCreationPage')
       } else if (decision === 2) {
+        this.cache.clearGroup('family');
         this.addAdult();
       }
     });
@@ -128,6 +134,7 @@ export class MyFamilyPage {
             await this.dbProvider.addUser(matchingUser, this.familyId).then(() => {
 
               this.dbProvider.giveUserFamilyId(matchingUser, this.familyId)
+              this.cache.clearGroup("family");
             });
           }).catch(err => console.error(err));
       }
@@ -137,11 +144,13 @@ export class MyFamilyPage {
   numberOfChildWishes(child: Child) {
     return this.wishes.filter(wish => wish[`childToken`] === child.token).count();
   }
+
   denyWish(wish) {
-    console.log("Deny WISHHHHHH")
     this.dbProvider.denyWish(wish);
   }
+
   addWishToCart(wish) {
     this.dbProvider.addWishToCart(wish);
   }
+
 }

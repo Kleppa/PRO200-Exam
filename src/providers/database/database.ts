@@ -47,18 +47,16 @@ export class DatabaseProvider {
       .set(user);
   }
 
-  getFamilyWishes(): Observable<DocumentData[]> {
-    let request =
-      this.getCurrentUser().filter(user => (user.familyId) ? true : false)
-        .map(user => user.familyId)
-        .switchMap(familyId =>
-          this.afs.collection(`families`).doc(familyId).collection(`wishlist`).snapshotChanges()
-            .map(actions => actions.map(a => {
-              const data = a.payload.doc.data() as Item;
-              const id = a.payload.doc.id;
-              return { id, ...data }
-            })));
-    return this.cache.loadFromDelayedObservable<DocumentData[]>('family-wishes', request, 'family', 60*30, 'all');
+  getFamilyWishes(): Observable<Item[]> {
+    return this.getCurrentUser().filter(user => (user.familyId) ? true : false)
+      .map(user => user.familyId)
+      .switchMap(familyId =>
+        this.afs.collection(`families`).doc(familyId).collection(`wishlist`).snapshotChanges()
+          .map(actions => actions.map(a => {
+            const data = a.payload.doc.data();
+            const id = a.payload.doc.id;
+            return { id, ...data } as Item;
+          })));
   }
 
   giveUserFamilyId(user: User, famId?: string) {
@@ -97,7 +95,7 @@ export class DatabaseProvider {
           .then(result => {
             return (result.exists) ? result.data() as User : null
           })));
-    return this.cache.loadFromDelayedObservable('current-user', request, 'user', 60 * 60, 'all');
+    return this.cache.loadFromObservable('current-user', request, 'user');
   }
 
   private getFamilyMembers(): Observable<any[]> {
@@ -172,14 +170,14 @@ export class DatabaseProvider {
     let request = this
       .getFamilyMembers()
       .map(members => members.filter(member => member.tag == 'child'));
-    return this.cache.loadFromDelayedObservable('family-children', request, 'family', 60 * 60, 'all');
+    return this.cache.loadFromObservable('family-children', request, 'family');
   }
 
   getAdults(): Observable<DocumentData[]> {
     let request = this
       .getFamilyMembers()
       .map(members => members.filter(member => !member.tag));
-    return this.cache.loadFromDelayedObservable('family-adults', request, 'family', 60 * 60, 'all');
+    return this.cache.loadFromObservable('family-adults', request, 'family');
   }
 
   addWishToCart(wish) {
@@ -191,6 +189,7 @@ export class DatabaseProvider {
         this.afs.collection('families').doc(user.familyId).collection(`wishlist`).ref.where(`EAN`, "==", wish[`EAN`]).get().then(docs => {
           docs.forEach(doc => {
             this.afs.collection('families').doc(user.familyId).collection(`wishlist`).doc(doc.id).update(wish);
+            this.cache.clearGroup('wishes')
           })
         })
       })
@@ -211,14 +210,9 @@ export class DatabaseProvider {
     })
   }
 
-  // getNumberOfItemsInCart() {
-  //   console.log("hello")
-  //   return this.getCurrentUser().subscribe(user => {
-  //     this.afs.collection(`families`).doc(user.familyId).collection(`cart`)
-  //       .snapshotChanges().map(actions => {
-  //         return actions.length;
-  //       });
-
-  //   })
- // }
+  getCartItems(): Observable<Item[]> {
+    return this.getCurrentUser().switchMap(user =>
+      this.afs.collection('families').doc(user.familyId)
+        .collection<Item>('cart').valueChanges()).do(item => item as Item[]);
+  }
 }
