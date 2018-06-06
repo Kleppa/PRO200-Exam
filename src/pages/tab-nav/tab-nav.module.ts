@@ -10,4 +10,4 @@ import { TabNav } from './tab-nav';
     IonicPageModule.forChild(TabNav),
   ],
 })
-export class TabNavModule {}
+export class TabNavModule { }

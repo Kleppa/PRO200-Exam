@@ -26,20 +26,21 @@ export class MyFamilyPage {
   public priceOfCart: number;
   itemsToShow: number = 3;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private dbProvider: DatabaseProvider, private modalController: ModalController) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    private dbProvider: DatabaseProvider,
+    private modalController: ModalController) { this.initObs(); }
 
-  }
-  initObs(){
-        
+  initObs() {
     this.adults = this.dbProvider.getAdults();
     this.children = this.dbProvider.getChildren();
     this.itemsInCart = 0
     this.wishes = this.dbProvider.getFamilyWishes().map(items => {
       return items.filter(item => {
         console.log("ITEM", item)
-        return item.status === `venter`
+        return item['status'] === `venter`
       });
-      
+
     });
 
     this.dbProvider.getCurrentUser()
@@ -49,16 +50,18 @@ export class MyFamilyPage {
         console.log(`FAM ID `, this.familyId)
       });
   }
-  ionViewWillEnter(){
+
+  ionViewWillEnter() {
     console.log("Will enter")
     this.initObs();
   }
+
   goToChildWishes(child: Child) {
     this.navCtrl.push(`ChildWishesPage`, {
       child: child,
       wishes: this.dbProvider.getFamilyWishes().map(items => {
 
-        return items.filter(item => item[`childToken`] === child.token && item.status === `venter`);
+        return items.filter(item => item[`childToken`] === child.token && item['status'] === `venter`);
       })
     });
   }
