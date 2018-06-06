@@ -20,6 +20,10 @@ import { AdultSettingModalComponent } from '../components/adult-setting-modal/ad
 import { ChooseUserComponent } from '../components/choose-user/choose-user';
 
 import { CacheModule } from 'ionic-cache';
+<<<<<<< HEAD
+=======
+//import { CartComponent } from '../components/cart/cart';
+>>>>>>> 0354d9bd81eed7b4ea2f87dbdb0f2445f4f73bd3
 
 @NgModule({
   declarations: [

@@ -200,6 +200,14 @@ export class DatabaseProvider {
   getNumberOfItemsInCart(): Observable<number> {
     return this.getCurrentUser().map(user => user.familyId)
       .switchMap(familyId => this.afs.collection(`families`).doc(familyId).collection(`cart`)
-        .valueChanges().count());
+        .valueChanges().count(() => true));
+        
+  }
+
+  getNumberOfWishes(child){
+    
+  //   return this.getCurrentUser().map(user=> user.familyId)
+  //   .switchMap(familyId => this.afs.collection(`families`).ref.where(`token`,`==`,child[`token`]).get()
+  // .then(docs => docs.data))
   }
 }
