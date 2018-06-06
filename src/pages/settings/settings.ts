@@ -29,7 +29,10 @@ export class SettingsPage {
     public navParams: NavParams,
     private modalCtrl: ModalController,
     private afAuth: AngularFireAuth) {
-    this.init();
+  
+  }
+  ionViewWillEnter(){
+    this.init()
   }
 
   init() {

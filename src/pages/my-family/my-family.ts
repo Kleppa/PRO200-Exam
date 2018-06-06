@@ -27,8 +27,7 @@ export class MyFamilyPage {
   itemsToShow: number = 3;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private dbProvider: DatabaseProvider, private modalController: ModalController) {
-  
-    this.initObs();
+
   }
   initObs(){
         
@@ -40,6 +39,7 @@ export class MyFamilyPage {
         console.log("ITEM", item)
         return item.status === `venter`
       });
+      
     });
 
     this.dbProvider.getCurrentUser()
@@ -48,6 +48,10 @@ export class MyFamilyPage {
         this.familyId = user.familyId;
         console.log(`FAM ID `, this.familyId)
       });
+  }
+  ionViewWillEnter(){
+    console.log("Will enter")
+    this.initObs();
   }
   goToChildWishes(child: Child) {
     this.navCtrl.push(`ChildWishesPage`, {
