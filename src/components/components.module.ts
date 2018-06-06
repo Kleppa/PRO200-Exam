@@ -3,11 +3,8 @@ import { AdultSettingModalComponent } from './adult-setting-modal/adult-setting-
 import { AddAdultModalComponent } from './add-adult-modal/add-adult-modal';
 import { IonicModule } from 'ionic-angular';
 import { ChooseUserComponent } from './choose-user/choose-user';
-<<<<<<< HEAD
-
-=======
 //import { CartComponent } from './cart/cart';
->>>>>>> 0354d9bd81eed7b4ea2f87dbdb0f2445f4f73bd3
+
 @NgModule({
 	declarations: [AdultSettingModalComponent,
     AddAdultModalComponent,

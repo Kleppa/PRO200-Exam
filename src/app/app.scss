@@ -196,3 +196,16 @@ modal-wrapper {
   margin-left: 5%;
 
 }
+
+// toast
+.redToastStyle {
+  > div{
+      background-color:color($colors, bringebar)!important;;
+  }
+}
+
+.greenToastStyle {
+  > div{
+      background-color:color($primary-profile, gronn)!important;;
+  }
+}
