@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { DocumentData } from 'angularfire2/firestore';
 import firebase from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { CacheService } from 'ionic-cache';
 
 @IonicPage()
 @Component({
@@ -28,11 +29,13 @@ export class SettingsPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private modalCtrl: ModalController,
-    private afAuth: AngularFireAuth) {
-  
+    private afAuth: AngularFireAuth,
+    private cache: CacheService) {
+
   }
-  ionViewWillEnter(){
-    this.init()
+  ionViewWillEnter() {
+    this.init();
+    this.cache.clearGroup("family");
   }
 
   init() {
@@ -57,6 +60,7 @@ export class SettingsPage {
       this.dbProvider.getCurrentUser().subscribe(res => {
         if (del && !(user[`email`] === res.email)) {
           this.dbProvider.deleteAdult(user, this.familyId);
+          this.cache.clearGroup("family");
         }
       });
     });

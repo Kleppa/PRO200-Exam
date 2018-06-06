@@ -63,13 +63,14 @@ $tabs-ios-tab-icon-color-active: color($colors, hvit);;
 $tabs-ios-tab-text-color-active: color($colors, hvit);;
 
 // intactive tab
-$tabs-ios-tab-text-color: color($colors, varmgra);;
+$tabs-ios-tab-text-color: color($colors, varmgra);; 
 $tabs-ios-tab-icon-color: color($colors, varmgra);;
 
 
 // size tab 
 $tabs-ios-tab-icon-size: 2.7rem;
 $tabs-ios-tab-font-size: 10px;
+$tabs-ios-tab-min-height: 5.6rem;
 
 // header
 /* $toolbar-ios-title-font-size: 1.7rem;; */

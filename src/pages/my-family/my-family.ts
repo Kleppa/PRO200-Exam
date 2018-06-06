@@ -4,6 +4,7 @@ import { SettingsPage } from '../settings/settings';
 import { DatabaseProvider } from '../../providers/database/database';
 import { User } from '../../models/user';
 import { Observable } from 'rxjs';
+import { count } from 'rxjs/operators';
 import { DocumentData } from 'angularfire2/firestore';
 import { ModalController } from 'ionic-angular/components/modal/modal-controller';
 import { ChooseUserComponent } from '../../components/choose-user/choose-user';
@@ -11,6 +12,8 @@ import { AddAdultModalComponent } from '../../components/add-adult-modal/add-adu
 import { Child } from '../../models/child';
 import { ChildWishesPage } from '../child-wishes/child-wishes';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
+import { CacheService } from 'ionic-cache';
+import { Item } from '../../models/item';
 
 @IonicPage()
 @Component({
@@ -18,54 +21,51 @@ import { ToastController } from 'ionic-angular/components/toast/toast-controller
   templateUrl: 'my-family.html',
 })
 export class MyFamilyPage {
+  public itemsInCart$: Observable<Item[]>;
   private familyId: string;
   private mainUser: User;
   public adults: Observable<DocumentData[]>;
   public children: Observable<DocumentData[]>;
   public wishes: Observable<DocumentData[]>;
-  public itemsInCart;
-  public priceOfCart: number;
+  public priceOfCart: number = 0;
   itemsToShow: number = 3;
-  wishListSize:number=0;
+  wishListSize: number = 0;
+
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private dbProvider: DatabaseProvider,
     private modalController: ModalController,
-    private toast: ToastController) { this.initObs(); }
-
-  initObs() {
-    this.adults = this.dbProvider.getAdults();
-    this.children = this.dbProvider.getChildren();
-    this.itemsInCart = 0
-    this.wishes = this.dbProvider.getFamilyWishes().map(items => {
-      return items.filter(item => {
-        
-        if( item['status'] === `venter`){
-          this.wishListSize++
-          return true;
-        }
-      });
-
-    });
-
-    this.dbProvider.getCurrentUser()
-      .subscribe(user => {
-        this.mainUser = user;
-        this.familyId = user.familyId;
-        console.log(`FAM ID `, this.familyId)
-      });
-  }
+    private toast: ToastController,
+    private cache: CacheService) { this.initObs(); }
 
   ionViewWillEnter() {
     console.log("Will enter")
     this.initObs();
   }
 
+  initObs() {
+    this.adults = this.dbProvider.getAdults();
+    this.children = this.dbProvider.getChildren();
+    this.itemsInCart$ = this.dbProvider.getCartItems();
+    this.wishes = this.dbProvider.getFamilyWishes().map(items => {
+      return items.filter(item => { return item['status'] === `venter` });
+    });
+
+    this.itemsInCart$.filter(item => { return (item.pop() != undefined) }).map(items => items.pop().price)
+      .subscribe(price => this.priceOfCart = (price) ? this.priceOfCart + price : 0);
+
+    this.dbProvider.getCurrentUser()
+      .subscribe(user => {
+        this.mainUser = user;
+        this.familyId = user.familyId;
+        console.log('familyId: ', this.familyId);
+      });
+  }
+
   goToChildWishes(child: Child) {
     this.navCtrl.push(`ChildWishesPage`, {
       child: child,
       wishes: this.dbProvider.getFamilyWishes().map(items => {
-
         return items.filter(item => item[`childToken`] === child.token && item['status'] === `venter`);
       })
     });
@@ -99,6 +99,7 @@ export class MyFamilyPage {
       if (decision === 1) {
         this.navCtrl.push('ChildCreationPage')
       } else if (decision === 2) {
+        this.cache.clearGroup('family');
         this.addAdult();
       }
     });
@@ -136,6 +137,7 @@ export class MyFamilyPage {
             await this.dbProvider.addUser(matchingUser, this.familyId).then(() => {
 
               this.dbProvider.giveUserFamilyId(matchingUser, this.familyId)
+              this.cache.clearGroup("family");
             });
           }).catch(err => console.error(err));
       }
@@ -145,6 +147,7 @@ export class MyFamilyPage {
   numberOfChildWishes(child: Child) {
     return this.wishes.filter(wish => wish[`childToken`] === child.token).count();
   }
+
   denyWish(wish) {
     this.wishListSize--;
     this.dbProvider.denyWish(wish);
@@ -158,6 +161,7 @@ export class MyFamilyPage {
       closeButtonText: "Lukk"
     }).present();
   }
+
   addWishToCart(wish) {
     this.dbProvider.addWishToCart(wish);
     this.wishListSize--;
@@ -171,4 +175,5 @@ export class MyFamilyPage {
 
     }).present();
   }
+
 }

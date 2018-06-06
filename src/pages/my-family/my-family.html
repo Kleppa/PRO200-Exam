@@ -76,13 +76,13 @@
             </ion-col>
 
             <ion-col col-2 no-margin no-padding>
-              <button (click)="denyWish(wish)"  class="btn-red-red btn-round" ion-button color="secondary">
+              <button (click)="denyWish(wish)" class="btn-red-red btn-round" ion-button color="secondary">
                 <p class="btn-symbol">x</p>
               </button>
             </ion-col>
 
-            <ion-col col-2 no-margin no-padding >
-              <button class="btn-green btn-round" ion-button color="primary" (click)="addWishToCart(wish)" >
+            <ion-col col-2 no-margin no-padding>
+              <button class="btn-green btn-round" ion-button color="primary" (click)="addWishToCart(wish)">
                 <p class="btn-symbol btn-symbol-pluss">+</p>
               </button>
             </ion-col>
@@ -92,5 +92,21 @@
       </ion-item>
     </ion-list>
     <button *ngIf="wishListSize > 3" class="btn-aubergine btn btn-add-items" ion-button (click)="incrementItemsToShow(3)">Last inn flere</button>
+    <button ion-button (click)="incrementItemsToShow(3)">Last inn flere</button>
+  </div>
+
+  <div *ngIf="(itemsInCart$ | async); let items">
+    <div ion-fixed *ngIf="items.length < 1" class="cart">
+      <p>
+        <ion-icon name="cart"></ion-icon>Handlevognen er tom
+        <span>kr 0,00</span>
+      </p>
+    </div>
+    <div ion-fixed *ngIf="items.length > 0" class="cart">
+      <p>
+        <ion-icon name="cart"></ion-icon> {{items.length}} varer
+        <span>kr {{priceOfCart}}</span>
+      </p>
+    </div>
   </div>
 </ion-content>

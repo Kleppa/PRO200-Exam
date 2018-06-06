@@ -107,4 +107,22 @@ page-my-family {
         border-top: none !important;
     }
    
+    .cart {
+        width: 100vw;
+        height: 30px;
+        background-color: color($colors, lys-varmgra);;
+        left: 0;
+        bottom: $tabs-md-tab-min-height;
+        position: fixed;
+        p {
+            margin: 7px;
+            margin-left: 16px;
+            font-size: 1.1em;
+            
+            span {
+                float: right;
+                margin-right: 10px;
+            }
+        }
+    }
 }

@@ -7,6 +7,7 @@ import { ToastController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DatabaseProvider } from '../../providers/database/database';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { CacheService } from 'ionic-cache';
 /**
  * Generated class for the ChildSettingPage page.
  *
@@ -27,16 +28,23 @@ export class ChildSettingPage {
   public limitations: string[];
   private famId;
   changes: boolean = false;
-  constructor(private afAuth: AngularFireAuth, private dbProvider: DatabaseProvider, private camera: Camera, private navCtrl: NavController, private navParams: NavParams, private clipboard: Clipboard, private toastCtrl: ToastController) {
+
+  constructor(private afAuth: AngularFireAuth,
+    private dbProvider: DatabaseProvider,
+    private camera: Camera,
+    private navCtrl: NavController,
+    private navParams: NavParams,
+    private clipboard: Clipboard,
+    private toastCtrl: ToastController,
+    private cache: CacheService) {
 
     this.child = navParams.get('child');
     this.famId = navParams.get('famid');
 
     this.limitations = this.child.limits;
-
     this.childImg = this.child.img;
-
   }
+
   addToClipboard() {
     this.clipboard.copy(this.child.token).then(() => {
 
@@ -48,9 +56,11 @@ export class ChildSettingPage {
       });
     });
   }
+
   deleteChild(child?: Child) {
     //Delete child from family
   }
+
   changePicture() {
     const options: CameraOptions = {
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
@@ -60,25 +70,16 @@ export class ChildSettingPage {
     };
 
     this.camera.getPicture(options).then(imageData => {
-
       if (imageData) {
-
         this.base64Img = imageData;
-
         this.childImg = "data:image/jpeg;base64," + this.base64Img;
-
       }
       return imageData;
-
     }).catch(err => console.log(err));
   }
+
   async saveChanges() {
-
-
-
-    console.log(" SAVE CHANGES ENTERED")
     if (this.base64Img) {
-
       const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}.jpeg`
       console.log("saving")
       await this.dbProvider.uploadImg(this.base64Img, imgRef).then(url => {
@@ -99,15 +100,14 @@ export class ChildSettingPage {
           closeButtonText: "Lukk"
 
         }).present().then(() => {
+          this.cache.clearGroup('family');
           this.navCtrl.pop();
         })
       })
     })
-
-
   }
-  addLimitToChild() {
 
+  addLimitToChild() {
     if (this.child.limits) {
       this.child.limits.push(this.limit);
 
@@ -118,12 +118,14 @@ export class ChildSettingPage {
 
     this.limit = ""
   }
+
   removeLimitations(limit: string) {
     this.child.limits = this.child.limits.filter(limitInArray => limitInArray !== limit)
     this.limitations = this.child.limits
   }
+
   delete() {
-    this.changes=true;
+    this.changes = true;
     this.dbProvider.getCurrentUser().first().subscribe(user => {
       this.dbProvider.deleteChild(this.child, user.familyId);
       this.toastCtrl.create({
@@ -136,6 +138,7 @@ export class ChildSettingPage {
       }).present().then(() => this.navCtrl.pop());
     })
   }
+
   ionViewWillLeave() {
     console.log(this.changes)
     if (!this.changes) {
@@ -146,7 +149,8 @@ export class ChildSettingPage {
         cssClass: "redToastStyle",
         showCloseButton: true,
         closeButtonText: "Lukk"
-      }).present();
+      }).present().then(() => { this.cache.clearGroup("family"); this.navCtrl.pop(); });
     }
   }
+  
 }
