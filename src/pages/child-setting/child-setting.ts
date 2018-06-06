@@ -33,14 +33,10 @@ export class ChildSettingPage {
     this.famId = navParams.get('famid');
 
     this.limitations = this.child.limits;
+
     this.childImg = this.child.img;
 
   }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ChildSettingPage');
-  }
-
   addToClipboard() {
     this.clipboard.copy(this.child.token).then(() => {
 
@@ -152,5 +148,4 @@ export class ChildSettingPage {
       }).present();
     }
   }
-
 }

@@ -10,6 +10,7 @@ import { ChooseUserComponent } from '../../components/choose-user/choose-user';
 import { AddAdultModalComponent } from '../../components/add-adult-modal/add-adult-modal';
 import { Child } from '../../models/child';
 import { ChildWishesPage } from '../child-wishes/child-wishes';
+import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 
 @IonicPage()
 @Component({
@@ -25,11 +26,12 @@ export class MyFamilyPage {
   public itemsInCart;
   public priceOfCart: number;
   itemsToShow: number = 3;
-
+  wishListSize:number=0;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private dbProvider: DatabaseProvider,
-    private modalController: ModalController) { this.initObs(); }
+    private modalController: ModalController,
+    private toast: ToastController) { this.initObs(); }
 
   initObs() {
     this.adults = this.dbProvider.getAdults();
@@ -37,8 +39,11 @@ export class MyFamilyPage {
     this.itemsInCart = 0
     this.wishes = this.dbProvider.getFamilyWishes().map(items => {
       return items.filter(item => {
-        console.log("ITEM", item)
-        return item['status'] === `venter`
+        
+        if( item['status'] === `venter`){
+          this.wishListSize++
+          return true;
+        }
       });
 
     });
@@ -141,10 +146,22 @@ export class MyFamilyPage {
     return this.wishes.filter(wish => wish[`childToken`] === child.token).count();
   }
   denyWish(wish) {
-    console.log("Deny WISHHHHHH")
+    this.wishListSize--;
     this.dbProvider.denyWish(wish);
+
+    this.toast.create({
+      message: "Avslår varen",
+      duration: 2500,
+      position: `top`
+    }).present();
   }
   addWishToCart(wish) {
     this.dbProvider.addWishToCart(wish);
+    this.wishListSize--;
+    this.toast.create({
+      message: "Legger til varen i handlekurven",
+      duration: 2500,
+      position: `top`
+    }).present();
   }
 }
