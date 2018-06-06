@@ -26,6 +26,7 @@ export class ChildSettingPage {
   public limit: string;
   public limitations: string[];
   private famId;
+  changes: boolean = false;
   constructor(private afAuth: AngularFireAuth, private dbProvider: DatabaseProvider, private camera: Camera, private navCtrl: NavController, private navParams: NavParams, private clipboard: Clipboard, private toastCtrl: ToastController) {
 
     this.child = navParams.get('child');
@@ -77,28 +78,33 @@ export class ChildSettingPage {
     }).catch(err => console.log(err));
   }
   async saveChanges() {
-    console.log( " SAVE CHANGES ENTERED")
+
+
+
+    console.log(" SAVE CHANGES ENTERED")
     if (this.base64Img) {
 
       const imgRef = `${this.afAuth.auth.currentUser.uid}_${new Date().getTime()}.jpeg`
       console.log("saving")
-      await this.dbProvider.uploadImg(this.base64Img, imgRef).then(url =>{
-        this.child.img=url;
+      await this.dbProvider.uploadImg(this.base64Img, imgRef).then(url => {
+        this.child.img = url;
       })
-      
     }
-   await this.dbProvider.getCurrentUser().subscribe(user => {
-    
-     this.dbProvider.updateChild(this.child, this.child.id, user.familyId).then(() => {
-      this.toastCtrl.create({
-        duration: 3000,
-        position: "top",
-        message: "Endringene er lagret!"
-      }).present().then(() => {
-        this.navCtrl.pop();
+
+    this.changes = true
+    await this.dbProvider.getCurrentUser().first().subscribe(user => {
+
+      this.dbProvider.updateChild(this.child, this.child.id, user.familyId).then(() => {
+        this.toastCtrl.create({
+          duration: 3000,
+          position: "top",
+          message: "Endringene er lagret!"
+        }).present().then(() => {
+          this.navCtrl.pop();
+        })
       })
     })
-  })
+
 
   }
   addLimitToChild() {
@@ -118,14 +124,24 @@ export class ChildSettingPage {
     this.limitations = this.child.limits
   }
   delete() {
-    this.dbProvider.getCurrentUser().first().subscribe(user =>{
-    this.dbProvider.deleteChild(this.child, user.familyId);
-    this.toastCtrl.create({
-      duration: 2500,
-      position: `top`,
-      message: `${this.child.name} har blitt slettet fra din familie`
-    }).present().then(() => this.navCtrl.pop());
-  })
+    this.dbProvider.getCurrentUser().first().subscribe(user => {
+      this.dbProvider.deleteChild(this.child, user.familyId);
+      this.toastCtrl.create({
+        duration: 2500,
+        position: `top`,
+        message: `${this.child.name} har blitt slettet fra din familie`
+      }).present().then(() => this.navCtrl.pop());
+    })
+  }
+  ionViewWillLeave() {
+    console.log(this.changes)
+    if (!this.changes) {
+      this.toastCtrl.create({
+        duration: 2500,
+        position: `top`,
+        message: `Endringene ble ikke lagret`
+      }).present();
+    }
   }
 
 }

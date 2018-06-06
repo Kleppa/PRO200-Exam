@@ -5,5 +5,6 @@ export interface Item{
     size:string,
     allergens?:string[],
     EAN:number,
-    image:string
+    image:string,
+    id?:string
 }
