@@ -92,7 +92,7 @@
       </ion-item>
     </ion-list>
     <button *ngIf="wishListSize > 3" class="btn-aubergine btn btn-add-items" ion-button (click)="incrementItemsToShow(3)">Last inn flere</button>
-    <button ion-button (click)="incrementItemsToShow(3)">Last inn flere</button>
+    
   </div>
 
   <div *ngIf="(itemsInCart$ | async); let items">

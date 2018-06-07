@@ -7,5 +7,5 @@ export interface Item{
     allergens?:string[],
     EAN:number,
     image:string,
-    id?:string
+    
 }

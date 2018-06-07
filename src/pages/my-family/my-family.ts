@@ -48,7 +48,12 @@ export class MyFamilyPage {
     this.children = this.dbProvider.getChildren();
     this.itemsInCart$ = this.dbProvider.getCartItems();
     this.wishes = this.dbProvider.getFamilyWishes().map(items => {
-      return items.filter(item => { return item['status'] === `venter` });
+      return items.filter(item => { 
+        if( item['status'] === `venter`){
+          this.wishListSize++;
+          return true;
+        }
+       });
     });
 
     this.itemsInCart$.filter(item => { return (item.pop() != undefined) }).map(items => items.pop().price)
