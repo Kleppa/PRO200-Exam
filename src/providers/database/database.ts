@@ -93,7 +93,7 @@ export class DatabaseProvider {
   }
 
   getCurrentUser(): Observable<User> {
-    let request = this.afAuth.authState.first()
+    return this.afAuth.authState.first()
       .map(user => user.uid)
       .switchMap(id =>
         Observable.fromPromise(this.afs.collection('users')
@@ -101,7 +101,6 @@ export class DatabaseProvider {
           .then(result => {
             return (result.exists) ? result.data() as User : null
           })));
-    return this.cache.loadFromObservable('current-user', request, 'user');
   }
 
 

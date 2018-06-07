@@ -36,35 +36,41 @@ export class MyFamilyPage {
     private dbProvider: DatabaseProvider,
     private modalController: ModalController,
     private toast: ToastController,
-    private cache: CacheService) { this.initObs(); }
+    private cache: CacheService) {
+    this.initObs();
+  }
 
   ionViewWillEnter() {
     console.log("Will enter")
     this.initObs();
   }
 
-  initObs() {
-    this.adults = this.dbProvider.getAdults();
-    this.children = this.dbProvider.getChildren();
-    this.itemsInCart$ = this.dbProvider.getCartItems();
-    this.wishes = this.dbProvider.getFamilyWishes().map(items => {
-      return items.filter(item => { 
-        if( item['status'] === `venter`){
-          this.wishListSize++;
-          return true;
-        }
-       });
-    });
-
-    this.itemsInCart$.filter(item => { return (item.pop() != undefined) }).map(items => items.pop().price)
-      .subscribe(price => this.priceOfCart = (price) ? this.priceOfCart + price : 0);
-
-    this.dbProvider.getCurrentUser()
-      .subscribe(user => {
+  async initObs() {
+    await this.dbProvider.getCurrentUser().toPromise()
+      .then(user => {
+        console.log(user);
         this.mainUser = user;
         this.familyId = user.familyId;
-        console.log('familyId: ', this.familyId);
       });
+
+    if (this.familyId) {
+      console.log('familyId: ', this.familyId);
+      this.adults = this.dbProvider.getAdults();
+      this.children = this.dbProvider.getChildren();
+      if (this.itemsInCart$) this.itemsInCart$.map(items => items.filter(item => item.price))
+        .subscribe(items => items.map(item => item.price)
+          .forEach(price => this.priceOfCart = (price) ? this.priceOfCart + price : this.priceOfCart));
+      this.itemsInCart$ = this.dbProvider.getCartItems();
+      this.wishes = this.dbProvider.getFamilyWishes().map(items => {
+        return items.filter(item => {
+          if (item['status'] === `venter`) {
+            this.wishListSize++;
+            return true;
+          }
+        });
+      });
+
+    }
   }
 
   goToChildWishes(child: Child) {
@@ -177,8 +183,10 @@ export class MyFamilyPage {
       cssClass: "greenToastStyle",
       showCloseButton: true,
       closeButtonText: "Lukk"
-
     }).present();
+    this.itemsInCart$.map(items => items.filter(item => item.price))
+      .subscribe(items => items.map(item => item.price)
+        .forEach(price => this.priceOfCart = (price) ? this.priceOfCart + price : 0));
   }
 
 }

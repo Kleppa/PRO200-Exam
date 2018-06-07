@@ -6,6 +6,7 @@ import { Child } from '../../models/child';
 import { Camera, CameraOptions } from '@ionic-native/camera'
 import { AngularFireAuth } from 'angularfire2/auth';
 import { CacheService } from 'ionic-cache';
+import { User } from '../../models/user';
 
 @IonicPage()
 @Component({
@@ -43,12 +44,13 @@ export class ChildCreationPage {
       });
       submitting.present();
 
-      await this.dbProvider.getCurrentUser().subscribe(async (user) => {
-        if (!user.familyId) {
-          console.log(user)
+      let user: User;
+      await this.dbProvider.getCurrentUser().toPromise().then(async (usr) => {
+        if (!usr.familyId) {
           submitting.setContent('Oppretter familie...');
-          await this.dbProvider.addUserToFamily(user);
-          await this.dbProvider.giveUserFamilyId(user);
+          await this.dbProvider.addUserToFamily(usr);
+          await this.dbProvider.giveUserFamilyId(usr);
+          user = usr;
         }
       });
 
@@ -68,23 +70,18 @@ export class ChildCreationPage {
           submitting.setContent('Bilde lastet opp!');
         }
 
-        this.dbProvider.getCurrentUser().map(user => user.familyId).first()
-          .subscribe(async familyId => {
-            if (breakLimit == 0) {
-              console.log(familyId)
-              submitting.setContent('legger til barnet i familie..');
-              await this.dbProvider.addChildtoFamily(this.child, familyId);
-              breakLimit++;
-              this.cache.clearGroup("family");
-              submitting.dismiss();
-              this.presentSuccessToast();
-              this.navCtrl.pop();
-            }
-
-          });
+        if (breakLimit == 0) {
+          console.log(user.familyId)
+          submitting.setContent('legger til barnet i familie..');
+          await this.dbProvider.addChildtoFamily(this.child, user.familyId);
+          breakLimit++;
+          this.cache.clearGroup("family");
+          submitting.dismiss();
+          this.presentSuccessToast();
+          this.navCtrl.pop();
+        }
       }
     } catch (err) {
-
       submitting.dismiss();
 
       console.error('Failed adding child to family', err);
