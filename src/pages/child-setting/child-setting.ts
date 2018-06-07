@@ -149,8 +149,8 @@ export class ChildSettingPage {
         cssClass: "redToastStyle",
         showCloseButton: true,
         closeButtonText: "Lukk"
-      }).present().then(() => { this.cache.clearGroup("family"); this.navCtrl.pop(); });
+      }).present().then(() => this.cache.clearGroup("family"));
     }
   }
-  
+
 }

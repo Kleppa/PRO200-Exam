@@ -16,21 +16,36 @@ import { DatabaseProvider } from '../../providers/database/database';
   templateUrl: 'child-wishes.html',
 })
 export class ChildWishesPage {
+
   wishes;
-  child:Child;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private dbProvider:DatabaseProvider) {
+  child: Child;
+  familyId: string;
 
+  constructor(public navCtrl: NavController, public navParams: NavParams, private dbProvider: DatabaseProvider) {
     this.child = this.navParams.get(`child`);
-
-   this.wishes =this.navParams.get(`wishes`);
-
-   
+    this.wishes = this.navParams.get(`wishes`);
   }
-  denyWish(wish){
+
+  ionViewWillEnter() {
+    this.dbProvider.getCurrentUser().subscribe(user => {
+      this.familyId = user.familyId;
+    });
+  }
+
+  denyWish(wish) {
     this.dbProvider.denyWish(wish);
   }
-  addWishToCart(wish){
+
+  addWishToCart(wish) {
     this.dbProvider.addWishToCart(wish);
+  }
+
+  goToChildSettingPage() {
+    if (!this.familyId) return
+    this.navCtrl.push(`ChildSettingPage`, {
+      child: this.child,
+      famid: this.familyId
+    });
   }
 
 }

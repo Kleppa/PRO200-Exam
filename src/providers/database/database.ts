@@ -117,9 +117,10 @@ export class DatabaseProvider {
   }
 
   deleteChild(child: Child, famid: string): Promise<void> {
-    return this.afs.collection(`families`).doc(famid).collection(`members`).doc(child.id).delete().then(() => {
-      this.afs.collection(`children`).doc(child.id).delete();
-    })
+    return this.afs.collection(`families`).doc(famid)
+      .collection(`members`).doc(child.id).delete().then(() => {
+        return this.afs.collection(`children`).doc(child.id).delete();
+      });
   }
 
   deleteAdult(user: {}, famId?: string): Promise<void> {

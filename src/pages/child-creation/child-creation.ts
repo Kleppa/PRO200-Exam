@@ -34,7 +34,6 @@ export class ChildCreationPage {
   }
 
   async addChildToFamily() {
-    let breakLimit = 0;
     let submitting: Loading;
 
     try {
@@ -50,8 +49,8 @@ export class ChildCreationPage {
           submitting.setContent('Oppretter familie...');
           await this.dbProvider.addUserToFamily(usr);
           await this.dbProvider.giveUserFamilyId(usr);
-          user = usr;
         }
+        user = usr;
       });
 
       if ((!this.child.name || !this.child.age)) {
@@ -70,23 +69,17 @@ export class ChildCreationPage {
           submitting.setContent('Bilde lastet opp!');
         }
 
-        if (breakLimit == 0) {
-          console.log(user.familyId)
-          submitting.setContent('legger til barnet i familie..');
-          await this.dbProvider.addChildtoFamily(this.child, user.familyId);
-          breakLimit++;
-          this.cache.clearGroup("family");
-          submitting.dismiss();
-          this.presentSuccessToast();
-          this.navCtrl.pop();
-        }
+        submitting.setContent('Legger til barnet i familie..');
+        await this.dbProvider.addChildtoFamily(this.child, user.familyId);
+
+        this.cache.clearGroup("family");
+        submitting.dismiss();
+        this.presentSuccessToast();
+        this.navCtrl.pop();
       }
     } catch (err) {
-      submitting.dismiss();
-
       console.error('Failed adding child to family', err);
-      console.log(...err);
-      console.log(err)
+      submitting.dismiss();
       this.presentFailureToast('Kunne ikke legge barnet til i familie, prøv igjen.');
     }
   }
@@ -114,9 +107,7 @@ export class ChildCreationPage {
       message: message,
       duration: 5000,
       position: 'top',
-      cssClass: "presentFailureToastStyle",
-      showCloseButton: true,
-      closeButtonText: "Lukk"
+      cssClass: "presentFailureToastStyle"
     });
     toast.present();
   }
@@ -126,10 +117,7 @@ export class ChildCreationPage {
       message: "Gå på barnet i innstillinger for verfiseringskode til barneappen",
       duration: 5000,
       cssClass: "presentSuccessToastStyle",
-      position: 'top',
-      showCloseButton: true,
-      closeButtonText: "Lukk"
-
+      position: 'top'
     }).present();
   }
 

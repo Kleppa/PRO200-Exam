@@ -23,13 +23,14 @@ page-my-family {
         position: relative;
         overflow: hidden;
         border-radius: 50%;
-    }
-
-    .profile-img {
-        display: inline;
-        margin: 0 auto;
-        height: 170%;
-        width: auto !important;
+        background-image: url("/assets/imgs/profileimage.png");
+        background-size: cover;
+        img {
+            margin: 0 auto;
+            min-height: 100%;
+            height: auto;
+            width: 100%;
+        }
     }
 
     // add family button
