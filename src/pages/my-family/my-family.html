@@ -19,10 +19,11 @@
 
       <ion-avatar>
         <div class="round-img">
-
-          <img class="profile-img" src="{{adult.image}}">
-        </div>
+            <img *ngIf="user?.image" src="{{user.image}}" class="profile-img">
+            <img *ngIf="!user?.image" src="assets/imgs/profileimage.png" class="profile-img">
+          </div>
       </ion-avatar>
+      
       <p class="name-text">{{adult.first_name}}</p>
     </div>
 
@@ -30,8 +31,9 @@
       <ion-avatar (click)="goToChildWishes(child)">
         <p *ngIf="!numberOfChildWishes(child).isEmpty">{{numberOfChildWishes(child)|async}}</p>
         <div class="round-img">
-          <img class="profile-img" src="{{child.img}}">
-        </div>
+            <img *ngIf="child?.image" src="{{child.image}}" class="profile-img">
+            <img *ngIf="!child?.image" src="assets/imgs/profileimage.png" class="profile-img">
+          </div>
         <!-- round image -->
       </ion-avatar>
       <p class="name-text">{{child.name}}</p>
@@ -51,13 +53,15 @@
   <h1 class="title-with-border">Ønsker fra familien</h1>
   <h3 class="no-wish-text" *ngIf="!wishes"> Det er ingen ønsker fra familien</h3>
 
-  <div *ngIf="wishes">
-    <ion-list>
+  <div *ngIf="wishes" class="list">
+    <ion-list >
       <ion-item *ngFor="let wish of (wishes |async)| slice:0:itemsToShow;" no-lines>
         <div class="wish-item">
           <ion-row no-margin no-padding class="row">
             <ion-col col-2 no-padding no-margin>
+              
               <img class="wish-img" src="{{wish.image}}" />
+
             </ion-col>
 
             <ion-col col-4 no-padding no-margin>
@@ -109,4 +113,5 @@
       </p>
     </div>
   </div>
+
 </ion-content>

@@ -23,29 +23,28 @@ page-my-family {
         position: relative;
         overflow: hidden;
         border-radius: 50%;
-
     }
 
     .profile-img {
         display: inline;
         margin: 0 auto;
-        height: 140%;
+        height: 170%;
         width: auto !important;
     }
 
     // add family button
     .btn-add-family, .btn-add-items {
-        margin:auto;
-        right: 0;
-        left: 0;
-        display: block;
+ 
         font-size: 1.2rem;
     }
 
     .btn-add-family {
     width: 25%;
+    }
 
-    
+    .btn-add-items {
+        margin-top: -5rem;
+        margin-bottom: 3rem;
     }
 
 
@@ -124,5 +123,9 @@ page-my-family {
                 margin-right: 10px;
             }
         }
+    }
+
+    .list {
+        padding-bottom: 2rem;
     }
 }
