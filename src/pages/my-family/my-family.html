@@ -51,8 +51,8 @@
   <h1 class="title-with-border">Ønsker fra familien</h1>
   <h3 class="no-wish-text" *ngIf="!wishes"> Det er ingen ønsker fra familien</h3>
 
-  <div *ngIf="wishes">
-    <ion-list>
+  <div *ngIf="wishes" class="list">
+    <ion-list >
       <ion-item *ngFor="let wish of (wishes |async)| slice:0:itemsToShow;" no-lines>
         <div class="wish-item">
           <ion-row no-margin no-padding class="row">
