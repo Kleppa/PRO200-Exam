@@ -59,8 +59,13 @@ export class SettingsPage {
     adultSettingModal.onDidDismiss((del?) => {
       this.dbProvider.getCurrentUser().subscribe(res => {
         if (del && !(user[`email`] === res.email)) {
-          this.dbProvider.deleteAdult(user, this.familyId);
-          this.cache.clearGroup("family");
+          
+            console.log("USER TO DELETE",user )
+            this.dbProvider.deleteAdult(user,res.familyId);
+
+            this.cache.clearGroup("family");
+          
+         
         }
       });
     });

@@ -123,13 +123,17 @@ export class DatabaseProvider {
   }
 
   deleteAdult(user: {}, famId?: string): Promise<void> {
-    const fId = famId ? famId : user[`familyId`];
 
+    const fId = famId;
+
+    
     return this.afs.collection(`families`).doc(fId).collection(`members`).
       ref.where("email", "==", user['email']).get().then((userFound) => {
 
-        userFound.forEach(doc => {
 
+
+        userFound.forEach(doc => {
+     
           this.afs.collection(`families`).doc(fId).collection(`members`).doc(doc.id).delete().then(() => {
 
             this.afs.collection(`users`).ref.where("email", "==", doc.data()[`email`]).get().then(user => {
@@ -144,6 +148,7 @@ export class DatabaseProvider {
         })
       })
   }
+
 
   findUser(email: string): Promise<QuerySnapshot> {
     return this.afs.collection('users').ref

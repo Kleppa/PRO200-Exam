@@ -69,12 +69,14 @@ export class ChildCreationPage {
           });
           submitting.setContent('Bilde lastet opp!');
         }
+        console.log("HELLO")
 
         if (breakLimit == 0) {
           console.log(user.familyId)
           submitting.setContent('legger til barnet i familie..');
           await this.dbProvider.addChildtoFamily(this.child, user.familyId);
           breakLimit++;
+          console.log("INSIDE")
           this.cache.clearGroup("family");
           submitting.dismiss();
           this.presentSuccessToast();

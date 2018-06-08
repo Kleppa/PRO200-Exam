@@ -19,8 +19,8 @@
 
       <ion-avatar>
         <div class="round-img">
-            <img *ngIf="user?.image" src="{{user.image}}" class="profile-img">
-            <img *ngIf="!user?.image" src="assets/imgs/profileimage.png" class="profile-img">
+            <img *ngIf="adult.image" src="{{adult.image}" class="profile-img">
+            <img *ngIf="!adult.image" src="assets/imgs/profileimage.png" class="profile-img">
           </div>
       </ion-avatar>
       
@@ -31,7 +31,8 @@
       <ion-avatar (click)="goToChildWishes(child)">
         <p *ngIf="!numberOfChildWishes(child).isEmpty">{{numberOfChildWishes(child)|async}}</p>
         <div class="round-img">
-            <img *ngIf="child?.image" src="{{child.image}}" class="profile-img">
+
+            <img *ngIf="child.image" src="{{child.image}}" class="profile-img">
             <img *ngIf="!child?.image" src="assets/imgs/profileimage.png" class="profile-img">
           </div>
         <!-- round image -->
@@ -48,7 +49,7 @@
       Ny bruker</button>
   </div>
 
-  <!-- yolo commemt -->
+
 
   <h1 class="title-with-border">Ønsker fra familien</h1>
   <h3 class="no-wish-text" *ngIf="!wishes"> Det er ingen ønsker fra familien</h3>
@@ -95,7 +96,7 @@
         </div>
       </ion-item>
     </ion-list>
-    <button *ngIf="wishListSize > 3" class="btn-aubergine btn btn-add-items" ion-button (click)="incrementItemsToShow(3)">Last inn flere</button>
+    <button *ngIf="wishListSize > 3 && itemsToShow === wishListSize" class="btn-aubergine btn btn-add-items" ion-button (click)="incrementItemsToShow(3)">Last inn flere</button>
     
   </div>
 

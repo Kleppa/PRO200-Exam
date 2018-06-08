@@ -91,6 +91,7 @@
     <allow-navigation href="http://10.32.4.20:8100" />
     <allow-navigation href="http://10.32.1.16:8100" />
     <allow-navigation href="http://10.32.4.20:8101" />
+    <allow-navigation href="http://10.32.4.6:8101" />
     <engine name="ios" spec="4.5.4" />
     <engine name="android" spec="7.0.0" />
 </widget>
