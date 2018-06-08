@@ -19,22 +19,22 @@
 
     <ion-list>
       <button ion-item no-lines class="user-settings" *ngFor="let user of users | async" (click)="confirmDeletion(user)">
-        <ion-row>
-          <ion-col col-3>
-            <div class="round-img">
-              <img src={{user.image}} style="height: 2em; width: 2em;" />
-            </div>
-          </ion-col>
-          <ion-col col-6>
-            <p>{{user.first_name}}</p>
-          </ion-col>
-        </ion-row>
+
+        <div class="round-img">
+          <img src={{user.image}} style="height: 2em; width: 2em;" />
+        </div>
+
+        <div class="nameplate">
+          <p>{{user.first_name}}</p>
+        </div>
+
       </button>
 
       <button ion-item no-lines class="user-settings" *ngFor="let child of children | async" (click)="goToChildSettingPage(child)">
         <div class="round-img">
           <img src={{child.img}} />
         </div>
+
         <div class="nameplate">
           <p>{{child.name}}</p>
         </div>
