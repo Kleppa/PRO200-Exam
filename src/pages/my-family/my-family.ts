@@ -72,8 +72,10 @@ export class MyFamilyPage {
           return item.price
         })
           .forEach(price => {
-            this.priceOfCart = (price) ? this.priceOfCart + price : this.priceOfCart}));
-      }
+            this.priceOfCart = (price) ? this.priceOfCart + price : this.priceOfCart})
+          
+      })
+    }
 
 
       this.itemsInCart$ = this.dbProvider.getCartItems();
