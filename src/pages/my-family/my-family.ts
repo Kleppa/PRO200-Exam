@@ -79,17 +79,23 @@ export class MyFamilyPage {
 
 
       this.itemsInCart$ = this.dbProvider.getCartItems();
-      
+      this.childItemsNumber[this.counter]=0;
       this.wishes = this.dbProvider.getFamilyWishes().map(items => {
-        this.childItemsNumber[this.counter]=0;
+        
         this.childItemsNumber[this.counter]= 1 + this.childItemsNumber[this.counter]? this.childItemsNumber[this.counter] : 0;
         return items.filter(item => {
+
           if (item['status'] === `venter`) {
-            this.childItemsNumber[this.counter]++;
-            this.wishListSize++;
+
+            // this.childItemsNumber[this.counter]++;
+            // this.wishListSize++;
             return true;
           }
+
         });
+
+        this.counter++;
+
       });
       this.cartEmpty = this.wishes.isEmpty();
     }

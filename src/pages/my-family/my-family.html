@@ -33,7 +33,7 @@
         <p *ngIf="!numberOfChildWishes(child).isEmpty">{{numberOfChildWishes(child)|async}}</p>
         <div class="round-img">
           
-            <p *ngIf="childItemsNumber"> {{childItemsNumber[getCounter()]}} </p>
+            <p *ngIf="childItemsNumber && childItemsNumber[getCounter()]!==0"> {{childItemsNumber[getCounter()]}} </p>
 
             <img *ngIf="child.image" src="{{child.image}}" class="profile-img">
             <img *ngIf="!child?.image" src="assets/imgs/profileimage.png" class="profile-img">
