@@ -16,18 +16,32 @@
 <ion-content padding class="settings-body">
 
   <div class="users-container">
-  
-    <ion-list>
-    <button ion-item no-lines class="user-settings" *ngFor="let user of users | async" (click)="confirmDeletion(user)">
-      <img src={{user.image}}  style="height: 2em; width: 2em;" /> {{user.first_name}}
-    </button>
- 
-    <button ion-item no-lines class="user-settings" *ngFor="let child of children | async" (click)="goToChildSettingPage(child)">
-      <img src={{child.img}} style="height: 2em; width:2em;" /> {{child.name}}
-    </button>
-  </ion-list>
 
-</div>
+    <ion-list>
+      <button ion-item no-lines class="user-settings" *ngFor="let user of users | async" (click)="confirmDeletion(user)">
+
+        <div class="round-img">
+          <img src={{user.image}} style="height: 2em; width: 2em;" />
+        </div>
+
+        <div class="nameplate">
+          <p>{{user.first_name}}</p>
+        </div>
+
+      </button>
+
+      <button ion-item no-lines class="user-settings" *ngFor="let child of children | async" (click)="goToChildSettingPage(child)">
+        <div class="round-img">
+          <img src={{child.img}} />
+        </div>
+
+        <div class="nameplate">
+          <p>{{child.name}}</p>
+        </div>
+      </button>
+    </ion-list>
+
+  </div>
 
   <button class="btn new-kid-btn btn-green" ion-button block (click)="goToCreateChildCreationPage()"> Opprett ny barnebruker</button>
   <button class="btn add-existing-user-btn btn-orange" ion-button block (click)="addAdultUser()"> Legg til eksisterende Kolonial.no-bruker</button>

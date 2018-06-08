@@ -19,8 +19,13 @@
 
       <ion-avatar>
         <div class="round-img">
+<<<<<<< HEAD
           <img *ngIf="adult.image" src="{{adult.image}" class="profile-img">
           <img *ngIf="!adult.image" src="assets/imgs/profileimage.png" class="profile-img">
+=======
+          <img *ngIf="adult?.image" src="{{user.image}}" class="profile-img">
+          <img *ngIf="!adult?.image" src="assets/imgs/profileimage.png" class="profile-img">
+>>>>>>> b9c53a96d8b1db2843a9c430a1598f5637f3f1be
         </div>
       </ion-avatar>
 
@@ -32,11 +37,15 @@
       <ion-avatar (click)="goToChildWishes(child)">
         <p *ngIf="!numberOfChildWishes(child).isEmpty">{{numberOfChildWishes(child)|async}}</p>
         <div class="round-img">
+<<<<<<< HEAD
           
             <p *ngIf="childItemsNumber"> {{childItemsNumber[getCounter()]}} </p>
 
             <img *ngIf="child.image" src="{{child.image}}" class="profile-img">
             <img *ngIf="!child?.image" src="assets/imgs/profileimage.png" class="profile-img">
+=======
+          <img *ngIf="child?.img" src="{{child.img}}" class="profile-img">
+>>>>>>> b9c53a96d8b1db2843a9c430a1598f5637f3f1be
         </div>
         <!-- round image -->
       </ion-avatar>
@@ -52,34 +61,34 @@
       Ny bruker</button>
   </div>
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> b9c53a96d8b1db2843a9c430a1598f5637f3f1be
   <h1 class="title-with-border">Ønsker fra familien</h1>
-  <h3 class="no-wish-text" *ngIf="!wishes"> Det er ingen ønsker fra familien</h3>
+  <h3 class="no-wish-text" *ngIf="!cartEmpty"> Det er ingen ønsker fra familien</h3>
 
   <div *ngIf="wishes" class="list">
     <ion-list>
       <ion-item *ngFor="let wish of (wishes |async)| slice:0:itemsToShow;" no-lines>
         <div class="wish-item">
           <ion-row no-margin no-padding class="row">
+<<<<<<< HEAD
             <ion-col col-2 no-padding no-margin>
+=======
+            <ion-col col-2>
+>>>>>>> b9c53a96d8b1db2843a9c430a1598f5637f3f1be
 
               <img class="wish-img" src="{{wish.image}}" />
 
             </ion-col>
 
-            <ion-col col-4 no-padding no-margin>
+            <ion-col col-6 no-padding no-margin>
               <p class="wish-name">
                 <b>{{wish.name}}</b>
-              </p>
-              <p class="wish-size">
                 {{wish.size}}
-              </p>
-            </ion-col>
-
-            <ion-col col-2>
-              <p class="wish-price">
-                <b>kr {{wish.price}}</b>
+                <br> Kr {{wish.price}}
               </p>
             </ion-col>
 
@@ -96,10 +105,15 @@
             </ion-col>
 
           </ion-row>
+   
         </div>
       </ion-item>
     </ion-list>
+<<<<<<< HEAD
     <button *ngIf="wishListSize > 3 && itemsToShow === wishListSize" class="btn-aubergine btn btn-add-items" ion-button (click)="incrementItemsToShow(3)">Last inn flere</button>
+=======
+    <button *ngIf="wishListSize > 3" class="btn-aubergine btn btn-add-items" ion-button (click)="incrementItemsToShow(3)">Last inn flere</button>
+>>>>>>> b9c53a96d8b1db2843a9c430a1598f5637f3f1be
 
   </div>
 
