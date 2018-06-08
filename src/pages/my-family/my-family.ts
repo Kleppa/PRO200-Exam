@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SettingsPage } from '../settings/settings';
 import { DatabaseProvider } from '../../providers/database/database';
 import { User } from '../../models/user';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import { count } from 'rxjs/operators';
 import { DocumentData } from 'angularfire2/firestore';
 import { ModalController } from 'ionic-angular/components/modal/modal-controller';
@@ -21,13 +21,15 @@ import { Item } from '../../models/item';
   templateUrl: 'my-family.html',
 })
 export class MyFamilyPage {
-  public itemsInCart$: Observable<Item[]>;
   private familyId: string;
   private mainUser: User;
   public adults: Observable<DocumentData[]>;
   public children: Observable<DocumentData[]>;
   public wishes: Observable<DocumentData[]>;
+
   public priceOfCart: number = 0;
+  public cartEmpty: Observable<boolean>;
+  public itemsInCart$: Observable<Item[]>;
   itemsToShow: number = 3;
   wishListSize: number = 0;
 
@@ -69,7 +71,7 @@ export class MyFamilyPage {
           }
         });
       });
-
+      this.cartEmpty = this.wishes.isEmpty();
     }
   }
 
