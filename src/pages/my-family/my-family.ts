@@ -30,7 +30,9 @@ export class MyFamilyPage {
   public priceOfCart: number = 0;
   itemsToShow: number = 3;
   wishListSize: number = 0;
-
+  itemsInWish$;
+  childItemsNumber:number[]=[];
+   counter=0;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private dbProvider: DatabaseProvider,
@@ -57,13 +59,29 @@ export class MyFamilyPage {
       console.log('familyId: ', this.familyId);
       this.adults = this.dbProvider.getAdults();
       this.children = this.dbProvider.getChildren();
-      if (this.itemsInCart$) this.itemsInCart$.map(items => items.filter(item => item.price))
-        .subscribe(items => items.map(item => item.price)
-          .forEach(price => this.priceOfCart = (price) ? this.priceOfCart + price : this.priceOfCart));
+
+      if (this.itemsInCart$) {
+        this.itemsInCart$.map(items => items.filter(item => item.price))
+
+        .subscribe(items => { 
+          this.priceOfCart=0;
+          return items.map(item => {
+          
+          return item.price
+        })
+          .forEach(price => {
+            this.priceOfCart = (price) ? this.priceOfCart + price : this.priceOfCart}));
+      }
+
+
       this.itemsInCart$ = this.dbProvider.getCartItems();
+      
       this.wishes = this.dbProvider.getFamilyWishes().map(items => {
+        this.childItemsNumber[this.counter]=0;
+        this.childItemsNumber[this.counter]= 1 + this.childItemsNumber[this.counter]? this.childItemsNumber[this.counter] : 0;
         return items.filter(item => {
           if (item['status'] === `venter`) {
+            this.childItemsNumber[this.counter]++;
             this.wishListSize++;
             return true;
           }
@@ -115,7 +133,9 @@ export class MyFamilyPage {
       }
     });
   }
-
+  getCounter(){
+    return this.counter;
+  }
   addAdult() {
     const adultModal = this.modalController.create(AddAdultModalComponent);
     adultModal.present();

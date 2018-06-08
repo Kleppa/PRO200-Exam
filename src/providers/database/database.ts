@@ -204,4 +204,10 @@ export class DatabaseProvider {
       this.afs.collection('families').doc(user.familyId)
         .collection<Item>('cart').valueChanges()).do(item => item as Item[]);
   }
+  getChildWishItems(child:Child): Observable<Item[]> {
+
+    return this.getCurrentUser().switchMap(user =>
+      this.afs.collection('families').doc(user.familyId)
+        .collection<Item>('wishlist').valueChanges()).filter(item => item[`childToken`] === child.token);
+  }
 }
