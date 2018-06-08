@@ -31,7 +31,9 @@ import { CacheModule } from 'ionic-cache';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      backButtonText: 'Tilbake'
+    }),
     AngularFireModule.initializeApp(env),
     AngularFirestoreModule,
     AngularFireAuthModule,

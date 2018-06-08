@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { CacheService } from 'ionic-cache';
 
 @IonicPage()
 @Component({
@@ -15,9 +16,11 @@ export class LoginPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public afAuth: AngularFireAuth) { }
+    public afAuth: AngularFireAuth,
+    private cache: CacheService) { }
 
   login() {
+    this.cache.clearAll();
     this.afAuth.auth.signInWithEmailAndPassword(this.email, this.password)
       .catch(reason => console.error(reason));
   }
