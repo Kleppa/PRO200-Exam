@@ -70,19 +70,6 @@ export class ChildCreationPage {
         }
         console.log("HELLO")
 
-<<<<<<< HEAD
-        if (breakLimit == 0) {
-          console.log(user.familyId)
-          submitting.setContent('legger til barnet i familie..');
-          await this.dbProvider.addChildtoFamily(this.child, user.familyId);
-          breakLimit++;
-          console.log("INSIDE")
-          this.cache.clearGroup("family");
-          submitting.dismiss();
-          this.presentSuccessToast();
-          this.navCtrl.pop();
-        }
-=======
         submitting.setContent('Legger til barnet i familie..');
         await this.dbProvider.addChildtoFamily(this.child, user.familyId);
 
@@ -90,7 +77,6 @@ export class ChildCreationPage {
         submitting.dismiss();
         this.presentSuccessToast();
         this.navCtrl.pop();
->>>>>>> 0ef883f155086a4487cac4ebc8172284ee0779c1
       }
     } catch (err) {
       console.error('Failed adding child to family', err);
