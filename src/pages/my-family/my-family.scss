@@ -31,6 +31,7 @@ page-my-family {
             height: auto;
             width: 100%;
         }
+        z-index: -1;
     }
 
     // add family button
@@ -71,6 +72,7 @@ page-my-family {
     .wish-img {
         height: 50px;
         padding: 0 !important;
+        z-index: -1000;        
     }
 
     .wish-price {
@@ -128,5 +130,21 @@ page-my-family {
 
     .list {
         padding-bottom: 2rem;
+    }
+
+
+    .child-items-number-container {
+        height: 25px;
+        width: 25px;
+        border-radius: 50%;
+        margin-top: -3.9rem;
+        background-color: color($primary-profile, eggeplomme);
+        z-index: 1000;
+        margin-left: 2.5rem;
+    }
+
+    .child-items-number {
+        padding-top: 0.2rem;
+        color: #fff;
     }
 }

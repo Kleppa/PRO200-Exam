@@ -96,18 +96,19 @@ modal-wrapper {
 .btn-round {
   border-radius: 50%;
   box-shadow: none !important;
-  height: 40px;
-  width: 40px;
+  height: 35px;
+  width: 35px;
 }
 
 .btn-symbol {
   color: #fff !important;
-  font-size: 2rem !important;
+  font-size: 3rem !important;
   font-weight: 400;
+  margin-top: -0.5rem;
 }
 
 .btn-symbol-pluss {
-  
+  font-size: 3.5rem !important;
 }
 
 .btn-margin-top {
@@ -208,3 +209,31 @@ modal-wrapper {
       background-color:color($primary-profile, gronn)!important;;
   }
 }
+
+ // wish
+ .no-wish-text {
+  font-size: 1.5rem;
+}
+
+.wish-img {
+  height: 50px;
+  padding: 0 !important;
+  margin-right: 1rem;
+}
+
+.wish-price {
+  font-size: 1.1rem;
+}
+
+.wish-name {
+  width: 105px;
+  overflow-wrap: break-word;
+  //word-break: break-all;
+  white-space: normal;
+  font-size: 1.3rem;
+}
+
+.wish-size {
+  font-size: 1rem;
+}
+

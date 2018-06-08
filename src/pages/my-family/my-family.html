@@ -30,16 +30,17 @@
 
     <div class="family-member" *ngFor="let child of (children |async); let index;">
       <ion-avatar (click)="goToChildWishes(child)">
-        <p *ngIf="!numberOfChildWishes(child).isEmpty">{{numberOfChildWishes(child)|async}}</p>
+          <p *ngIf="!numberOfChildWishes(child).isEmpty">{{numberOfChildWishes(child)|async}}</p>        
         <div class="round-img">
-          
-            <p *ngIf="childItemsNumber"> {{childItemsNumber[getCounter()]}} </p>
-
             <img *ngIf="child.image" src="{{child.image}}" class="profile-img">
             <img *ngIf="!child?.image" src="assets/imgs/profileimage.png" class="profile-img">
-        </div>
-        <!-- round image -->
+        </div> <!-- round image -->
       </ion-avatar>
+
+          <div class="child-items-number-container">
+            <p class="child-items-number" *ngIf="childItemsNumber && childItemsNumber[getCounter()]!==0"> {{childItemsNumber[getCounter()]}} </p>
+          </div>
+
       <p class="name-text">{{child.name}}</p>
     </div>
     <!-- family member -->
