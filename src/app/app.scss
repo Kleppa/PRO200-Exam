@@ -38,6 +38,7 @@ ion-title {
   height: 100%;
   text-align: center;
   z-index: -1;
+  font-size: 0.2rem;
 }
 
 modal-wrapper {
@@ -170,10 +171,9 @@ modal-wrapper {
 
 // title with border 
 .title-with-border {
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   border-bottom: 1px solid color($colors, varmgra);;
   padding-bottom: 0.2rem;
-  font-weight: bold;
 
 }
 
