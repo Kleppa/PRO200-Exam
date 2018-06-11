@@ -83,25 +83,18 @@ export class MyFamilyPage {
       this.itemsInCart$ = this.dbProvider.getCartItems();
       this.childItemsNumber[this.counter] = 0;
       this.wishes = this.dbProvider.getFamilyWishes().map(items => {
-
-
+        
         return items.filter(item => {
 
           if (item['status'] === `venter`) {
             let token = item['childToken']
             let number = !this.childItemsNumber[token] ? 1 : this.childItemsNumber[token]++;
 
-            console.log("NAAAAAN",number)
-            this.childItemsNumber = { ...this.childItemsNumber, [token]: number }
-            //   this.childItemsNumber.item[item[`childToken`] = this.childItemsNumber[item[`childToken`]] ? 0 : this.childItemsNumber[item[`childToken`]]++;
+            // this.childItemsNumber[this.counter]++;
             this.wishListSize++;
             return true;
           }
-          console.log("HELLO", this.childItemsNumber)
         });
-
-        this.counter++;
-
       });
       this.cartEmpty = this.wishes.isEmpty();
     }
