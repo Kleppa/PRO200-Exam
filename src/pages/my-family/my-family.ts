@@ -14,6 +14,7 @@ import { ChildWishesPage } from '../child-wishes/child-wishes';
 import { ToastController } from 'ionic-angular/components/toast/toast-controller';
 import { CacheService } from 'ionic-cache';
 import { Item } from '../../models/item';
+import * as _ from 'lodash'
 
 @IonicPage()
 @Component({
@@ -33,8 +34,8 @@ export class MyFamilyPage {
   itemsToShow: number = 3;
   wishListSize: number = 0;
   itemsInWish$;
-  childItemsNumber:number[]=[];
-   counter=0;
+  childItemsNumber: {} = {};
+  counter = 0;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private dbProvider: DatabaseProvider,
@@ -65,33 +66,38 @@ export class MyFamilyPage {
       if (this.itemsInCart$) {
         this.itemsInCart$.map(items => items.filter(item => item.price))
 
-        .subscribe(items => { 
-          this.priceOfCart=0;
-          return items.map(item => {
-          
-          return item.price
-        })
-          .forEach(price => {
-            this.priceOfCart = (price) ? this.priceOfCart + price : this.priceOfCart})
-          
-      })
-    }
+          .subscribe(items => {
+            this.priceOfCart = 0;
+            return items.map(item => {
+
+              return item.price
+            })
+              .forEach(price => {
+                this.priceOfCart = (price) ? this.priceOfCart + price : this.priceOfCart
+              })
+
+          })
+      }
 
 
       this.itemsInCart$ = this.dbProvider.getCartItems();
-      this.childItemsNumber[this.counter]=0;
+      this.childItemsNumber[this.counter] = 0;
       this.wishes = this.dbProvider.getFamilyWishes().map(items => {
-        
-        this.childItemsNumber[this.counter]= 1 + this.childItemsNumber[this.counter]? this.childItemsNumber[this.counter] : 0;
+
+
         return items.filter(item => {
 
           if (item['status'] === `venter`) {
+            let token = item['childToken']
+            let number = !this.childItemsNumber[token] ? 1 : this.childItemsNumber[token]++;
 
-            // this.childItemsNumber[this.counter]++;
-            // this.wishListSize++;
+            console.log("NAAAAAN",number)
+            this.childItemsNumber = { ...this.childItemsNumber, [token]: number }
+            //   this.childItemsNumber.item[item[`childToken`] = this.childItemsNumber[item[`childToken`]] ? 0 : this.childItemsNumber[item[`childToken`]]++;
+            this.wishListSize++;
             return true;
           }
-
+          console.log("HELLO", this.childItemsNumber)
         });
 
         this.counter++;
@@ -143,7 +149,7 @@ export class MyFamilyPage {
       }
     });
   }
-  getCounter(){
+  getCounter() {
     return this.counter;
   }
   addAdult() {
