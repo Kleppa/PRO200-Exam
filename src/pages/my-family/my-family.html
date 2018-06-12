@@ -32,7 +32,7 @@
       <ion-avatar (click)="goToChildWishes(child)">
           <p *ngIf="!numberOfChildWishes(child).isEmpty">{{numberOfChildWishes(child)|async}}</p>        
         <div class="round-img">
-            <img *ngIf="child.img" src="{{child.image}}" class="profile-img">
+            <img *ngIf="child.img" src="{{child.img}}" class="profile-img">
             <img *ngIf="!child?.img" src="assets/imgs/profileimage.png" class="profile-img">
         </div> <!-- round image -->
       </ion-avatar>
