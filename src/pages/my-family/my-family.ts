@@ -130,6 +130,7 @@ export class MyFamilyPage {
   }
 
   presentUserToAddModal() {
+    
     const chooseUserModal = this.modalController.create(ChooseUserComponent);
     chooseUserModal.present();
 
@@ -142,6 +143,9 @@ export class MyFamilyPage {
       }
     });
   }
+
+
+
   getCounter() {
     return this.counter;
   }

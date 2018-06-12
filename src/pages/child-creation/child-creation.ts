@@ -68,7 +68,7 @@ export class ChildCreationPage {
           });
           submitting.setContent('Bilde lastet opp!');
         }
-        console.log("HELLO")
+        
 
         submitting.setContent('Legger til barnet i familie..');
         await this.dbProvider.addChildtoFamily(this.child, user.familyId);
@@ -79,7 +79,7 @@ export class ChildCreationPage {
         this.navCtrl.pop();
       }
     } catch (err) {
-      console.error('Failed adding child to family', err);
+      
       submitting.dismiss();
       this.presentFailureToast('Kunne ikke legge barnet til i familie, prøv igjen.');
     }
